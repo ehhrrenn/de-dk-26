@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import Header from './components/Header'
 import Nav from './components/Nav'
 import Login from './components/Login'
-import Timeline from './components/Timeline'
-import MapView from './components/MapView'
+import ItineraryLanding from './pages/ItineraryLanding'
+import LocationPage from './pages/LocationPage'
+import ActivityPage from './pages/ActivityPage'
 import Bookings from './components/Bookings'
 import Travelers from './components/Travelers'
 
 export default function App() {
   const { user, loading } = useAuth()
-  const [tab, setTab] = useState('timeline')
 
   if (loading) return <div className="empty-state">Loading…</div>
   if (!user) return <Login />
@@ -18,12 +18,16 @@ export default function App() {
   return (
     <div className="app-shell">
       <Header />
-      <Nav active={tab} onChange={setTab} />
+      <Nav />
       <main>
-        {tab === 'timeline' && <Timeline userEmail={user.email} />}
-        {tab === 'map' && <MapView userEmail={user.email} />}
-        {tab === 'bookings' && <Bookings userEmail={user.email} />}
-        {tab === 'travelers' && <Travelers userEmail={user.email} />}
+        <Routes>
+          <Route path="/" element={<ItineraryLanding userEmail={user.email} />} />
+          <Route path="/location/:slug" element={<LocationPage userEmail={user.email} />} />
+          <Route path="/activity/:activityId" element={<ActivityPage userEmail={user.email} />} />
+          <Route path="/bookings" element={<Bookings userEmail={user.email} />} />
+          <Route path="/travelers" element={<Travelers userEmail={user.email} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
     </div>
   )

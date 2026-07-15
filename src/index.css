@@ -328,3 +328,78 @@ main { flex: 1; padding: 18px 16px 60px; }
 
 .mono { font-family: var(--font-mono); }
 .muted { color: var(--ink-soft); }
+
+/* ---------- Trip timeline (landing page) ---------- */
+
+.trip-timeline {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.trip-timeline-segment {
+  background: var(--segment-color, var(--transit));
+  color: #1b1204;
+  text-decoration: none;
+  padding: 10px 10px 8px;
+  min-width: 54px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trip-timeline-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.trip-timeline-dates {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  opacity: 0.75;
+}
+
+/* ---------- Location cards (landing page) ---------- */
+
+.location-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.location-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-left: 6px solid var(--city-color, var(--transit));
+}
+
+.location-card-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--city-color, var(--transit));
+  flex-shrink: 0;
+}
+
+.location-card-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--cream-text);
+}
+
+.location-card-dates { font-size: 12px; margin-top: 2px; }
+
+/* ---------- Activity rows (location page) ---------- */
+
+.activity-row { text-decoration: none; color: inherit; cursor: pointer; }
+.activity-row:hover { color: var(--amber); }
