@@ -23,16 +23,6 @@ export function dayStatus(days) {
   return { phase: 'during', label: 'ON THE ROAD' }
 }
 
-export function totalCost(days) {
-  let total = 0
-  for (const d of days) {
-    total += d.travel?.cost ?? 0
-    total += d.lodging?.cost ?? 0
-    total += d.activity?.cost ?? 0
-  }
-  return total
-}
-
 export function formatUSD(n) {
   if (n == null) return '—'
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })

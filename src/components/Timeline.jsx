@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
-import { DAYS, TRIP } from '../data/tripData'
+import { DAYS } from '../data/tripData'
 import DayCard from './DayCard'
-import { formatUSD, totalCost } from '../utils/helpers'
 import NotAuthorized from './NotAuthorized'
 
 export default function Timeline({ userEmail }) {
@@ -36,15 +35,10 @@ export default function Timeline({ userEmail }) {
   }
 
   const days = [...items].sort((a, b) => a.dayNumber - b.dayNumber)
-  const spent = totalCost(days)
 
   return (
     <div>
       <h1 className="section-heading">Itinerary</h1>
-      <div className="card mono" style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13 }}>
-        <span>Tracked so far: {formatUSD(spent)}</span>
-        <span className="muted">Per adult est: {formatUSD(TRIP.budget.perAdult)}</span>
-      </div>
       {days.map((d) => (
         <DayCard key={d.id} day={d} />
       ))}
