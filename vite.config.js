@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 // so the base path has to match the repo name exactly.
 export default defineConfig({
   plugins: [react()],
-  base: '/de-dk-2026/',
+  base: '/de-dk-26/',
 })

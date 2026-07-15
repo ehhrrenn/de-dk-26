@@ -52,8 +52,8 @@ and everyone's edits sync live.
 
 ## 5. Deploy to GitHub Pages
 
-1. Push this repo to GitHub as `de-dk-2026` (or update `base` in
-   `vite.config.js` and the workflow if you name it differently).
+1. This repo's `base` in `vite.config.js` is set to `/de-dk-26/` to match
+   the GitHub repo name. If you rename the repo, update `base` to match.
 2. Repo **Settings → Pages → Source → GitHub Actions**.
 3. Repo **Settings → Secrets and variables → Actions → New repository
    secret** — add each `VITE_FIREBASE_*` value from your `.env.local`.
