@@ -39,6 +39,9 @@ export default function Timeline({ userEmail }) {
   return (
     <div>
       <h1 className="section-heading">Itinerary</h1>
+      <button className="btn" onClick={importSeedData} disabled={importing} style={{ marginBottom: 12 }}>
+        {importing ? 'Syncing…' : 'Sync latest itinerary details'}
+      </button>
       {days.map((d) => (
         <DayCard key={d.id} day={d} />
       ))}

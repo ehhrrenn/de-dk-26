@@ -57,6 +57,20 @@ export default function DayCard({ day }) {
             </div>
           )}
 
+          {day.detailsLinks?.length > 0 && (
+            <div className="info-row">
+              <span className="info-label">Full plan</span>
+              <span>
+                {day.detailsLinks.map((d, i) => (
+                  <span key={d.url}>
+                    {i > 0 && ' · '}
+                    <a href={d.url} target="_blank" rel="noreferrer">{d.label}</a>
+                  </span>
+                ))}
+              </span>
+            </div>
+          )}
+
           {day.notes && !day.events.length && (
             <div className="info-row">
               <span className="info-label">Notes</span>
