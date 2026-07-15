@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Membership is data, not code: add each traveler's Google email as a
+    // doc ID under /allowlist in the Firestore console (Build > Firestore
+    // Database > Start collection). Nothing here ever needs to go in git,
+    // so it's safe even in a public GitHub repo.
+    function isMember() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/allowlist/$(request.auth.token.email));
+    }
+
+    // No one can read the allowlist itself client-side -- it's only used
+    // server-side by isMember() via exists(), which doesn't require read access.
+    match /allowlist/{email} {
+      allow read, write: if false;
+    }
+
+    match /days/{dayId} {
+      allow read, write: if isMember();
+    }
+
+    match /bookings/{bookingId} {
+      allow read, write: if isMember();
+    }
+
+    // Passport / document numbers. Same trusted group, but broken out into
+    // its own collection so it's easy to tighten later (e.g. restrict write
+    // to only the traveler's own record) without touching everything else.
+    match /travelers/{travelerId} {
+      allow read, write: if isMember();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
