@@ -310,10 +310,9 @@ export const DAYS = [
     isTravelDay: true,
     travel: { mode: null, time: '6h', cost: null },
     lodging: {
-      // TODO: name/address not yet supplied -- see Settings/data-entry follow-up.
-      name: null,
+      name: 'Home in Berlin',
       provider: 'Airbnb',
-      address: null,
+      address: 'Schleiermacherstraße 12, Berlin, Berlin 10961, Germany',
       link: 'https://www.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMZWP8RDJS',
       cost: null,
       checkIn: '3:00 PM',
@@ -367,10 +366,9 @@ export const DAYS = [
     // typical way to cover Berlin-Copenhagen; confirm and fill in.
     travel: { mode: null, time: null, cost: null },
     lodging: {
-      // TODO: name/address not yet supplied -- see Settings/data-entry follow-up.
-      name: null,
+      name: 'Home in Copenhagen',
       provider: 'Airbnb',
-      address: null,
+      address: 'Cort Adelers Gade 12A, 1053 København, Denmark',
       link: 'https://www.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMRYWHMNYT',
       cost: 1665,
       checkIn: '11:00 AM',
