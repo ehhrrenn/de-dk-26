@@ -27,3 +27,9 @@ export function formatUSD(n) {
   if (n == null) return '—'
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 }
+
+// Derived (never stored) so it can't drift from the address it's built from.
+export function mapsDirectionsUrl(address) {
+  if (!address) return null
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
+}

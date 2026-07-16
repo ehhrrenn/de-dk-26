@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
-import NotAuthorized from './NotAuthorized'
+import { formatUSD } from '../utils/helpers'
+import NotAuthorized from '../components/NotAuthorized'
 
 const BLANK = {
   name: '', passportNo: '', dob: '', placeOfBirth: '', sex: '', issueDate: '', expiryDate: '',
@@ -12,13 +13,16 @@ function mask(value) {
   return '••••' + value.slice(-4)
 }
 
-export default function Travelers({ userEmail }) {
+export default function Settings({ userEmail }) {
   const { items, loading, error, add, remove } = useFirestoreCollection('travelers')
+  const { items: bookings, remove: removeBooking } = useFirestoreCollection('bookings')
   const [form, setForm] = useState(null)
   const [revealed, setRevealed] = useState({})
 
   if (error) return <NotAuthorized email={userEmail} />
-  if (loading) return <div className="empty-state">Loading travelers…</div>
+  if (loading) return <div className="empty-state">Loading settings…</div>
+
+  const orphanBookings = bookings.filter((b) => !b.dayId)
 
   async function save(e) {
     e.preventDefault()
@@ -29,7 +33,9 @@ export default function Travelers({ userEmail }) {
 
   return (
     <div>
-      <h1 className="section-heading">Travelers</h1>
+      <h1 className="section-heading">Settings</h1>
+
+      <h2 className="subsection-heading">Travelers</h2>
       <p className="muted" style={{ fontSize: 13, marginTop: -10, marginBottom: 16 }}>
         Passport details entered here go straight to Firestore — they're never stored in the
         app's code or GitHub repo. Numbers are masked until tapped.
@@ -92,6 +98,27 @@ export default function Travelers({ userEmail }) {
         </form>
       ) : (
         <button className="btn primary" onClick={() => setForm(BLANK)}>+ Add traveler</button>
+      )}
+
+      {orphanBookings.length > 0 && (
+        <>
+          <h2 className="subsection-heading">Other bookings</h2>
+          <p className="muted" style={{ fontSize: 13, marginTop: -10, marginBottom: 16 }}>
+            Bookings saved before they were tied to a day. Delete them here, or find the day and re-add them there.
+          </p>
+          {orphanBookings.map((b) => (
+            <div className="card" key={b.id}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
+                <div>
+                  <div className="mono muted" style={{ fontSize: 11, textTransform: 'uppercase' }}>{b.type} {b.date ? `· ${b.date}` : ''}</div>
+                  <div style={{ fontWeight: 600, fontSize: 15, marginTop: 2 }}>{b.title}</div>
+                  {b.cost != null && <div style={{ fontSize: 13, marginTop: 6 }}>{formatUSD(b.cost)}</div>}
+                </div>
+                <button className="btn ghost" onClick={() => removeBooking(b.id)} aria-label={`Remove ${b.title}`}>✕</button>
+              </div>
+            </div>
+          ))}
+        </>
       )}
     </div>
   )

@@ -4,6 +4,7 @@ import { deleteField } from 'firebase/firestore'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DAYS, locationsFromDays } from '../data/tripData'
 import { formatDate } from '../utils/helpers'
+import { useSetHomeStatusDays } from '../context/HomeStatusContext'
 import TripTimeline from '../components/TripTimeline'
 import StaticMap from '../components/StaticMap'
 import NotAuthorized from '../components/NotAuthorized'
@@ -11,6 +12,7 @@ import NotAuthorized from '../components/NotAuthorized'
 export default function ItineraryLanding({ userEmail }) {
   const { items, loading, error, add } = useFirestoreCollection('days')
   const [importing, setImporting] = useState(false)
+  useSetHomeStatusDays(items)
 
   if (error) return <NotAuthorized email={userEmail} />
   if (loading) return <div className="empty-state">Loading itinerary…</div>
