@@ -1,17 +1,22 @@
-// Static (non-interactive) OpenStreetMap tile image -- no API key needed,
-// via the free staticmap.openstreetmap.de rendering service. Trades
-// interactivity for a lightweight, always-consistent map panel.
+// Static (non-interactive) map image via the Google Maps Static API.
+// Needs VITE_GOOGLE_MAPS_STATIC_KEY (see .env.example / README) -- the key
+// is a public client-side identifier by design (restricted by HTTP
+// referrer in the Google Cloud console), same pattern as the Firebase
+// config.
 export default function StaticMap({ center, zoom, markers = [], height = 260, alt }) {
   const params = new URLSearchParams({
     center: `${center[0]},${center[1]}`,
     zoom: String(zoom),
     size: `700x${height}`,
-    maptype: 'mapnik',
+    scale: '2',
+    maptype: 'roadmap',
+    key: import.meta.env.VITE_GOOGLE_MAPS_STATIC_KEY,
   })
   for (const m of markers) {
-    params.append('markers', `${m.lat},${m.lon},${m.color || 'red'}`)
+    const hex = (m.color || '#F2A93B').replace('#', '0x')
+    params.append('markers', `color:${hex}|${m.lat},${m.lon}`)
   }
-  const src = `https://staticmap.openstreetmap.de/staticmap.php?${params.toString()}`
+  const src = `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}`
 
   return (
     <div className="card" style={{ padding: 0, overflow: 'hidden' }}>

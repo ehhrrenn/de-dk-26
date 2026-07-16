@@ -11,7 +11,16 @@ shared, live-editable data.
 3. **Build → Firestore Database → Create database** (production mode, pick any region — pick one close to your group).
 4. **Project settings → General → Your apps → Web (</>)** → register an app (no hosting needed). Copy the `firebaseConfig` values.
 
-## 2. Add your group to the allowlist
+## 2. Get a Google Maps Static API key
+
+Used to render the trip route/location map images.
+
+1. [console.cloud.google.com](https://console.cloud.google.com) → create or pick a project → **billing must be enabled** on it (a card on file — Google requires this for a production key even though this app's traffic will realistically stay within the free 10,000 map-loads/month tier; static maps are $2 per 1,000 loads after that).
+2. **APIs & Services → Library** → enable **Maps Static API**.
+3. **APIs & Services → Credentials → Create credentials → API key.**
+4. Click the new key → **Application restrictions → Websites** → add your GitHub Pages origin (`https://<you>.github.io/*`) and, for local dev, `http://localhost:*`. This is what keeps the key safe to ship in client-side code.
+
+## 3. Add your group to the allowlist
 
 Access control lives entirely in Firestore data, never in code:
 
@@ -22,7 +31,7 @@ Access control lives entirely in Firestore data, never in code:
 
 Add/remove people any time without touching code or redeploying.
 
-## 3. Deploy the Firestore security rules
+## 4. Deploy the Firestore security rules
 
 Rules in `firestore.rules` restrict all reads/writes to emails present in
 `/allowlist`. Deploy them with the [Firebase CLI](https://firebase.google.com/docs/cli):
@@ -37,11 +46,11 @@ firebase deploy --only firestore:rules
 (Or paste the contents of `firestore.rules` into Firestore Database →
 Rules in the console and click Publish.)
 
-## 4. Local development
+## 5. Local development
 
 ```bash
 npm install
-cp .env.example .env.local  # fill in the firebaseConfig values from step 1
+cp .env.example .env.local  # fill in the firebaseConfig values (step 1) and the maps key (step 2)
 npm run dev
 ```
 
@@ -50,15 +59,17 @@ the sheet"** once — that pushes the parsed schedule from `src/data/tripData.js
 into Firestore. After that, Firestore (not the code) is the source of truth,
 and everyone's edits sync live.
 
-## 5. Deploy to GitHub Pages
+## 6. Deploy to GitHub Pages
 
 1. This repo's `base` in `vite.config.js` is set to `/de-dk-26/` to match
    the GitHub repo name. If you rename the repo, update `base` to match.
 2. Repo **Settings → Pages → Source → GitHub Actions**.
 3. Repo **Settings → Secrets and variables → Actions → New repository
-   secret** — add each `VITE_FIREBASE_*` value from your `.env.local`.
-   These aren't sensitive (Firebase web config is meant to be public — real
-   security is the Firestore rules), but secrets keep them out of the
+   secret** — add each `VITE_FIREBASE_*` value and `VITE_GOOGLE_MAPS_STATIC_KEY`
+   from your `.env.local`. The Firebase values aren't sensitive (that config
+   is meant to be public — real security is the Firestore rules); the maps
+   key *is* meant to be restricted (step 2.4) but is also a normal
+   client-side value once restricted — secrets just keep both out of the
    repo's committed files.
 4. Push to `main`. The included workflow (`.github/workflows/deploy.yml`)
    builds and deploys automatically. Check the **Actions** tab for progress.

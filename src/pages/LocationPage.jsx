@@ -5,8 +5,6 @@ import { formatDate, formatUSD } from '../utils/helpers'
 import StaticMap from '../components/StaticMap'
 import NotAuthorized from '../components/NotAuthorized'
 
-const MARKER_COLOR = { munich: 'orange', rhine: 'green', berlin: 'blue', copenhagen: 'red' }
-
 export default function LocationPage({ userEmail }) {
   const { slug } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
@@ -68,7 +66,7 @@ export default function LocationPage({ userEmail }) {
           zoom={11}
           height={260}
           alt={`Map of ${city.label}`}
-          markers={[{ lat: city.coords[0], lon: city.coords[1], color: MARKER_COLOR[slug] }]}
+          markers={[{ lat: city.coords[0], lon: city.coords[1], color: city.color }]}
         />
       )}
 
