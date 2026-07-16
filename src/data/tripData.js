@@ -114,6 +114,7 @@ export const DAYS = [
         cost: null,
         summary: "A car-and-adventure day at Olympiapark: a morning immersed in BMW's showroom and museum, lunch lakeside at a beer garden, then an afternoon on Munich's newest climbing attraction overlooking the Olympic Stadium. Everything is reachable by a single, direct U-Bahn line from the hotel -- no transfers needed.",
         startingPoint: 'The Wunder House Munich, Lindwurmstraße 189, 80337 München, Germany. Nearest U-Bahn: Poccistraße (U3/U6), about a 5-8 min walk from the hotel.',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=48.1226192,11.5458491&destination=48.1226192,11.5458491&waypoints=48.1771981,11.5562963%7C48.1768304,11.5590966%7C48.1740284,11.5555399%7C48.1731414,11.548747&travelmode=transit',
         events: [
           { time: '9:00 AM', title: 'BMW Welt', description: 'Free entry, showroom opens 9am Sundays. Latest BMW/Mini/Rolls-Royce models, sit in a few.' },
           { time: '10:00 AM', title: 'BMW Museum', description: 'Book 8 timed tickets ahead online, group rate ~€9/person (~€72 total). ~90 min self-guided through 125+ years of history.' },
@@ -134,6 +135,7 @@ export const DAYS = [
         cost: null,
         summary: "A relaxed, self-guided loop through Munich's old town mixing food stops with centuries of history -- medieval gates, Rococo churches, the Glockenspiel, and a lunch at Munich's oldest brewery restaurant. Built around Sunday hours: Viktualienmarkt's stalls are closed Mon-Sat only, so the food stops are routed to places open on Sundays instead.",
         startingPoint: 'The Wunder House Munich, Lindwurmstraße 189, 80337 München, Germany.',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=48.1226192,11.5458491&destination=48.1226192,11.5458491&waypoints=48.1309601,11.5711858%7C48.1340387,11.5676369%7C48.1351434,11.5696647%7C48.1386649,11.5730127%7C48.1370339,11.5758134%7C48.1366805,11.5756044%7C48.1354703,11.5763682%7C48.1385971,11.5721771%7C48.14339,11.5779366&travelmode=walking',
         events: [
           { time: '8:45 AM', title: 'Leave the hotel', description: 'Walk toward Man Versus Machine Coffee Roasters (~15-18 min).' },
           { time: '9:00 AM', title: 'Coffee: Man Versus Machine Coffee Roasters', description: 'Müllerstraße 23. Open Sun 9am-7pm -- most of Munich\'s top-rated cafes are closed Sundays, this one isn\'t.' },
@@ -225,6 +227,7 @@ export const DAYS = [
         cost: null,
         summary: 'A self-planned day combining the KD (Köln-Düsseldorfer) Rhine line cruise with a wine tasting lunch in Bacharach, one of the prettiest wine towns on the Middle Rhine. No car needed. Round trip runs about 8-8.5 hours door-to-door.',
         startingPoint: "Rheinufer 8, Spay, Rhineland-Palatinate, 56322 Germany -- the holiday house. Boppard's KD landing stage is about 3 km away: a 35-40 min walk along the riverside path, or a 5-10 min taxi ride.",
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=50.2510124,7.6457441&destination=50.2510124,7.6457441&waypoints=50.232917,7.5898717%7C50.0590983,7.7689488%7C50.0584898,7.7682846%7C50.0603334,7.7680244%7C50.0590983,7.7689488%7C50.232917,7.5898717&travelmode=walking',
         events: [
           { time: '10:20-10:25 AM', title: 'Leave the house', description: 'Rheinufer 8, Spay -- walk the riverside path to Boppard (~35-40 min) or taxi (~5-10 min).' },
           { time: '10:45 AM', title: 'Arrive KD landing stage, Boppard', description: 'Rheinallee -- buy tickets.' },
@@ -266,6 +269,7 @@ export const DAYS = [
         cost: null,
         summary: "A car-free castle-and-wine day: a direct KD boat to Braubach, a guided tour through the Rhine's only never-conquered castle, a train back through Koblenz, and a wine tasting a short walk from the house to close out the day.",
         startingPoint: "Rheinufer 8, Spay, Rhineland-Palatinate, 56322 Germany. Boppard's KD landing stage / train station is about 3 km away (35-40 min walk or 5-10 min taxi). Weingut Weingart is less than 1 km from the house (~15 min walk).",
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=50.2510124,7.6457441&destination=50.2510124,7.6457441&waypoints=50.232917,7.5898717%7C50.2709793,7.6450185%7C50.271987,7.6493885%7C50.27414,7.643187%7C50.231406,7.586084%7C50.2499526,7.6363986&travelmode=walking',
         events: [
           { time: '9:30-9:35 AM', title: 'Leave the house', description: 'Rheinufer 8, Spay -- walk the riverside path to Boppard (~35-40 min) or taxi (~5-10 min).' },
           { time: '10:00 AM', title: 'Boppard KD Landing Stage', description: 'Arrive with buffer. Buy tickets at the kiosk.' },

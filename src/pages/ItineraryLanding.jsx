@@ -5,8 +5,12 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DAYS, locationsFromDays } from '../data/tripData'
 import { formatDate } from '../utils/helpers'
 import TripTimeline from '../components/TripTimeline'
-import TripMap from '../components/TripMap'
+import StaticMap from '../components/StaticMap'
 import NotAuthorized from '../components/NotAuthorized'
+
+// Named marker colors supported by the static map service, chosen as the
+// closest match to each city's accent color from src/data/cities.js.
+const MARKER_COLOR = { munich: 'orange', rhine: 'green', berlin: 'blue', copenhagen: 'red' }
 
 export default function ItineraryLanding({ userEmail }) {
   const { items, loading, error, add } = useFirestoreCollection('days')
@@ -44,7 +48,13 @@ export default function ItineraryLanding({ userEmail }) {
     <div>
       <h1 className="section-heading">Itinerary</h1>
       <TripTimeline locations={locations} />
-      <TripMap days={items} />
+      <StaticMap
+        center={[51.64, 11.29]}
+        zoom={5}
+        height={280}
+        alt="Map of the trip route across Munich, the Rhine Valley, Berlin, and Copenhagen"
+        markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: MARKER_COLOR[loc.slug] }))}
+      />
 
       <div className="location-cards">
         {locations.map((loc) => (

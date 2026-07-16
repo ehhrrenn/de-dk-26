@@ -32,6 +32,12 @@ export default function ActivityPage({ userEmail }) {
       <h1 className="section-heading" style={{ color: city.color }}>{activity.emoji} {activity.name}</h1>
       <div className="mono muted" style={{ fontSize: 12, marginTop: -12, marginBottom: 16 }}>{formatDate(day.date)} · Day {day.dayNumber}</div>
 
+      {activity.directionsUrl && (
+        <a href={activity.directionsUrl} target="_blank" rel="noreferrer" className="btn primary" style={{ display: 'block', textAlign: 'center', textDecoration: 'none', marginBottom: 12 }}>
+          Get directions for this day
+        </a>
+      )}
+
       <div className="card">
         {activity.summary && (
           <div className="info-row">

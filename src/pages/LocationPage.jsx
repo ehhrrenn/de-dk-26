@@ -2,8 +2,10 @@ import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES, cityFor } from '../data/cities'
 import { formatDate, formatUSD } from '../utils/helpers'
-import TripMap from '../components/TripMap'
+import StaticMap from '../components/StaticMap'
 import NotAuthorized from '../components/NotAuthorized'
+
+const MARKER_COLOR = { munich: 'orange', rhine: 'green', berlin: 'blue', copenhagen: 'red' }
 
 export default function LocationPage({ userEmail }) {
   const { slug } = useParams()
@@ -60,7 +62,15 @@ export default function LocationPage({ userEmail }) {
         )}
       </div>
 
-      <TripMap days={items} highlightSlug={slug} />
+      {city.coords && (
+        <StaticMap
+          center={city.coords}
+          zoom={11}
+          height={260}
+          alt={`Map of ${city.label}`}
+          markers={[{ lat: city.coords[0], lon: city.coords[1], color: MARKER_COLOR[slug] }]}
+        />
+      )}
 
       <div style={{ marginTop: 16 }}>
         {days.map((day) => (
