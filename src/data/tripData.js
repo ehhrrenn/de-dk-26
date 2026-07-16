@@ -57,7 +57,9 @@ export const DAYS = [
     isTravelDay: false,
     travel: null,
     lodging: {
+      name: 'The Wunder House Munich',
       provider: 'Airbnb',
+      address: 'Lindwurmstraße 189, 80337 München, Germany',
       link: 'https://www.airbnb.com/l/JqJV3QDH',
       cost: 5987,
       checkIn: '3:00 PM',
@@ -195,7 +197,9 @@ export const DAYS = [
     isTravelDay: true,
     travel: { mode: 'car', time: '5h', cost: null },
     lodging: {
+      name: null,
       provider: 'VRBO',
+      address: 'Rheinufer 8, Spay, Rhineland-Palatinate, 56322 Germany',
       link: null,
       cost: 1231,
       checkIn: '4:00 PM',
@@ -306,7 +310,10 @@ export const DAYS = [
     isTravelDay: true,
     travel: { mode: null, time: '6h', cost: null },
     lodging: {
+      // TODO: name/address not yet supplied -- see Settings/data-entry follow-up.
+      name: null,
       provider: 'Airbnb',
+      address: null,
       link: 'https://www.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMZWP8RDJS',
       cost: null,
       checkIn: '3:00 PM',
@@ -360,7 +367,10 @@ export const DAYS = [
     // typical way to cover Berlin-Copenhagen; confirm and fill in.
     travel: { mode: null, time: null, cost: null },
     lodging: {
+      // TODO: name/address not yet supplied -- see Settings/data-entry follow-up.
+      name: null,
       provider: 'Airbnb',
+      address: null,
       link: 'https://www.airbnb.com/trips/v1/reservation-details/ro/RESERVATION2_CHECKIN/HMRYWHMNYT',
       cost: 1665,
       checkIn: '11:00 AM',
@@ -416,16 +426,41 @@ export const DAYS = [
   },
 ]
 
+// Resolves which trip location a day belongs to. A travel day belongs to its
+// destination (cityNight) if that resolves to a real place; otherwise falls
+// back to cityDay (covers the last day of a trip, whose cityNight is
+// 'Flying'). If *both* ends are unresolved (day-01, where the group is only
+// ever "Flying"), walk forward to the next day that does resolve and borrow
+// its location -- this is what puts the arrival flight on the destination's
+// page instead of dropping it into the untouchable 'transit' bucket.
+export function resolveDaySlug(day, sortedDays) {
+  if (day.isTravelDay) {
+    const nightSlug = cityFor(day.cityNight)
+    if (nightSlug !== 'transit') return nightSlug
+    const daySlug = cityFor(day.cityDay)
+    if (daySlug !== 'transit') return daySlug
+    const idx = sortedDays.findIndex((d) => d.id === day.id)
+    for (const d of sortedDays.slice(idx + 1)) {
+      const slug = cityFor(d.isTravelDay ? d.cityNight : d.cityDay)
+      if (slug !== 'transit') return slug
+    }
+    return 'transit'
+  }
+  return cityFor(day.cityDay)
+}
+
 // Groups days into their major trip locations (Munich, Rhine Valley, Berlin,
-// Copenhagen) using the same cityFor() rule DayCard used for its accent
-// color: a travel day belongs to its destination (cityNight), everyone else
-// belongs to cityDay. Purely derived from Firestore day data at render time
-// -- not persisted, no new collection.
+// Copenhagen) via resolveDaySlug(). Purely derived from Firestore day data at
+// render time -- not persisted, no new collection. Each location also
+// surfaces its `arrival` (the travel day that brought the group there, for
+// "getting here" cards) and `lodging` (the first day in the stay that carries
+// a lodging object -- the de-facto de-dupe rule the seed data already uses).
 export function locationsFromDays(days) {
+  const sorted = [...days].sort((a, b) => a.dayNumber - b.dayNumber)
   const bySlug = new Map()
 
-  for (const day of [...days].sort((a, b) => a.dayNumber - b.dayNumber)) {
-    const slug = cityFor(day.isTravelDay ? day.cityNight : day.cityDay)
+  for (const day of sorted) {
+    const slug = resolveDaySlug(day, sorted)
     if (slug === 'transit') continue
     if (!bySlug.has(slug)) bySlug.set(slug, [])
     bySlug.get(slug).push(day)
@@ -439,9 +474,12 @@ export function locationsFromDays(days) {
         slug,
         label: CITIES[slug].label,
         color: CITIES[slug].color,
+        onColor: CITIES[slug].onColor,
         coords: CITIES[slug].coords,
         days: locationDays,
         dateRange: { start: locationDays[0].date, end: locationDays[locationDays.length - 1].date },
+        arrival: locationDays[0].isTravelDay ? locationDays[0] : null,
+        lodging: locationDays.find((d) => d.lodging)?.lodging ?? null,
       }
     })
 }

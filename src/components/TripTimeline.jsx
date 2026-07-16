@@ -12,7 +12,7 @@ export default function TripTimeline({ locations }) {
           to={`/location/${loc.slug}`}
           role="listitem"
           className="trip-timeline-segment"
-          style={{ '--segment-color': loc.color, flexGrow: loc.days.length }}
+          style={{ '--segment-color': loc.color, '--segment-text': loc.onColor, flexGrow: loc.days.length }}
         >
           <span className="trip-timeline-label">{loc.label}</span>
           <span className="trip-timeline-dates">

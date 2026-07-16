@@ -1,34 +1,38 @@
 import { useState } from 'react'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { formatUSD } from '../utils/helpers'
-import NotAuthorized from './NotAuthorized'
 
 const TYPES = ['Flight', 'Train', 'Hotel', 'Car', 'Ferry', 'Other']
-
 const BLANK = { type: 'Flight', title: '', date: '', confirmation: '', cost: '', link: '', notes: '' }
 
-export default function Bookings({ userEmail }) {
+// Bookings scoped to a single day -- the day-level replacement for the old
+// standalone /bookings tab. `dayId` is stamped onto every booking created
+// here, not user-editable.
+export default function DayBookings({ dayId }) {
   const { items, loading, error, add, remove } = useFirestoreCollection('bookings')
   const [form, setForm] = useState(null)
 
-  if (error) return <NotAuthorized email={userEmail} />
-  if (loading) return <div className="empty-state">Loading bookings…</div>
+  // The page this is embedded in already gates on auth errors/loading for
+  // the `days` collection -- this just quietly waits for `bookings` too.
+  if (loading || error) return null
 
-  const bookings = [...items].sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+  const bookings = items
+    .filter((b) => b.dayId === dayId)
+    .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
 
   async function save(e) {
     e.preventDefault()
     const id = `booking-${Date.now()}`
-    await add(id, { ...form, cost: form.cost ? Number(form.cost) : null })
+    await add(id, { ...form, dayId, cost: form.cost ? Number(form.cost) : null })
     setForm(null)
   }
 
   return (
     <div>
-      <h1 className="section-heading">Bookings</h1>
+      <h2 className="subsection-heading">Bookings</h2>
 
       {bookings.length === 0 && !form && (
-        <div className="empty-state">No bookings yet — add flights, trains, and hotel confirmations here.</div>
+        <div className="empty-state">No bookings for this day yet.</div>
       )}
 
       {bookings.map((b) => (

@@ -1,18 +1,23 @@
 import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
-import { CITIES, cityFor } from '../data/cities'
+import { CITIES } from '../data/cities'
+import { resolveDaySlug } from '../data/tripData'
 import { formatDate, formatUSD } from '../utils/helpers'
+import { useSetRegion } from '../context/RegionContext'
 import NotAuthorized from '../components/NotAuthorized'
 
 export default function ActivityPage({ userEmail }) {
   const { activityId } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
 
+  const sorted = [...items].sort((a, b) => a.dayNumber - b.dayNumber)
+  const day = sorted.find((d) => d.activities?.some((a) => a.id === activityId))
+  const activity = day?.activities.find((a) => a.id === activityId)
+  const slug = day ? resolveDaySlug(day, sorted) : null
+  useSetRegion(slug)
+
   if (error) return <NotAuthorized email={userEmail} />
   if (loading) return <div className="empty-state">Loading activity…</div>
-
-  const day = items.find((d) => d.activities?.some((a) => a.id === activityId))
-  const activity = day?.activities.find((a) => a.id === activityId)
 
   if (!day || !activity) {
     return (
@@ -23,14 +28,12 @@ export default function ActivityPage({ userEmail }) {
     )
   }
 
-  const slug = cityFor(day.isTravelDay ? day.cityNight : day.cityDay)
   const city = CITIES[slug]
 
   return (
-    <div style={{ '--city-color': city.color }}>
-      <Link to={`/location/${slug}`} className="mono muted" style={{ fontSize: 12 }}>&larr; {city.label}</Link>
-      <h1 className="section-heading" style={{ color: city.color }}>{activity.emoji} {activity.name}</h1>
-      <div className="mono muted" style={{ fontSize: 12, marginTop: -12, marginBottom: 16 }}>{formatDate(day.date)} · Day {day.dayNumber}</div>
+    <div className="region-page" style={{ '--city-color': city.color }} data-region={slug}>
+      <Link to={`/day/${day.id}`} className="mono muted" style={{ fontSize: 13 }}>&larr; {formatDate(day.date)} · Day {day.dayNumber}</Link>
+      <h1 className="section-heading">{activity.emoji} {activity.name}</h1>
 
       {activity.directionsUrl && (
         <a href={activity.directionsUrl} target="_blank" rel="noreferrer" className="btn primary" style={{ display: 'block', textAlign: 'center', textDecoration: 'none', marginBottom: 12 }}>

@@ -54,10 +54,10 @@ cp .env.example .env.local  # fill in the firebaseConfig values (step 1) and the
 npm run dev
 ```
 
-Sign in, go to the **Timeline** tab, and click **"Import starter data from
-the sheet"** once — that pushes the parsed schedule from `src/data/tripData.js`
-into Firestore. After that, Firestore (not the code) is the source of truth,
-and everyone's edits sync live.
+Sign in and click **"Import starter data from the sheet"** on the home page
+once — that pushes the parsed schedule from `src/data/tripData.js` into
+Firestore. After that, Firestore (not the code) is the source of truth, and
+everyone's edits sync live.
 
 ## 6. Deploy to GitHub Pages
 
@@ -74,13 +74,13 @@ and everyone's edits sync live.
 4. Push to `main`. The included workflow (`.github/workflows/deploy.yml`)
    builds and deploys automatically. Check the **Actions** tab for progress.
 
-## A privacy note on the Travelers tab
+## A privacy note on traveler info
 
 Passport numbers and dates of birth are sensitive. They are **not**
-seeded anywhere in this codebase — the Travelers tab only writes to
-Firestore when someone fills out the form in the app itself, so that data
-never ends up in git history, even if this repo is public. Numbers are
-masked in the UI until tapped.
+seeded anywhere in this codebase — the Travelers section on the Settings
+page only writes to Firestore when someone fills out the form in the app
+itself, so that data never ends up in git history, even if this repo is
+public. Numbers are masked in the UI until tapped.
 
 ## What got adjusted while importing the original sheet
 
@@ -94,13 +94,17 @@ masked in the UI until tapped.
   Passports sheet only listed 7 — worth double-checking who's missing.
 - Berlin lodging cost and the Berlin → Copenhagen travel mode weren't
   specified in the sheet; both are `null` in the data and easy to fill in
-  from the Timeline tab once bookings are firmed up (or add them as
-  Bookings instead).
+  from that day's page once bookings are firmed up (or log them as a
+  day-scoped booking instead).
+- Berlin and Copenhagen lodging `name`/`address` also aren't filled in yet
+  (Munich and the Rhine Valley are, backfilled from the day-trip docs) —
+  add them in `src/data/tripData.js` once you have the confirmation details.
 
 ## Extending it
 
 - `src/data/tripData.js` — edit before the first import, or edit live data
   directly in the Firestore console / a future in-app editor.
 - `src/data/cities.js` — city colors and anchor coordinates.
-- Add a day-level "notes/journal" collection the same way `bookings` and
-  `travelers` were added, using `useFirestoreCollection`.
+- Add a day-level "notes/journal" collection the same way `bookings` (now
+  scoped per day via a `dayId` field, see `src/components/DayBookings.jsx`)
+  and `travelers` were added, using `useFirestoreCollection`.
