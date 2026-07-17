@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-// Lets content pages (Location/Day/Activity) report which region they
-// resolved to, so the persistent RegionPills nav can highlight the right
-// pill even on pages whose URL isn't /location/:slug.
+// Lets content pages (Location/Activity) report which region they resolved
+// to, so the persistent TripTimeline header nav can highlight the right
+// segment even on pages whose URL isn't /location/:slug.
 const RegionContext = createContext({ region: null, setRegion: () => {} })
 
 export function RegionProvider({ children }) {

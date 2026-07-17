@@ -1,7 +1,7 @@
 import { dayStatus } from '../utils/helpers'
 
-// Slim countdown/status line, home page only, sitting above the sticky
-// region-pill header.
+// Slim countdown/status line, shown on every page, sitting above the
+// sticky timeline header.
 export default function StatusBar({ days }) {
   if (!days || days.length === 0) return null
   const status = dayStatus(days)

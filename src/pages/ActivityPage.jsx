@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
-import { formatDate, formatUSD } from '../utils/helpers'
+import { formatUSD } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import NotAuthorized from '../components/NotAuthorized'
 
@@ -32,7 +32,7 @@ export default function ActivityPage({ userEmail }) {
 
   return (
     <div className="region-page" style={{ '--city-color': city.color }} data-region={slug}>
-      <Link to={`/day/${day.id}`} className="mono muted" style={{ fontSize: 13 }}>&larr; {formatDate(day.date)} · Day {day.dayNumber}</Link>
+      <Link to={`/location/${slug}`} className="mono muted" style={{ fontSize: 13 }}>&larr; {city.label}</Link>
       <h1 className="section-heading">{activity.emoji} {activity.name}</h1>
 
       {activity.directionsUrl && (

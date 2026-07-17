@@ -4,14 +4,11 @@ import { deleteField } from 'firebase/firestore'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DAYS, locationsFromDays } from '../data/tripData'
 import { formatDate } from '../utils/helpers'
-import { useSetHomeStatusDays } from '../context/HomeStatusContext'
-import TripTimeline from '../components/TripTimeline'
 import StaticMap from '../components/StaticMap'
 import NotAuthorized from '../components/NotAuthorized'
 
 export default function ItineraryLanding({ userEmail }) {
   const { items, loading, error, add } = useFirestoreCollection('days')
-  useSetHomeStatusDays(items)
   const syncedRef = useRef(false)
 
   // Firestore is the live source of truth, but the code (DAYS) is where
@@ -37,8 +34,6 @@ export default function ItineraryLanding({ userEmail }) {
 
   return (
     <div>
-      <h1 className="section-heading">Itinerary</h1>
-      <TripTimeline locations={locations} />
       <StaticMap
         center={[51.64, 11.29]}
         zoom={5}

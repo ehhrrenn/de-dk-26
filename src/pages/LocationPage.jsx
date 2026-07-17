@@ -27,7 +27,7 @@ export default function LocationPage({ userEmail }) {
     )
   }
 
-  const { lodging, arrival } = location
+  const { lodging } = location
   const lodgingMapsUrl = mapsDirectionsUrl(lodging?.address)
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
 
@@ -35,21 +35,6 @@ export default function LocationPage({ userEmail }) {
     <div className="region-page" style={{ '--city-color': city.color }} data-region={slug}>
       <Link to="/" className="mono muted" style={{ fontSize: 13 }}>&larr; Itinerary</Link>
       <h1 className="section-heading">{city.label}</h1>
-
-      {arrival && (
-        <div className="card">
-          <div className="info-row">
-            <span className="info-label">Getting here</span>
-            <span>
-              {arrival.travel?.mode || 'Travel'}
-              {arrival.travel?.time ? ` · ${arrival.travel.time}` : ''}
-              {arrival.travel?.cost ? ` · ${formatUSD(arrival.travel.cost)}` : ''}
-              {' · '}
-              <Link to={`/day/${arrival.id}`}>Day {arrival.dayNumber} details</Link>
-            </span>
-          </div>
-        </div>
-      )}
 
       {lodging && (
         <div className="card">
@@ -115,25 +100,58 @@ export default function LocationPage({ userEmail }) {
 
       <div style={{ marginTop: 16 }}>
         {location.days.map((day) => (
-          <Link
-            key={day.id}
-            to={`/day/${day.id}`}
-            className="day-card"
-            style={{ display: 'flex', alignItems: 'baseline', gap: 12, padding: '14px 16px', textDecoration: 'none', color: 'inherit' }}
-          >
-            <span className="day-number">{day.dayNumber}</span>
-            <span className="day-headline">
-              <div className="day-date">{formatDate(day.date)}</div>
-              <div className="day-title">
-                {day.notes || (day.activities?.length
-                  ? `${day.activities.length} activit${day.activities.length === 1 ? 'y' : 'ies'}`
-                  : 'Open day')}
-              </div>
-              {day.isTravelDay && (
-                <div className="day-sub">Travel day · {day.cityDay} → {day.cityNight}</div>
+          <div className="day-card" key={day.id}>
+            <div className="day-card-header">
+              <span className="day-number">{day.dayNumber}</span>
+              <span className="day-headline">
+                <div className="day-date">{formatDate(day.date)}</div>
+                {day.isTravelDay && (
+                  <div className="day-sub">{day.cityDay} → {day.cityNight}</div>
+                )}
+              </span>
+            </div>
+
+            <div className="day-card-body">
+              {day.notes && <p className="muted" style={{ fontSize: 14, margin: '0 0 8px' }}>{day.notes}</p>}
+
+              {day.isTravelDay && day.travel && (day.travel.mode || day.travel.time || day.travel.cost) && (
+                <div className="info-row">
+                  <span className="info-label">Travel</span>
+                  <span>
+                    {day.travel.mode || 'Travel'}
+                    {day.travel.time ? ` · ${day.travel.time}` : ''}
+                    {day.travel.cost ? ` · ${formatUSD(day.travel.cost)}` : ''}
+                  </span>
+                </div>
               )}
-            </span>
-          </Link>
+
+              {(day.activities ?? []).map((a) => (
+                <div key={a.id} style={{ padding: '8px 0', borderBottom: '1px solid var(--line)' }}>
+                  <Link to={`/activity/${a.id}`} className="info-row activity-row" style={{ padding: 0, border: 'none' }}>
+                    <span className="info-label">{a.emoji}</span>
+                    <span>
+                      {a.name}
+                      {a.cost != null ? ` · ${formatUSD(a.cost)}` : ''}
+                    </span>
+                  </Link>
+                  {a.summary && (
+                    <p className="muted" style={{ fontSize: 13, marginTop: 4, marginBottom: 0 }}>{a.summary}</p>
+                  )}
+                  {a.directionsUrl && (
+                    <a
+                      href={a.directionsUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mono"
+                      style={{ fontSize: 12, display: 'inline-block', marginTop: 6 }}
+                    >
+                      Get directions →
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>
