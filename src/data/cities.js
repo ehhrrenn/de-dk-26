@@ -1,32 +1,34 @@
-// One accent per leg of the route. Used for the timeline's colored tabs
-// and the map's pin colors, so the whole app reads as one continuous journey.
-// `onColor` is the text color to put on top of a filled `color` background
-// (trip-timeline segments, active nav pills) -- picked per-region for WCAG
-// contrast rather than hardcoded, since the route runs bright (Munich) to
-// moody (Copenhagen) and one fixed text color can't read well on both ends.
+// One vivid accent per leg of the route. Used for the timeline's colored
+// segments, active-state fills, headings, and primary buttons, so the whole
+// app reads as one continuous journey -- region identity lives entirely in
+// these accents now (page backgrounds are uniform/white). `onColor` is the
+// text color to put on top of a filled `color` background, picked per-region
+// via a WCAG contrast check rather than hardcoded (see the theme-pass
+// verification script) since a single fixed text color can't read well
+// against all four.
 export const CITIES = {
   munich: {
     label: 'Munich',
-    color: '#C98A3B', // pretzel / Oktoberfest mustard
+    color: '#C97A0A', // vivid marigold/amber -- Bavaria & Oktoberfest
     onColor: '#1b1204',
     coords: [48.1351, 11.582],
   },
   rhine: {
     label: 'Rhine Valley',
-    color: '#4A7C82', // river slate-teal
-    onColor: '#f5f1e6',
+    color: '#0B7A50', // vivid emerald -- river & vineyard green
+    onColor: '#f7f5f2',
     coords: [50.2314, 7.5917], // Boppard
   },
   berlin: {
     label: 'Berlin',
-    color: '#4B5964', // cooler concrete grey-blue -- transitional mid-tone
-    onColor: '#f5f1e6',
+    color: '#4A3FCF', // vivid indigo-violet -- modern/urban
+    onColor: '#f7f5f2',
     coords: [52.52, 13.405],
   },
   copenhagen: {
     label: 'Copenhagen',
-    color: '#4C5E82', // dusty indigo -- moodiest stop on the route
-    onColor: '#f5f1e6',
+    color: '#C22E60', // vivid coral-rose -- Nyhavn's colorful harbor houses
+    onColor: '#f7f5f2',
     coords: [55.6761, 12.5683],
   },
   transit: {

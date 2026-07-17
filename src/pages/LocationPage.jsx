@@ -32,8 +32,7 @@ export default function LocationPage({ userEmail }) {
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
 
   return (
-    <div className="region-page" style={{ '--city-color': city.color }} data-region={slug}>
-      <Link to="/" className="mono muted" style={{ fontSize: 13 }}>&larr; Itinerary</Link>
+    <div style={{ '--city-color': city.color, '--city-text': city.onColor }} data-region={slug}>
       <h1 className="section-heading">{city.label}</h1>
 
       {lodging && (
@@ -126,16 +125,17 @@ export default function LocationPage({ userEmail }) {
               )}
 
               {(day.activities ?? []).map((a) => (
-                <div key={a.id} style={{ padding: '8px 0', borderBottom: '1px solid var(--line)' }}>
-                  <Link to={`/activity/${a.id}`} className="info-row activity-row" style={{ padding: 0, border: 'none' }}>
-                    <span className="info-label">{a.emoji}</span>
-                    <span>
+                <div key={a.id} className="activity-block">
+                  <Link to={`/activity/${a.id}`} className="activity-button">
+                    <span className="activity-button-emoji">{a.emoji}</span>
+                    <span className="activity-button-text">
                       {a.name}
                       {a.cost != null ? ` · ${formatUSD(a.cost)}` : ''}
                     </span>
+                    <span className="activity-button-chevron">›</span>
                   </Link>
                   {a.summary && (
-                    <p className="muted" style={{ fontSize: 13, marginTop: 4, marginBottom: 0 }}>{a.summary}</p>
+                    <p className="muted" style={{ fontSize: 13, marginTop: 6, marginBottom: 0 }}>{a.summary}</p>
                   )}
                   {a.directionsUrl && (
                     <a

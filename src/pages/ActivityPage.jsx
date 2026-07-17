@@ -31,8 +31,7 @@ export default function ActivityPage({ userEmail }) {
   const city = CITIES[slug]
 
   return (
-    <div className="region-page" style={{ '--city-color': city.color }} data-region={slug}>
-      <Link to={`/location/${slug}`} className="mono muted" style={{ fontSize: 13 }}>&larr; {city.label}</Link>
+    <div style={{ '--city-color': city.color, '--city-text': city.onColor }} data-region={slug}>
       <h1 className="section-heading">{activity.emoji} {activity.name}</h1>
 
       {activity.directionsUrl && (
