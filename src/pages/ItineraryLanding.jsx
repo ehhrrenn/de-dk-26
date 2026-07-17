@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { deleteField } from 'firebase/firestore'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
@@ -11,34 +11,27 @@ import NotAuthorized from '../components/NotAuthorized'
 
 export default function ItineraryLanding({ userEmail }) {
   const { items, loading, error, add } = useFirestoreCollection('days')
-  const [importing, setImporting] = useState(false)
   useSetHomeStatusDays(items)
+  const syncedRef = useRef(false)
 
-  if (error) return <NotAuthorized email={userEmail} />
-  if (loading) return <div className="empty-state">Loading itinerary…</div>
-
-  async function syncSeedData() {
-    setImporting(true)
-    try {
+  // Firestore is the live source of truth, but the code (DAYS) is where
+  // itinerary content actually gets edited -- merge it in automatically
+  // every time the home page loads instead of requiring a manual button.
+  useEffect(() => {
+    if (loading || error || syncedRef.current) return
+    syncedRef.current = true
+    async function sync() {
       for (const day of DAYS) {
         // eslint-disable-next-line no-await-in-loop
         await add(day.id, { ...day, activity: deleteField(), detailsLinks: deleteField() })
       }
-    } finally {
-      setImporting(false)
     }
-  }
+    sync()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, error])
 
-  if (items.length === 0) {
-    return (
-      <div className="empty-state">
-        <p>No itinerary data in Firestore yet.</p>
-        <button className="btn primary" onClick={syncSeedData} disabled={importing}>
-          {importing ? 'Importing…' : 'Import starter data from the sheet'}
-        </button>
-      </div>
-    )
-  }
+  if (error) return <NotAuthorized email={userEmail} />
+  if (loading || items.length === 0) return <div className="empty-state">Loading itinerary…</div>
 
   const locations = locationsFromDays(items)
 
@@ -69,10 +62,6 @@ export default function ItineraryLanding({ userEmail }) {
           </Link>
         ))}
       </div>
-
-      <button className="btn" onClick={syncSeedData} disabled={importing} style={{ marginTop: 8 }}>
-        {importing ? 'Syncing…' : 'Sync latest itinerary details'}
-      </button>
     </div>
   )
 }

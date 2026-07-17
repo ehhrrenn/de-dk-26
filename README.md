@@ -54,10 +54,10 @@ cp .env.example .env.local  # fill in the firebaseConfig values (step 1) and the
 npm run dev
 ```
 
-Sign in and click **"Import starter data from the sheet"** on the home page
-once — that pushes the parsed schedule from `src/data/tripData.js` into
-Firestore. After that, Firestore (not the code) is the source of truth, and
-everyone's edits sync live.
+Sign in and visit the home page once — it automatically pushes the parsed
+schedule from `src/data/tripData.js` into Firestore on load (see
+`ItineraryLanding.jsx`), merging in any changes each time. Bookings and
+travelers live only in Firestore and are edited entirely in-app.
 
 ## 6. Deploy to GitHub Pages
 
