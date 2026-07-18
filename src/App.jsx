@@ -6,6 +6,7 @@ import { dayStatus } from './utils/helpers'
 import { RegionProvider } from './context/RegionContext'
 import TripTimeline from './components/TripTimeline'
 import KeyInfoBar from './components/KeyInfoBar'
+import Icon from './components/Icon'
 import Login from './components/Login'
 import ItineraryLanding from './pages/ItineraryLanding'
 import LocationPage from './pages/LocationPage'
@@ -20,11 +21,15 @@ function AppShell({ userEmail }) {
   return (
     <div className="app">
       <div className="header">
-        <Link to="/settings" className="settings-link" aria-label="Settings">⚙</Link>
         <Link to="/" className="app-title-link">
           <h1>Germany + Denmark 2026</h1>
         </Link>
-        {status && <p>{status.label}</p>}
+        <div className="header-status">
+          {status && <span className="status-label">{status.label}</span>}
+          <Link to="/settings" className="settings-link" aria-label="Settings">
+            <Icon name="settings" size={16} />
+          </Link>
+        </div>
       </div>
 
       <div className="sticky-wrap">

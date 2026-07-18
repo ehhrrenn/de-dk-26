@@ -5,6 +5,7 @@ import { resolveDaySlug } from '../data/tripData'
 import { formatDate, formatUSD } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
+import Icon from '../components/Icon'
 import NotAuthorized from '../components/NotAuthorized'
 
 export default function DayPage({ userEmail }) {
@@ -98,8 +99,11 @@ export default function DayPage({ userEmail }) {
                   </span>
                   <span className="timeline-body">
                     <div className="timeline-venue">
-                      {a.emoji} {a.name}
-                      {a.cost != null ? ` · ${formatUSD(a.cost)}` : ''}
+                      <Icon name={a.icon} size={19} />
+                      <span>
+                        {a.name}
+                        {a.cost != null ? ` · ${formatUSD(a.cost)}` : ''}
+                      </span>
                     </div>
                     {a.summary && <div className="timeline-note">{a.summary}</div>}
                     {a.startingPoint && <div className="timeline-note">Start: {a.startingPoint}</div>}

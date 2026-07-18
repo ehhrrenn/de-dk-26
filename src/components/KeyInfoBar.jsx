@@ -1,5 +1,6 @@
 import { mapsDirectionsUrl } from '../utils/helpers'
 import { useRegion } from '../context/RegionContext'
+import Icon from './Icon'
 
 // Compact sticky bar (sits right under the nav) showing the current
 // region's stay + a one-tap directions link -- only renders once a page
@@ -24,7 +25,7 @@ export default function KeyInfoBar({ locations }) {
         }}>
       <div className="key-info-row">
         <div className="hotel-block">
-          <div className="hotel-icon">🏨</div>
+          <div className="hotel-icon"><Icon name="building" size={18} /></div>
           <div className="hotel-text">
             <div className="hotel-name">{lodging.name || `Stay in ${location.label}`}</div>
             <div className="hotel-sub">{location.label}</div>

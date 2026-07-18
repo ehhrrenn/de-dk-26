@@ -44,7 +44,7 @@ export const DAYS = [
     coords: null,
     notes: '',
     activities: [
-      { id: 'day-01-travel', name: 'Travel', emoji: '✈️', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      { id: 'day-01-travel', name: 'Travel', icon: 'flight', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
   {
@@ -68,7 +68,7 @@ export const DAYS = [
     coords: [48.1351, 11.582],
     notes: '',
     activities: [
-      { id: 'day-02-shopping', name: 'Shopping', emoji: '🩳', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      { id: 'day-02-shopping', name: 'Shopping', icon: 'shopping', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
   {
@@ -87,7 +87,7 @@ export const DAYS = [
       {
         id: 'day-03-oktoberfest',
         name: 'Oktoberfest',
-        emoji: '🍻',
+        icon: 'beer',
         cost: 2840,
         summary: 'Price includes guided festival, food, drinks, table.',
         startingPoint: null,
@@ -112,7 +112,7 @@ export const DAYS = [
       {
         id: 'day-04-bmw-sayaq',
         name: 'BMW + SAYAQ',
-        emoji: '🏛️',
+        icon: 'landmark',
         cost: null,
         summary: "A car-and-adventure day at Olympiapark: a morning immersed in BMW's showroom and museum, lunch lakeside at a beer garden, then an afternoon on Munich's newest climbing attraction overlooking the Olympic Stadium. Everything is reachable by a single, direct U-Bahn line from the hotel -- no transfers needed.",
         startingPoint: 'The Wunder House Munich, Lindwurmstraße 189, 80337 München, Germany. Nearest U-Bahn: Poccistraße (U3/U6), about a 5-8 min walk from the hotel.',
@@ -133,7 +133,7 @@ export const DAYS = [
       {
         id: 'day-04-old-town-walk',
         name: 'Old Town Walking Tour',
-        emoji: '🚶',
+        icon: 'walk',
         cost: null,
         summary: "A relaxed, self-guided loop through Munich's old town mixing food stops with centuries of history -- medieval gates, Rococo churches, the Glockenspiel, and a lunch at Munich's oldest brewery restaurant. Built around Sunday hours: Viktualienmarkt's stalls are closed Mon-Sat only, so the food stops are routed to places open on Sundays instead.",
         startingPoint: 'The Wunder House Munich, Lindwurmstraße 189, 80337 München, Germany.',
@@ -178,7 +178,7 @@ export const DAYS = [
       {
         id: 'day-05-oktoberfest',
         name: 'Oktoberfest',
-        emoji: '🍺',
+        icon: 'beer',
         cost: 2637,
         summary: 'Price includes guided festival, food, drinks, table.',
         startingPoint: null,
@@ -208,7 +208,7 @@ export const DAYS = [
     coords: [50.2314, 7.5917],
     notes: '',
     activities: [
-      { id: 'day-06-travel', name: 'Travel', emoji: '🚋', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      { id: 'day-06-travel', name: 'Travel', icon: 'car', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
   {
@@ -227,7 +227,7 @@ export const DAYS = [
       {
         id: 'day-07-river-cruise',
         name: 'River Cruise + Wine Tasting in Bacharach',
-        emoji: '🍷',
+        icon: 'wine',
         cost: null,
         summary: 'A self-planned day combining the KD (Köln-Düsseldorfer) Rhine line cruise with a wine tasting lunch in Bacharach, one of the prettiest wine towns on the Middle Rhine. No car needed. Round trip runs about 8-8.5 hours door-to-door.',
         startingPoint: "Rheinufer 8, Spay, Rhineland-Palatinate, 56322 Germany -- the holiday house. Boppard's KD landing stage is about 3 km away: a 35-40 min walk along the riverside path, or a 5-10 min taxi ride.",
@@ -269,7 +269,7 @@ export const DAYS = [
       {
         id: 'day-08-marksburg-weingart',
         name: 'Marksburg Castle + Weingart Wine Tasting',
-        emoji: '🏰',
+        icon: 'castle',
         cost: null,
         summary: "A car-free castle-and-wine day: a direct KD boat to Braubach, a guided tour through the Rhine's only never-conquered castle, a train back through Koblenz, and a wine tasting a short walk from the house to close out the day.",
         startingPoint: "Rheinufer 8, Spay, Rhineland-Palatinate, 56322 Germany. Boppard's KD landing stage / train station is about 3 km away (35-40 min walk or 5-10 min taxi). Weingut Weingart is less than 1 km from the house (~15 min walk).",
@@ -321,7 +321,7 @@ export const DAYS = [
     coords: [52.52, 13.405],
     notes: '',
     activities: [
-      { id: 'day-09-travel', name: 'Travel', emoji: '🚆', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      { id: 'day-09-travel', name: 'Travel', icon: 'train', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
   {
@@ -337,7 +337,7 @@ export const DAYS = [
     coords: [52.52, 13.405],
     notes: '',
     activities: [
-      { id: 'day-10-disco', name: 'Disco', emoji: '🪩', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      { id: 'day-10-disco', name: 'Disco', icon: 'disco', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
   {
@@ -419,7 +419,7 @@ export const DAYS = [
     coords: [55.6761, 12.5683],
     notes: '',
     activities: [
-      { id: 'day-15-travel', name: 'Travel', emoji: '✈️', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      { id: 'day-15-travel', name: 'Travel', icon: 'flight', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
 ]
