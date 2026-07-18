@@ -224,7 +224,7 @@ a { color: var(--link); }
 
 /* ---------- Main content ---------- */
 
-main { flex: 1; padding: 26px 20px 40px; }
+main { flex: 1; padding: 26px 30px 40px; }
 
 .section-heading {
   font-family: var(--font-sans);
