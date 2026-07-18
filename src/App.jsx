@@ -37,13 +37,15 @@ function AppShell({ userEmail }) {
         <KeyInfoBar locations={locations} />
       </div>
 
-      <Routes>
-        <Route path="/" element={<ItineraryLanding userEmail={userEmail} />} />
-        <Route path="/location/:slug" element={<LocationPage userEmail={userEmail} />} />
-        <Route path="/day/:dayId" element={<DayPage userEmail={userEmail} />} />
-        <Route path="/settings" element={<Settings userEmail={userEmail} />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<ItineraryLanding userEmail={userEmail} />} />
+          <Route path="/location/:slug" element={<LocationPage userEmail={userEmail} />} />
+          <Route path="/day/:dayId" element={<DayPage userEmail={userEmail} />} />
+          <Route path="/settings" element={<Settings userEmail={userEmail} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
     </div>
   )
 }
