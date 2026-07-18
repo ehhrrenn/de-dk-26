@@ -37,7 +37,7 @@ Rules in `firestore.rules` restrict all reads/writes to emails present in
 `/allowlist`. Deploy them with the [Firebase CLI](https://firebase.google.com/docs/cli):
 
 ```bash
-npm install -g firebase-tools
+pnpm add -g firebase-tools
 firebase login
 firebase use --add          # pick your project
 firebase deploy --only firestore:rules
@@ -49,9 +49,9 @@ Rules in the console and click Publish.)
 ## 5. Local development
 
 ```bash
-npm install
+pnpm install
 cp .env.example .env.local  # fill in the firebaseConfig values (step 1) and the maps key (step 2)
-npm run dev
+pnpm dev
 ```
 
 Sign in and visit the home page once — it automatically pushes the parsed
