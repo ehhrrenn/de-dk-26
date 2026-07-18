@@ -9,10 +9,5 @@
   },
   "enabledPlugins": {
     "firebase@firebase": true
-  },
-  "permissions": {
-    "allow": [
-      "Bash(pnpm *)"
-    ]
   }
 }
