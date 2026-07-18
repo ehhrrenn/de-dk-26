@@ -1,40 +1,52 @@
-// One vivid accent per leg of the route. Used for the timeline's colored
-// segments, active-state fills, headings, and primary buttons, so the whole
-// app reads as one continuous journey -- region identity lives entirely in
-// these accents now (page backgrounds are uniform/white). `onColor` is the
-// text color to put on top of a filled `color` background, picked per-region
-// via a WCAG contrast check rather than hardcoded (see the theme-pass
-// verification script) since a single fixed text color can't read well
-// against all four.
+// One vivid accent per leg of the route -- adapted from a reference visual
+// style (bright, playful, Airbnb-esque). Each region carries four values:
+//   `color`    -- the vivid fill (badges, active pins, buttons, tags)
+//   `onColor`  -- text color to put ON TOP of a `color` fill (WCAG-checked
+//                 per color, since some need dark text and some need light)
+//   `textColor`-- a deepened variant of `color` safe to use AS text directly
+//                 on a white/light background (the vivid fills themselves
+//                 are all too light/bright for that -- verified via a
+//                 contrast-ratio check, same approach as prior theme passes)
+//   `tint`     -- a pale wash of `color`, used for icon chips and tag pills
 export const CITIES = {
   munich: {
     label: 'Munich',
-    color: '#C97A0A', // vivid marigold/amber -- Bavaria & Oktoberfest
-    onColor: '#1b1204',
+    color: '#FFC93C', // vivid gold -- Oktoberfest & Bavarian beer halls
+    onColor: '#1a1a1a',
+    textColor: '#96680A',
+    tint: '#FFF7E1',
     coords: [48.1351, 11.582],
   },
   rhine: {
     label: 'Rhine Valley',
-    color: '#0B7A50', // vivid emerald -- river & vineyard green
-    onColor: '#f7f5f2',
+    color: '#2EC4B6', // vivid teal -- the river and vineyard terraces
+    onColor: '#1a1a1a',
+    textColor: '#0E8074',
+    tint: '#E3FAF8',
     coords: [50.2314, 7.5917], // Boppard
   },
   berlin: {
     label: 'Berlin',
-    color: '#4A3FCF', // vivid indigo-violet -- modern/urban
-    onColor: '#f7f5f2',
+    color: '#7B61FF', // vivid violet -- modern, urban
+    onColor: '#ffffff',
+    textColor: '#5B3FF0',
+    tint: '#EFECFF',
     coords: [52.52, 13.405],
   },
   copenhagen: {
     label: 'Copenhagen',
-    color: '#C22E60', // vivid coral-rose -- Nyhavn's colorful harbor houses
-    onColor: '#f7f5f2',
+    color: '#FF5A5F', // vivid coral-red -- Nyhavn's colorful harbor houses
+    onColor: '#1a1a1a',
+    textColor: '#D62830',
+    tint: '#FFEBEC',
     coords: [55.6761, 12.5683],
   },
   transit: {
     label: 'In transit',
     color: '#8B95A1',
-    onColor: '#1b1204',
+    onColor: '#1a1a1a',
+    textColor: '#5b6169',
+    tint: '#eef0f2',
     coords: null,
   },
 }

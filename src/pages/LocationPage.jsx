@@ -32,7 +32,7 @@ export default function LocationPage({ userEmail }) {
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
 
   return (
-    <div style={{ '--city-color': city.color, '--city-text': city.onColor }} data-region={slug}>
+    <div style={{ '--city-color': city.color, '--city-on': city.onColor, '--city-text-safe': city.textColor }} data-region={slug}>
       <h1 className="section-heading">{city.label}</h1>
 
       {lodging && (
@@ -97,62 +97,24 @@ export default function LocationPage({ userEmail }) {
         />
       )}
 
-      <div style={{ marginTop: 16 }}>
-        {location.days.map((day) => (
-          <div className="day-card" key={day.id}>
-            <div className="day-card-header">
-              <span className="day-number">{day.dayNumber}</span>
-              <span className="day-headline">
-                <div className="day-date">{formatDate(day.date)}</div>
-                {day.isTravelDay && (
-                  <div className="day-sub">{day.cityDay} → {day.cityNight}</div>
-                )}
-              </span>
-            </div>
-
-            <div className="day-card-body">
-              {day.notes && <p className="muted" style={{ fontSize: 14, margin: '0 0 8px' }}>{day.notes}</p>}
-
-              {day.isTravelDay && day.travel && (day.travel.mode || day.travel.time || day.travel.cost) && (
-                <div className="info-row">
-                  <span className="info-label">Travel</span>
-                  <span>
-                    {day.travel.mode || 'Travel'}
-                    {day.travel.time ? ` · ${day.travel.time}` : ''}
-                    {day.travel.cost ? ` · ${formatUSD(day.travel.cost)}` : ''}
-                  </span>
-                </div>
-              )}
-
-              {(day.activities ?? []).map((a) => (
-                <div key={a.id} className="activity-block">
-                  <Link to={`/activity/${a.id}`} className="activity-button">
-                    <span className="activity-button-emoji">{a.emoji}</span>
-                    <span className="activity-button-text">
-                      {a.name}
-                      {a.cost != null ? ` · ${formatUSD(a.cost)}` : ''}
-                    </span>
-                    <span className="activity-button-chevron">›</span>
-                  </Link>
-                  {a.summary && (
-                    <p className="muted" style={{ fontSize: 13, marginTop: 6, marginBottom: 0 }}>{a.summary}</p>
-                  )}
-                  {a.directionsUrl && (
-                    <a
-                      href={a.directionsUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mono"
-                      style={{ fontSize: 12, display: 'inline-block', marginTop: 6 }}
-                    >
-                      Get directions →
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="cards">
+        <div className="cards-title">Itinerary</div>
+        <div className="day-list">
+          {location.days.map((day) => {
+            const activityNames = (day.activities ?? []).map((a) => a.name).join(' + ')
+            const title = day.isTravelDay ? `${day.cityDay} → ${day.cityNight}` : (activityNames || 'Free day')
+            return (
+              <Link key={day.id} to={`/day/${day.id}`} className="day-card">
+                <span className="day-badge">{day.dayNumber}</span>
+                <span className="day-content">
+                  <div className="day-title">{title}</div>
+                  <div className="day-sub">{formatDate(day.date)}</div>
+                </span>
+                <span className="day-chevron">›</span>
+              </Link>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

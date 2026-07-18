@@ -2,38 +2,43 @@ import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import { useAuth } from './hooks/useAuth'
 import { useFirestoreCollection } from './hooks/useFirestoreCollection'
 import { locationsFromDays } from './data/tripData'
+import { dayStatus } from './utils/helpers'
 import { RegionProvider } from './context/RegionContext'
-import StatusBar from './components/StatusBar'
 import TripTimeline from './components/TripTimeline'
+import KeyInfoBar from './components/KeyInfoBar'
 import Login from './components/Login'
 import ItineraryLanding from './pages/ItineraryLanding'
 import LocationPage from './pages/LocationPage'
-import ActivityPage from './pages/ActivityPage'
+import DayPage from './pages/DayPage'
 import Settings from './pages/Settings'
 
 function AppShell({ userEmail }) {
   const { items: days } = useFirestoreCollection('days')
   const locations = locationsFromDays(days)
+  const status = days.length ? dayStatus(days) : null
 
   return (
-    <div className="app-shell">
-      <StatusBar days={days} />
-      <header className="top-bar">
-        <div className="top-bar-title-row">
-          <Link to="/" className="app-title">Germany + Denmark 2026</Link>
-          <Link to="/settings" className="settings-link" aria-label="Settings">⚙</Link>
-        </div>
+    <div className="app">
+      <div className="header">
+        <Link to="/settings" className="settings-link" aria-label="Settings">⚙</Link>
+        <Link to="/" className="app-title-link">
+          <h1>Germany + Denmark 2026</h1>
+        </Link>
+        {status && <p>{status.label}</p>}
+      </div>
+
+      <div className="sticky-wrap">
         <TripTimeline locations={locations} />
-      </header>
-      <main>
-        <Routes>
-          <Route path="/" element={<ItineraryLanding userEmail={userEmail} />} />
-          <Route path="/location/:slug" element={<LocationPage userEmail={userEmail} />} />
-          <Route path="/activity/:activityId" element={<ActivityPage userEmail={userEmail} />} />
-          <Route path="/settings" element={<Settings userEmail={userEmail} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
+        <KeyInfoBar locations={locations} />
+      </div>
+
+      <Routes>
+        <Route path="/" element={<ItineraryLanding userEmail={userEmail} />} />
+        <Route path="/location/:slug" element={<LocationPage userEmail={userEmail} />} />
+        <Route path="/day/:dayId" element={<DayPage userEmail={userEmail} />} />
+        <Route path="/settings" element={<Settings userEmail={userEmail} />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   )
 }

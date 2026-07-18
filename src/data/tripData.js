@@ -473,6 +473,8 @@ export function locationsFromDays(days) {
         label: CITIES[slug].label,
         color: CITIES[slug].color,
         onColor: CITIES[slug].onColor,
+        textColor: CITIES[slug].textColor,
+        tint: CITIES[slug].tint,
         coords: CITIES[slug].coords,
         days: locationDays,
         dateRange: { start: locationDays[0].date, end: locationDays[locationDays.length - 1].date },

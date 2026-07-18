@@ -19,7 +19,7 @@ export default function StaticMap({ center, zoom, markers = [], height = 260, al
   const src = `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}`
 
   return (
-    <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+    <div className="map-frame">
       <img
         src={src}
         alt={alt}

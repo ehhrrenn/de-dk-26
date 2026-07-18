@@ -42,20 +42,29 @@ export default function ItineraryLanding({ userEmail }) {
         markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color }))}
       />
 
-      <div className="location-cards">
-        {locations.map((loc) => (
-          <Link key={loc.slug} to={`/location/${loc.slug}`} className="card location-card" style={{ '--city-color': loc.color }}>
-            <span className="location-card-swatch" />
-            <span>
-              <div className="location-card-label">{loc.label}</div>
-              <div className="location-card-dates muted mono">
-                {formatDate(loc.dateRange.start)}
-                {loc.dateRange.end !== loc.dateRange.start ? ` – ${formatDate(loc.dateRange.end)}` : ''}
-                {' · '}{loc.days.length} day{loc.days.length === 1 ? '' : 's'}
-              </div>
-            </span>
-          </Link>
-        ))}
+      <div className="cards">
+        <div className="cards-title">Trip locations</div>
+        <div className="day-list">
+          {locations.map((loc) => (
+            <Link
+              key={loc.slug}
+              to={`/location/${loc.slug}`}
+              className="day-card"
+              style={{ '--city-color': loc.color, '--city-on': loc.onColor }}
+            >
+              <span className="day-badge">{loc.label[0]}</span>
+              <span className="day-content">
+                <div className="day-title">{loc.label}</div>
+                <div className="day-sub mono">
+                  {formatDate(loc.dateRange.start)}
+                  {loc.dateRange.end !== loc.dateRange.start ? ` – ${formatDate(loc.dateRange.end)}` : ''}
+                  {' · '}{loc.days.length} day{loc.days.length === 1 ? '' : 's'}
+                </div>
+              </span>
+              <span className="day-chevron">›</span>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )
