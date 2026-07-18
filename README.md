@@ -1,8 +1,8 @@
 # DE + DK 2026
 
 Shared itinerary app for the Germany + Denmark trip (Sept 17 – Oct 1, 2026).
-React (Vite) frontend on GitHub Pages, Firebase (Auth + Firestore) for
-shared, live-editable data.
+React (Vite) frontend on Firebase Hosting (with a preview URL for every
+pull request), Firebase (Auth + Firestore) for shared, live-editable data.
 
 ## 1. Create the Firebase project
 
@@ -18,7 +18,7 @@ Used to render the trip route/location map images.
 1. [console.cloud.google.com](https://console.cloud.google.com) → create or pick a project → **billing must be enabled** on it (a card on file — Google requires this for a production key even though this app's traffic will realistically stay within the free 10,000 map-loads/month tier; static maps are $2 per 1,000 loads after that).
 2. **APIs & Services → Library** → enable **Maps Static API**.
 3. **APIs & Services → Credentials → Create credentials → API key.**
-4. Click the new key → **Application restrictions → Websites** → add your GitHub Pages origin (`https://<you>.github.io/*`) and, for local dev, `http://localhost:*`. This is what keeps the key safe to ship in client-side code.
+4. Click the new key → **Application restrictions → Websites** → add your Firebase Hosting origins (`https://<project-id>.web.app/*` and `https://<project-id>.firebaseapp.com/*`) and, for local dev, `http://localhost:*`. This is what keeps the key safe to ship in client-side code. (PR preview channels are subdomains of the same site, e.g. `https://<project-id>--pr123-*.web.app`, so if you want maps to render on previews too, add `https://<project-id>--*.web.app/*`.)
 
 ## 3. Add your group to the allowlist
 
@@ -59,20 +59,21 @@ schedule from `src/data/tripData.js` into Firestore on load (see
 `ItineraryLanding.jsx`), merging in any changes each time. Bookings and
 travelers live only in Firestore and are edited entirely in-app.
 
-## 6. Deploy to GitHub Pages
+## 6. Deploy to Firebase Hosting (with PR previews)
 
-1. This repo's `base` in `vite.config.js` is set to `/de-dk-26/` to match
-   the GitHub repo name. If you rename the repo, update `base` to match.
-2. Repo **Settings → Pages → Source → GitHub Actions**.
-3. Repo **Settings → Secrets and variables → Actions → New repository
-   secret** — add each `VITE_FIREBASE_*` value and `VITE_GOOGLE_MAPS_STATIC_KEY`
-   from your `.env.local`. The Firebase values aren't sensitive (that config
-   is meant to be public — real security is the Firestore rules); the maps
-   key *is* meant to be restricted (step 2.4) but is also a normal
-   client-side value once restricted — secrets just keep both out of the
-   repo's committed files.
-4. Push to `main`. The included workflow (`.github/workflows/deploy.yml`)
-   builds and deploys automatically. Check the **Actions** tab for progress.
+This repo follows Firebase's
+[GitHub integration](https://firebase.google.com/docs/hosting/github-integration)
+pattern: every pull request gets its own preview URL, and merges to `main`
+deploy to the live site. `firebase.json`'s `hosting` block serves the Vite
+`dist` output with an SPA rewrite (`**` → `/index.html`).
+
+1. **Enable Hosting** for your Firebase project: console → **Build → Hosting → Get started**. You don't need to finish the CLI-based setup wizard — the GitHub Actions workflows in this repo do the actual deploying.
+2. **Create a service account key** for the deploy action: [console.cloud.google.com](https://console.cloud.google.com) (same project) → **IAM & Admin → Service Accounts → Create service account**, grant it the **Firebase Hosting Admin** role, then **Keys → Add key → Create new key (JSON)** and download it.
+3. Repo **Settings → Secrets and variables → Actions → New repository secret**:
+   - `FIREBASE_SERVICE_ACCOUNT` — the full contents of the JSON key from step 2.
+   - Each `VITE_FIREBASE_*` value and `VITE_GOOGLE_MAPS_STATIC_KEY` from your `.env.local`, if not already added. The Firebase values aren't sensitive (that config is meant to be public — real security is the Firestore rules); the maps key *is* meant to be restricted (step 2.4 above) but is also a normal client-side value once restricted — secrets just keep both out of the repo's committed files.
+4. Open a pull request. `.github/workflows/firebase-hosting-pull-request.yml` builds it and comments the preview URL on the PR (preview channels expire after a few days by default).
+5. Merge to `main`. `.github/workflows/firebase-hosting-merge.yml` builds and deploys to the live channel — your site at `https://<project-id>.web.app`.
 
 ## A privacy note on traveler info
 
