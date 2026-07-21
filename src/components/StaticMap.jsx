@@ -14,7 +14,11 @@ export default function StaticMap({ center, zoom, markers = [], height = 260, al
   })
   for (const m of markers) {
     const hex = (m.color || '#F2A93B').replace('#', '0x')
-    params.append('markers', `color:${hex}|${m.lat},${m.lon}`)
+    // Markers can be plotted either by coordinates or, when we only know a
+    // place's name, by a query string -- Google's static-map geocoder
+    // resolves the location server-side either way.
+    const location = m.query || `${m.lat},${m.lon}`
+    params.append('markers', `color:${hex}|${location}`)
   }
   const src = `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}`
 

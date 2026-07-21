@@ -16,6 +16,7 @@ export const CITIES = {
     textColor: '#96680A',
     tint: '#FFF7E1',
     coords: [48.1351, 11.582],
+    country: 'Germany',
   },
   rhine: {
     label: 'Rhine Valley',
@@ -24,6 +25,7 @@ export const CITIES = {
     textColor: '#0E8074',
     tint: '#E3FAF8',
     coords: [50.2314, 7.5917], // Boppard
+    country: 'Germany',
   },
   berlin: {
     label: 'Berlin',
@@ -32,6 +34,7 @@ export const CITIES = {
     textColor: '#5B3FF0',
     tint: '#EFECFF',
     coords: [52.52, 13.405],
+    country: 'Germany',
   },
   copenhagen: {
     label: 'Copenhagen',
@@ -40,6 +43,7 @@ export const CITIES = {
     textColor: '#D62830',
     tint: '#FFEBEC',
     coords: [55.6761, 12.5683],
+    country: 'Denmark',
   },
   transit: {
     label: 'In transit',
@@ -48,6 +52,7 @@ export const CITIES = {
     textColor: '#5b6169',
     tint: '#eef0f2',
     coords: null,
+    country: null,
   },
 }
 

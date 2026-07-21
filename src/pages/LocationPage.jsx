@@ -1,10 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
+import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { formatDate, formatUSD, mapsDirectionsUrl } from '../utils/helpers'
+import { formatDate, formatUSD, mapsDirectionsUrl, mapsSearchUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
+import Icon from '../components/Icon'
 import NotAuthorized from '../components/NotAuthorized'
 
 export default function LocationPage({ userEmail }) {
@@ -30,6 +32,7 @@ export default function LocationPage({ userEmail }) {
   const { lodging } = location
   const lodgingMapsUrl = mapsDirectionsUrl(lodging?.address)
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
+  const places = SAVED_PLACES[slug] || []
 
   return (
     <div style={{ '--city-color': city.color, '--city-on': city.onColor, '--city-text-safe': city.textColor }} data-region={slug}>
@@ -93,7 +96,10 @@ export default function LocationPage({ userEmail }) {
           zoom={11}
           height={260}
           alt={`Map of ${city.label}`}
-          markers={[{ lat: city.coords[0], lon: city.coords[1], color: city.color }]}
+          markers={[
+            { lat: city.coords[0], lon: city.coords[1], color: city.color },
+            ...places.map((p) => ({ query: `${p.name}, ${city.country}`, color: city.color })),
+          ]}
         />
       )}
 
@@ -116,6 +122,32 @@ export default function LocationPage({ userEmail }) {
           })}
         </div>
       </div>
+
+      {places.length > 0 && (
+        <div className="cards">
+          <div className="cards-title">Saved places</div>
+          <div className="day-list">
+            {places.map((p) => (
+              <a
+                key={p.name}
+                href={mapsSearchUrl(`${p.name}, ${city.country}`)}
+                target="_blank"
+                rel="noreferrer"
+                className="day-card"
+              >
+                <span className="day-badge" style={{ background: city.tint, color: city.textColor }}>
+                  <Icon name="pin" size={18} />
+                </span>
+                <span className="day-content">
+                  <div className="day-title">{p.name}</div>
+                  <div className="day-sub">{p.category}</div>
+                </span>
+                <span className="day-chevron">↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

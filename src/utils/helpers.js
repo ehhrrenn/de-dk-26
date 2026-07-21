@@ -33,3 +33,11 @@ export function mapsDirectionsUrl(address) {
   if (!address) return null
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
 }
+
+// Like mapsDirectionsUrl, but opens a search/info page instead of routing --
+// used for named points of interest where we only have a name, not an
+// address, and want Google's own search to resolve it.
+export function mapsSearchUrl(query) {
+  if (!query) return null
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+}
