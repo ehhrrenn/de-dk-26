@@ -366,15 +366,19 @@ main { flex: 1; padding: 26px 24px 40px; }
 .back-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 14px;
-  color: var(--ink-soft);
+  color: var(--ink);
   text-decoration: none;
   margin-bottom: 20px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  background: var(--bg-raised-2);
+  border: 1px solid var(--line);
 }
-.back-btn:hover { color: var(--ink); }
+.back-btn:hover { background: var(--city-tint, var(--bg-raised-2)); border-color: var(--city-color, var(--line)); }
 
 /* ---------- Day-detail header ---------- */
 
@@ -386,8 +390,9 @@ main { flex: 1; padding: 26px 24px 40px; }
 }
 
 .detail-day-badge {
-  width: 52px;
+  min-width: 52px;
   height: 52px;
+  padding: 0 10px;
   border-radius: 14px;
   background: var(--city-color, var(--transit));
   color: var(--city-on, #1a1a1a);
@@ -395,7 +400,8 @@ main { flex: 1; padding: 26px 24px 40px; }
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 17px;
+  white-space: nowrap;
   flex-shrink: 0;
 }
 

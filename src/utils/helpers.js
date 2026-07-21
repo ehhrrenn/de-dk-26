@@ -3,6 +3,13 @@ export function formatDate(iso) {
   return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
 }
 
+// Compact numeric form (e.g. "9/17") for the day-detail badge, where a
+// short date reads better than the sequential trip-day count.
+export function formatShortDate(iso) {
+  const d = new Date(iso + 'T00:00:00')
+  return `${d.getMonth() + 1}/${d.getDate()}`
+}
+
 export function dayStatus(days) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)

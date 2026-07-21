@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
-import { formatDate, formatUSD } from '../utils/helpers'
+import { formatDate, formatShortDate, formatUSD } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -51,7 +51,7 @@ export default function DayPage({ userEmail }) {
       <Link to={`/location/${slug}`} className="back-btn">← Back to {city.label}</Link>
 
       <div className="detail-header">
-        <span className="detail-day-badge">{day.dayNumber}</span>
+        <span className="detail-day-badge">{formatShortDate(day.date)}</span>
         <span>
           <div className="detail-title">
             {day.isTravelDay ? `${day.cityDay} → ${day.cityNight}` : day.cityDay}
