@@ -11,6 +11,7 @@
 export const CITIES = {
   munich: {
     label: 'Munich',
+    shortLabel: 'MUC', // Munich's own airport code
     color: '#FFC93C', // vivid gold -- Oktoberfest & Bavarian beer halls
     onColor: '#1a1a1a',
     textColor: '#96680A',
@@ -20,6 +21,7 @@ export const CITIES = {
   },
   rhine: {
     label: 'Rhine Valley',
+    shortLabel: 'RHV', // no airport of its own -- a 3-letter code to match the others
     color: '#2EC4B6', // vivid teal -- the river and vineyard terraces
     onColor: '#1a1a1a',
     textColor: '#0E8074',
@@ -29,6 +31,7 @@ export const CITIES = {
   },
   berlin: {
     label: 'Berlin',
+    shortLabel: 'BER', // Berlin Brandenburg's airport code
     color: '#7B61FF', // vivid violet -- modern, urban
     onColor: '#ffffff',
     textColor: '#5B3FF0',
@@ -38,6 +41,7 @@ export const CITIES = {
   },
   copenhagen: {
     label: 'Copenhagen',
+    shortLabel: 'CPH', // Copenhagen Airport's own code
     color: '#FF5A5F', // vivid coral-red -- Nyhavn's colorful harbor houses
     onColor: '#1a1a1a',
     textColor: '#D62830',
@@ -47,6 +51,7 @@ export const CITIES = {
   },
   transit: {
     label: 'In transit',
+    shortLabel: null,
     color: '#8B95A1',
     onColor: '#1a1a1a',
     textColor: '#5b6169',

@@ -19,6 +19,15 @@
 
 html, body, #root { height: 100%; }
 
+html {
+  /* Some mobile/in-app browsers auto-inflate short, isolated headings (like
+     a lone page title) for "readability" -- this opts out so headings
+     render at the size the CSS actually specifies instead of getting
+     randomly blown up and clipped off-screen. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   overflow-x: hidden;
@@ -56,7 +65,7 @@ a { color: var(--link); }
 
 .header {
   text-align: center;
-  padding: 28px 24px 20px;
+  padding: 28px 28px 20px;
   background: var(--bg-raised);
   border-bottom: 1px solid var(--line);
 }
@@ -122,7 +131,7 @@ a { color: var(--link); }
   flex: 1 1 0;
   min-width: 0;
   text-align: center;
-  padding: 15px 10px 12px;
+  padding: 15px 14px 12px;
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 14px;
@@ -144,7 +153,7 @@ a { color: var(--link); }
 .key-info {
   background: var(--city-tint, var(--bg-raised-2));
   border-bottom: 1px solid var(--line);
-  padding: 14px 20px 16px;
+  padding: 14px 24px 16px;
 }
 
 .key-info-row {
@@ -222,7 +231,7 @@ a { color: var(--link); }
 
 /* ---------- Main content ---------- */
 
-main { flex: 1; padding: 26px 20px 40px; }
+main { flex: 1; padding: 26px 24px 40px; }
 
 .section-heading {
   font-family: var(--font-sans);

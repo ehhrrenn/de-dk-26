@@ -471,6 +471,7 @@ export function locationsFromDays(days) {
       return {
         slug,
         label: CITIES[slug].label,
+        shortLabel: CITIES[slug].shortLabel,
         color: CITIES[slug].color,
         onColor: CITIES[slug].onColor,
         textColor: CITIES[slug].textColor,

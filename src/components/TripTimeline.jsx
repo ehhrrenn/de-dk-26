@@ -15,8 +15,9 @@ export default function TripTimeline({ locations }) {
           to={`/location/${loc.slug}`}
           className={({ isActive }) => `trip-timeline-segment${isActive || loc.slug === region ? ' active' : ''}`}
           style={{ '--segment-color': loc.color, '--segment-text-safe': loc.textColor }}
+          title={loc.label}
         >
-          {loc.label}
+          {loc.shortLabel || loc.label}
         </NavLink>
       ))}
     </nav>
