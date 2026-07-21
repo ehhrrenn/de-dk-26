@@ -3,7 +3,7 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { formatDate, formatUSD, mapsDirectionsUrl, mapsSearchUrl } from '../utils/helpers'
+import { formatDate, mapsDirectionsUrl, mapsSearchUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -38,49 +38,9 @@ export default function LocationPage({ userEmail }) {
     <div style={{ '--city-color': city.color, '--city-on': city.onColor, '--city-text-safe': city.textColor }} data-region={slug}>
       <h1 className="section-heading">{city.label}</h1>
 
-      {lodging && (
-        <div className="card">
-          {lodging.name && (
-            <div className="info-row">
-              <span className="info-label">Stay</span>
-              <span>{lodging.name}</span>
-            </div>
-          )}
-          <div className="info-row">
-            <span className="info-label">Provider</span>
-            <span>
-              {lodging.provider}
-              {lodging.cost ? ` · ${formatUSD(lodging.cost)}` : ''}
-              {lodging.checkIn ? ` · Check-in ${lodging.checkIn}` : ''}
-              {lodging.checkOut ? ` · Check-out ${lodging.checkOut}` : ''}
-              {lodging.link && (
-                <>
-                  {' · '}
-                  <a href={lodging.link} target="_blank" rel="noreferrer">reservation</a>
-                </>
-              )}
-            </span>
-          </div>
-          {lodging.address && (
-            <div className="info-row">
-              <span className="info-label">Address</span>
-              <span>{lodging.address}</span>
-            </div>
-          )}
-          {lodgingMapsUrl && (
-            <a
-              href={lodgingMapsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="btn primary"
-              style={{ display: 'block', textAlign: 'center', textDecoration: 'none', marginTop: 10 }}
-            >
-              Get directions to the stay
-            </a>
-          )}
-        </div>
-      )}
-
+      {/* Lodging details live in the sticky KeyInfoBar (name, address,
+          directions, provider/cost, reservation link) -- no separate card
+          here to avoid showing the same stay twice on one page. */}
       {!lodgingMapsUrl && cityMapsUrl && (
         <div className="card">
           <div className="info-row">

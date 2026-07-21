@@ -108,7 +108,7 @@ export default function Settings({ userEmail }) {
           </div>
         </form>
       ) : (
-        <button className="btn primary" onClick={() => setForm(BLANK_TRAVELER)}>+ Add traveler</button>
+        <button className="btn primary" style={{ marginTop: 16 }} onClick={() => setForm(BLANK_TRAVELER)}>+ Add traveler</button>
       )}
 
       <h2 className="subsection-heading">Bookings</h2>
@@ -178,7 +178,7 @@ export default function Settings({ userEmail }) {
               </div>
             </form>
           ) : (
-            <button className="btn primary" onClick={() => setBookingForm(BLANK_BOOKING)}>+ Add booking</button>
+            <button className="btn primary" style={{ marginTop: 16 }} onClick={() => setBookingForm(BLANK_BOOKING)}>+ Add booking</button>
           )}
         </>
       )}
