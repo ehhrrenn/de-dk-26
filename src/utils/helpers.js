@@ -10,6 +10,24 @@ export function formatShortDate(iso) {
   return `${d.getMonth() + 1}/${d.getDate()}`
 }
 
+// The subtitle shown next to a day's date badge -- the day's activity
+// categories (Travel, Tour, Festival, ...), deduped, or "Free day" when
+// nothing's scheduled yet. Shared by LocationPage's itinerary rows and
+// DayPage's header so both read the same way.
+export function categorySummary(activities = []) {
+  const categories = [...new Set(activities.map((a) => a.category).filter(Boolean))]
+  return categories.length ? categories.join(' + ') : 'Free day'
+}
+
+// The headline shown for a day -- its travel route, its activity name(s),
+// or "Free day". Shared by LocationPage's itinerary rows and DayPage's
+// header so both read the same way.
+export function dayTitle(day) {
+  if (day.isTravelDay) return `${day.cityDay} → ${day.cityNight}`
+  const names = (day.activities ?? []).map((a) => a.name).join(' + ')
+  return names || 'Free day'
+}
+
 export function dayStatus(days) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -47,4 +65,25 @@ export function mapsDirectionsUrl(address) {
 export function mapsSearchUrl(query) {
   if (!query) return null
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+}
+
+// Pulls the ordered lat/lon points (origin, waypoints, destination) back
+// out of one of our "…/maps/dir/?api=1&origin=…&waypoints=…" URLs, so the
+// day-detail map can draw the actual route instead of a single pin.
+export function parseDirectionsUrl(url) {
+  if (!url) return null
+  try {
+    const params = new URL(url).searchParams
+    const origin = params.get('origin')
+    const destination = params.get('destination')
+    const waypoints = params.get('waypoints')
+    if (!origin) return null
+    const toPoint = (s) => s.split(',').map(Number)
+    const points = [toPoint(origin)]
+    if (waypoints) points.push(...waypoints.split('|').map(toPoint))
+    if (destination) points.push(toPoint(destination))
+    return points.length > 1 ? points : null
+  } catch {
+    return null
+  }
 }

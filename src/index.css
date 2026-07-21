@@ -11,6 +11,7 @@
   --transit: #8b95a1;
 
   --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --main-px: 24px;
 
   color-scheme: light;
 }
@@ -231,7 +232,7 @@ a { color: var(--link); }
 
 /* ---------- Main content ---------- */
 
-main { flex: 1; padding: 26px 24px 40px; }
+main { flex: 1; padding: 26px var(--main-px) 40px; }
 
 .section-heading {
   font-family: var(--font-sans);
@@ -254,8 +255,9 @@ main { flex: 1; padding: 26px 24px 40px; }
 
 .map-frame {
   overflow: hidden;
-  border: 1px solid var(--line);
-  margin-bottom: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin: 0 calc(-1 * var(--main-px));
 }
 
 /* ---------- Cards panel + compact row list (locations, days) ---------- */
@@ -293,14 +295,16 @@ main { flex: 1; padding: 26px 24px 40px; }
 .day-card:hover { background: var(--bg-raised-2); }
 
 .day-badge {
-  width: 44px;
+  min-width: 44px;
   height: 44px;
+  padding: 0 8px;
   border-radius: 12px;
   background: var(--city-color, var(--transit));
   color: var(--city-on, #1a1a1a);
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
   font-weight: 800;
   font-size: 17px;
   flex-shrink: 0;
@@ -421,6 +425,42 @@ main { flex: 1; padding: 26px 24px 40px; }
   margin-top: 2px;
 }
 
+/* ---------- Activity tabs (days with more than one option) ---------- */
+
+.activity-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.activity-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 12px 12px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.activity-tab svg { flex-shrink: 0; }
+.activity-tab:hover { color: var(--ink); }
+.activity-tab.active {
+  color: var(--city-text-safe, var(--ink));
+  border-bottom-color: var(--city-color, var(--ink));
+}
+
 /* ---------- Connected event timeline (day-detail) ---------- */
 
 .timeline { margin-top: 4px; }
@@ -482,17 +522,6 @@ main { flex: 1; padding: 26px 24px 40px; }
 .timeline-venue svg { flex-shrink: 0; color: var(--city-text-safe, var(--ink-soft)); }
 
 .timeline-note { font-size: 14px; font-weight: 500; color: var(--ink-soft); margin-top: 3px; }
-
-.timeline-directions {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 12.5px;
-  font-weight: 700;
-  color: var(--city-text-safe, var(--link));
-  text-decoration: none;
-  margin-top: 6px;
-}
-.timeline-directions:hover { text-decoration: underline; }
 
 /* ---------- Buttons & forms ---------- */
 

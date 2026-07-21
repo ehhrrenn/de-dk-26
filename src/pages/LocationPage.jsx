@@ -3,7 +3,7 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { formatDate, mapsDirectionsUrl, mapsSearchUrl } from '../utils/helpers'
+import { categorySummary, dayTitle, formatShortDate, mapsDirectionsUrl, mapsSearchUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -66,20 +66,16 @@ export default function LocationPage({ userEmail }) {
       <div className="cards">
         <div className="cards-title">Itinerary</div>
         <div className="day-list">
-          {location.days.map((day) => {
-            const activityNames = (day.activities ?? []).map((a) => a.name).join(' + ')
-            const title = day.isTravelDay ? `${day.cityDay} → ${day.cityNight}` : (activityNames || 'Free day')
-            return (
-              <Link key={day.id} to={`/day/${day.id}`} className="day-card">
-                <span className="day-badge">{day.dayNumber}</span>
-                <span className="day-content">
-                  <div className="day-title">{title}</div>
-                  <div className="day-sub">{formatDate(day.date)}</div>
-                </span>
-                <span className="day-chevron">›</span>
-              </Link>
-            )
-          })}
+          {location.days.map((day) => (
+            <Link key={day.id} to={`/day/${day.id}`} className="day-card">
+              <span className="day-badge">{formatShortDate(day.date)}</span>
+              <span className="day-content">
+                <div className="day-title">{dayTitle(day)}</div>
+                <div className="day-sub">{categorySummary(day.activities)}</div>
+              </span>
+              <span className="day-chevron">›</span>
+            </Link>
+          ))}
         </div>
       </div>
 

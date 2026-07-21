@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
-import { formatDate, formatShortDate, formatUSD } from '../utils/helpers'
+import { categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -11,6 +12,11 @@ import NotAuthorized from '../components/NotAuthorized'
 export default function DayPage({ userEmail }) {
   const { dayId } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    setActiveIndex(0)
+  }, [dayId])
 
   const sorted = [...items].sort((a, b) => a.dayNumber - b.dayNumber)
   const day = sorted.find((d) => d.id === dayId)
@@ -30,18 +36,21 @@ export default function DayPage({ userEmail }) {
   }
 
   const city = CITIES[slug]
+  const activities = day.activities ?? []
+  const activity = activities[activeIndex] ?? activities[0] ?? null
+  const route = parseDirectionsUrl(activity?.directionsUrl)
 
-  // Flatten each activity into a "venue" row followed by its timed events,
-  // so the whole day renders as one continuous connected timeline instead of
-  // separate mini-timelines per activity.
+  // Days with more than one activity (e.g. two alternative Sunday plans)
+  // are distinct, optional itineraries -- shown as tabs rather than
+  // merged into one confusing chronological list. Only the selected
+  // activity's own events get flattened into the connected timeline.
   const rows = []
-  for (const activity of day.activities ?? []) {
+  if (activity) {
     rows.push({ kind: 'activity', key: `a-${activity.id}`, activity })
     for (const [i, event] of (activity.events ?? []).entries()) {
       rows.push({ kind: 'event', key: `e-${activity.id}-${i}`, activity, event })
     }
   }
-  const allTips = (day.activities ?? []).flatMap((a) => a.tips ?? [])
 
   return (
     <div
@@ -53,10 +62,8 @@ export default function DayPage({ userEmail }) {
       <div className="detail-header">
         <span className="detail-day-badge">{formatShortDate(day.date)}</span>
         <span>
-          <div className="detail-title">
-            {day.isTravelDay ? `${day.cityDay} → ${day.cityNight}` : day.cityDay}
-          </div>
-          <div className="detail-date">{formatDate(day.date)}</div>
+          <div className="detail-title">{dayTitle(day)}</div>
+          <div className="detail-date">{categorySummary(activities)}</div>
         </span>
       </div>
 
@@ -75,7 +82,14 @@ export default function DayPage({ userEmail }) {
         </div>
       )}
 
-      {day.coords && (
+      {route ? (
+        <StaticMap
+          path={{ points: route, color: city.color }}
+          markers={[{ lat: route[0][0], lon: route[0][1], color: city.color }]}
+          height={200}
+          alt={`Walking route for ${activity.name}`}
+        />
+      ) : day.coords ? (
         <StaticMap
           center={day.coords}
           zoom={12}
@@ -83,6 +97,24 @@ export default function DayPage({ userEmail }) {
           alt={`Map of ${day.cityDay}`}
           markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color }]}
         />
+      ) : null}
+
+      {activities.length > 1 && (
+        <div className="activity-tabs" role="tablist" aria-label="Options for this day">
+          {activities.map((a, i) => (
+            <button
+              key={a.id}
+              type="button"
+              role="tab"
+              aria-selected={i === activeIndex}
+              className={`activity-tab${i === activeIndex ? ' active' : ''}`}
+              onClick={() => setActiveIndex(i)}
+            >
+              <Icon name={a.icon} size={16} />
+              {a.name}
+            </button>
+          ))}
+        </div>
       )}
 
       {rows.length > 0 && (
@@ -108,7 +140,13 @@ export default function DayPage({ userEmail }) {
                     {a.summary && <div className="timeline-note">{a.summary}</div>}
                     {a.startingPoint && <div className="timeline-note">Start: {a.startingPoint}</div>}
                     {a.directionsUrl && (
-                      <a href={a.directionsUrl} target="_blank" rel="noreferrer" className="timeline-directions">
+                      <a
+                        href={a.directionsUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn primary"
+                        style={{ display: 'inline-block', textDecoration: 'none', marginTop: 10 }}
+                      >
                         Get directions for this day →
                       </a>
                     )}
@@ -133,9 +171,9 @@ export default function DayPage({ userEmail }) {
         </div>
       )}
 
-      {allTips.length > 0 && (
+      {activity?.tips?.length > 0 && (
         <div className="card">
-          {allTips.map((t, i) => (
+          {activity.tips.map((t, i) => (
             <p className="tip" key={i}>{t}</p>
           ))}
         </div>
