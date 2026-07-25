@@ -343,6 +343,20 @@ export const DAYS = [
     coords: [52.52, 13.405],
     notes: '',
     activities: [
+      {
+        id: 'day-10-bike-tour',
+        name: 'The Beauty of Berlin by Bike Tour',
+        icon: 'bike',
+        category: 'Tour',
+        cost: 510.51,
+        summary: 'Withlocals guided bike tour with host Boyd ("The Cool History Teacher"). 3 hours, 8 guests. Booking #14164417.',
+        startingPoint: 'Berlin on Bike, corner Dircksenstrasse (under the railway bridge)',
+        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Berlin%20on%20Bike%2C%20Dircksenstrasse%2C%20Berlin%2C%20Germany',
+        events: [
+          { time: '10:00 AM', title: 'The Beauty of Berlin by Bike Tour', description: 'Meet host Boyd (+49 176 49223079) at Berlin on Bike, corner Dircksenstrasse, under the railway bridge. 3-hour tour, 8 guests.' },
+        ],
+        tips: [],
+      },
       { id: 'day-10-disco', name: 'Disco', icon: 'disco', category: 'Nightlife', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
     ],
   },
@@ -395,8 +409,23 @@ export const DAYS = [
     travel: null,
     lodging: null,
     coords: [55.6761, 12.5683],
-    notes: 'Free day -- nothing scheduled yet.',
-    activities: [],
+    notes: 'Otherwise free -- explore Copenhagen at your own pace.',
+    activities: [
+      {
+        id: 'day-13-host-dinner',
+        name: 'Dinner at Høst',
+        icon: 'dining',
+        category: 'Dining',
+        cost: null,
+        summary: 'Table for 7, held 6:30-8:45 PM. Celebrating three birthdays (two 40ths!). Booking #14509794.',
+        startingPoint: 'Høst, Nørre Farimagsgade 41, 1364 København K, Denmark',
+        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=H%C3%B8st%2C%20N%C3%B8rre%20Farimagsgade%2041%2C%201364%20K%C3%B8benhavn%20K%2C%20Denmark',
+        events: [
+          { time: '6:30 PM', title: 'Dinner at Høst', description: 'Table held until 8:45 PM. Cancel before 1PM same-day to avoid a DKK 250/person no-show fee. Phone +45 89 93 84 09.' },
+        ],
+        tips: [],
+      },
+    ],
   },
   {
     id: 'day-14',
