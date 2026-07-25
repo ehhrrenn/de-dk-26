@@ -14,6 +14,11 @@
 // This is seed data only: the live source of truth is Firestore once
 // you've imported it once from the app (see the landing page's "Sync
 // latest itinerary details" button).
+//
+// Currency: every amount in this file -- `cost` fields and any price
+// mentioned in event/tip text -- is USD. Source material in EUR/DKK/etc.
+// gets converted (~1.08 USD/EUR, ~0.145 USD/DKK) and rounded before it
+// goes in; never leave a non-USD figure in place.
 
 import { CITIES, cityFor } from './cities'
 
@@ -121,7 +126,7 @@ export const DAYS = [
         directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=48.1226192,11.5458491&destination=48.1226192,11.5458491&waypoints=48.1771981,11.5562963%7C48.1768304,11.5590966%7C48.1740284,11.5555399%7C48.1731414,11.548747&travelmode=transit',
         events: [
           { time: '9:00 AM', title: 'BMW Welt', description: 'Free entry, showroom opens 9am Sundays. Latest BMW/Mini/Rolls-Royce models, sit in a few.' },
-          { time: '10:00 AM', title: 'BMW Museum', description: 'Book 8 timed tickets ahead online, group rate ~€9/person (~€72 total). ~90 min self-guided through 125+ years of history.' },
+          { time: '10:00 AM', title: 'BMW Museum', description: 'Book 8 timed tickets ahead online, group rate ~$10/person (~$78 total). ~90 min self-guided through 125+ years of history.' },
           { time: '12:30 PM', title: 'Lunch: Augustiner Biergarten am Olympiasee', description: '5-min walk, lakeside beer garden, open Sun 11am-7pm, casual and built for groups.' },
           { time: '2:30 PM', title: 'SAYAQ Adventure Tower', description: "Munich's new (April 2026) 3-level high-ropes course at the stadium, 36-38 climbing stations, plus a viewing platform over the Olympic Stadium. Plan 2-3 hrs. Book ahead for a group of 8: +49 89 99176588 or sayaq-adventures-muenchen.com." },
           { time: '~5:00 PM', title: 'Walk to Olympiazentrum U-Bahn (U3)', description: 'Back into central Munich for dinner.' },
@@ -150,7 +155,7 @@ export const DAYS = [
           { time: '10:30 AM', title: 'Walk to Marienplatz', description: '~10 min via Kaufingerstraße.' },
           { time: '10:45 AM', title: 'Frauenkirche', description: "Munich's late-Gothic cathedral, completed 1488. Look for the \"Devil's Footprint\" mark just inside the entrance." },
           { time: '11:00 AM', title: 'Marienplatz -- Glockenspiel show', description: "The Neues Rathaus tower's mechanical show dates to 1908: 43 bells, 32 figures reenacting a 1568 wedding joust, followed by the coopers' dance. Free, ~12-15 min." },
-          { time: '12:00 PM', title: "St. Peter's Church (Alter Peter)", description: "Munich's oldest parish church, predates the city's official founding in 1158. Optional 306-step tower climb (~€5-7pp) for the best panoramic view over the old town." },
+          { time: '12:00 PM', title: "St. Peter's Church (Alter Peter)", description: "Munich's oldest parish church, predates the city's official founding in 1158. Optional 306-step tower climb (~$5-8pp) for the best panoramic view over the old town." },
           { time: '1:15 PM', title: 'Lunch: Augustiner Klosterwirt', description: 'Augustinerstraße 1. Munich\'s oldest brewery, founded 1328. Open Sun 9:30am-midnight. 4.5★.' },
           { time: '3:00 PM', title: 'Odeonsplatz & Feldherrnhalle', description: 'Built 1841-44 under King Ludwig I; also the site of the gunfight that ended the 1923 Beer Hall Putsch.' },
           { time: '3:45 PM', title: 'Free time', description: 'Stroll the Hofgarten or wander back through the old town at your own pace.' },
@@ -287,7 +292,7 @@ export const DAYS = [
           { time: '10:45 AM', title: 'Arrive Braubach', description: 'Disembark and walk into town.' },
           { time: '11:00 AM', title: 'Lunch / explore old town', description: 'NH Asian Cuisine & Sushi is open Thu 12-9pm. Otherwise browse the timber-framed old town before the climb.' },
           { time: '12:30 PM', title: 'Walk up to Marksburg Castle', description: '~25-30 min uphill walk, switchbacks. Buy castle tickets on arrival (guided-tour-only access).' },
-          { time: '1:00 PM', title: 'Marksburg Castle -- English Guided Tour', description: "50 min tour, daily English tour at 1pm (also 4pm) through October. Kitchen, armory, wine cellar, chapel, knights' hall. €11-14/adult." },
+          { time: '1:00 PM', title: 'Marksburg Castle -- English Guided Tour', description: "50 min tour, daily English tour at 1pm (also 4pm) through October. Kitchen, armory, wine cellar, chapel, knights' hall. $12-15/adult." },
           { time: '2:00 PM', title: 'Walk back to Braubach Bahnhof', description: '~20 min walk down to the train station.' },
           { time: '2:45 PM', title: 'Train: Braubach -> Koblenz Hbf -> Boppard', description: '~40 min total incl. transfer at Koblenz Hbf, roughly hourly. Confirm exact times on bahn.com nearer the date.' },
           { time: '3:30 PM', title: 'Arrive Boppard Hauptbahnhof', description: 'Walk to Weingart (~25-30 min) or taxi -- a good option after the castle hike.' },
@@ -421,7 +426,7 @@ export const DAYS = [
         startingPoint: 'Høst, Nørre Farimagsgade 41, 1364 København K, Denmark',
         directionsUrl: 'https://www.google.com/maps/search/?api=1&query=H%C3%B8st%2C%20N%C3%B8rre%20Farimagsgade%2041%2C%201364%20K%C3%B8benhavn%20K%2C%20Denmark',
         events: [
-          { time: '6:30 PM', title: 'Dinner at Høst', description: 'Table held until 8:45 PM. Cancel before 1PM same-day to avoid a DKK 250/person no-show fee. Phone +45 89 93 84 09.' },
+          { time: '6:30 PM', title: 'Dinner at Høst', description: 'Table held until 8:45 PM. Cancel before 1PM same-day to avoid a ~$36/person no-show fee. Phone +45 89 93 84 09.' },
         ],
         tips: [],
       },
