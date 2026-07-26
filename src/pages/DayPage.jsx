@@ -139,6 +139,7 @@ export default function DayPage({ userEmail }) {
                     </div>
                     {a.summary && <div className="timeline-note">{a.summary}</div>}
                     {a.startingPoint && <div className="timeline-note">Start: {a.startingPoint}</div>}
+                    {a.travelers?.length > 0 && <div className="timeline-note">Travelers: {a.travelers.join(', ')}</div>}
                     {a.directionsUrl && (
                       <a
                         href={a.directionsUrl}
