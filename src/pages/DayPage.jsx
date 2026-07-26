@@ -147,7 +147,7 @@ export default function DayPage({ userEmail }) {
                         className="btn primary"
                         style={{ display: 'inline-block', textDecoration: 'none', marginTop: 10 }}
                       >
-                        Get directions for this day →
+                        {a.linkLabel || 'Get directions for this day →'}
                       </a>
                     )}
                   </span>

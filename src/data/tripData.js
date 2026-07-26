@@ -204,7 +204,7 @@ export const DAYS = [
     cityDay: 'Munich',
     cityNight: 'Spay / Boppard',
     isTravelDay: true,
-    travel: { mode: 'car', time: '5h', cost: null },
+    travel: { mode: 'train', time: '5h 31m', cost: null },
     lodging: {
       name: null,
       provider: 'VRBO',
@@ -217,7 +217,23 @@ export const DAYS = [
     coords: [50.2314, 7.5917],
     notes: '',
     activities: [
-      { id: 'day-06-travel', name: 'Travel', icon: 'car', category: 'Travel', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      {
+        id: 'day-06-travel',
+        name: 'Train: Munich → Spay',
+        icon: 'train',
+        category: 'Travel',
+        cost: null,
+        summary: 'Three-leg Deutsche Bahn journey: ICE to Frankfurt, S-Bahn to Mainz, regional train to Spay.',
+        startingPoint: 'München Hbf, Platform 22',
+        directionsUrl: 'https://int.bahn.de/en/buchung/start?vbid=30195a4d-13d5-4bea-8b44-0a11fb2efa75',
+        linkLabel: 'View train tickets →',
+        events: [
+          { time: '9:46 AM', title: 'ICE 722 -- München Hbf → Frankfurt(Main)Hbf', description: 'Direction Düsseldorf Hbf. Board at München Hbf, Platform 22. Arrive Frankfurt(Main)Hbf 1:02 PM.' },
+          { time: '1:17 PM', title: 'S8 -- Frankfurt Hbf (tief) → Mainz Hbf', description: 'Direction Wiesbaden Hbf. Board at Frankfurt Hbf (tief), Platform 103. Arrive Mainz Hbf 1:55 PM, Platform 1a.' },
+          { time: '2:02 PM', title: 'RB26 (25430) -- Mainz Hbf → Spay', description: 'Direction Köln Messe/Deutz. Board at Mainz Hbf, Platform 2a. Arrive Spay 3:17 PM, Platform 1.' },
+        ],
+        tips: [],
+      },
     ],
   },
   {
@@ -319,7 +335,7 @@ export const DAYS = [
     cityDay: 'Spay / Boppard',
     cityNight: 'Berlin',
     isTravelDay: true,
-    travel: { mode: null, time: '6h', cost: null },
+    travel: { mode: 'train', time: '6h 38m', cost: null },
     lodging: {
       name: 'Home in Berlin',
       provider: 'Airbnb',
@@ -332,7 +348,22 @@ export const DAYS = [
     coords: [52.52, 13.405],
     notes: '',
     activities: [
-      { id: 'day-09-travel', name: 'Travel', icon: 'train', category: 'Travel', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      {
+        id: 'day-09-travel',
+        name: 'Train: Spay → Berlin',
+        icon: 'train',
+        category: 'Travel',
+        cost: null,
+        summary: 'Two-leg Deutsche Bahn journey: regional train to Köln, then ICE to Berlin.',
+        startingPoint: 'Spay, Platform 1',
+        directionsUrl: 'https://int.bahn.de/en/buchung/start?vbid=a4828bbe-7ab6-454f-b5f3-d1f1400d98d7',
+        linkLabel: 'View train tickets →',
+        events: [
+          { time: '10:17 AM', title: 'RB26 (25420) -- Spay → Köln Hbf', description: 'Direction Köln Messe/Deutz. Board at Spay, Platform 1. Arrive Köln Hbf 12:02 PM, Platform 1 A-C.' },
+          { time: '12:44 PM', title: 'ICE 559 -- Köln Hbf → Berlin Hbf', description: 'Direction Berlin Südkreuz. Board at Köln Hbf, Platform 2 A-C. Arrive Berlin Hbf 4:55 PM.' },
+        ],
+        tips: [],
+      },
     ],
   },
   {
