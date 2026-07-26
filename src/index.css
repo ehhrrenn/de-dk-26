@@ -450,11 +450,14 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   border: none;
   border-bottom: 3px solid transparent;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .activity-tab svg { flex-shrink: 0; }
+.activity-tab span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .activity-tab:hover { color: var(--ink); }
 .activity-tab.active {
   color: var(--city-text-safe, var(--ink));

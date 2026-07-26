@@ -418,9 +418,7 @@ export const DAYS = [
     cityDay: 'Berlin',
     cityNight: 'Copenhagen',
     isTravelDay: true,
-    // Sheet didn't specify a travel mode/time for this leg -- flight is the
-    // typical way to cover Berlin-Copenhagen; confirm and fill in.
-    travel: { mode: null, time: null, cost: null },
+    travel: { mode: 'flight', time: null, cost: null },
     lodging: {
       name: 'Home in Copenhagen',
       provider: 'Airbnb',
@@ -432,7 +430,52 @@ export const DAYS = [
     },
     coords: [55.6761, 12.5683],
     notes: '',
-    activities: [],
+    activities: [
+      {
+        id: 'day-12-to-airport',
+        name: 'To Berlin Brandenburg Airport',
+        icon: 'train',
+        category: 'Travel',
+        cost: null,
+        summary: 'Head to BER, Terminal 1, in time for SK 1678\'s 1:50 PM latest check-in.',
+        startingPoint: 'Schleiermacherstraße 12, Berlin, Berlin 10961, Germany',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Schleiermacherstra%C3%9Fe%2012%2C%20Berlin%2C%20Berlin%2010961%2C%20Germany&destination=Berlin%20Brandenburg%20Airport%20(BER)%2C%20Germany&travelmode=transit',
+        linkLabel: 'Get directions to the airport →',
+        events: [
+          { time: '~1:00 PM', title: 'Leave the Berlin stay', description: 'Depart Schleiermacherstraße 12 for BER Airport, Terminal 1. Latest check-in for SK 1678 is 1:50 PM; boarding pass required at departure from Germany.' },
+        ],
+        tips: [],
+      },
+      {
+        id: 'day-12-flight',
+        name: 'SK 1678: Berlin → Copenhagen',
+        icon: 'flight',
+        category: 'Travel',
+        cost: 307.6,
+        summary: 'Scandinavian Airlines, Berlin Brandenburg (BER) → Copenhagen Kastrup (CPH). Booking XKF32N, ticket 117-2548058792. $307.60 is Aaron\'s fare -- confirm other travelers\' tickets separately.',
+        startingPoint: 'Berlin Brandenburg Airport (BER), Terminal 1',
+        events: [
+          { time: '2:35 PM', title: 'Depart Berlin Brandenburg (BER), Terminal 1', description: 'SK 1678, Scandinavian Airlines. Refreshments for purchase onboard. 1 checked bag included.' },
+          { time: '3:35 PM', title: 'Arrive Copenhagen Kastrup (CPH)', description: 'Flight duration ~1 hr.' },
+        ],
+        tips: [],
+      },
+      {
+        id: 'day-12-to-stay',
+        name: 'To Copenhagen Stay',
+        icon: 'train',
+        category: 'Travel',
+        cost: null,
+        summary: 'From CPH (Kastrup) to Home in Copenhagen. Check-in from 11:00 AM.',
+        startingPoint: 'Copenhagen Airport (CPH), Denmark',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Copenhagen%20Airport%20(CPH)%2C%20Denmark&destination=Cort%20Adelers%20Gade%2012A%2C%201053%20K%C3%B8benhavn%2C%20Denmark&travelmode=transit',
+        linkLabel: 'Get directions to the stay →',
+        events: [
+          { time: '~4:00 PM', title: 'Head to Home in Copenhagen', description: 'From Copenhagen Kastrup (CPH) to Cort Adelers Gade 12A. Check-in already open on arrival (from 11:00 AM).' },
+        ],
+        tips: [],
+      },
+    ],
   },
   {
     id: 'day-13',
