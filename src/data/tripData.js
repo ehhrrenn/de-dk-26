@@ -104,7 +104,26 @@ export const DAYS = [
     coords: [48.1351, 11.582],
     notes: '',
     activities: [
-      { id: 'day-02-shopping', name: 'Shopping', icon: 'shopping', category: 'Shopping', cost: null, summary: '', startingPoint: null, events: [], tips: [] },
+      {
+        id: 'day-02-shopping',
+        name: 'Bavarian Outfitters: Lederhosen & Dirndl',
+        icon: 'shopping',
+        category: 'Shopping',
+        cost: null,
+        summary: "Rent (or buy) lederhosen and dirndl ahead of Oktoberfest -- reserve online by size and pickup date, then pick the exact model and get fitted in person at the store. Over 1,500 outfits in stock, with on-site fitting rooms and staff to help dial in sizing and color.",
+        startingPoint: 'The Wunder House Munich, Lindwurmstraße 189, 80337 München, Germany',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Lindwurmstra%C3%9Fe%20189%2C%2080337%20M%C3%BCnchen%2C%20Germany&destination=Bavarian%20Outfitters%2C%20Lindwurmstr.%20108%2C%2080337%20M%C3%BCnchen%2C%20Germany&travelmode=walking',
+        linkLabel: 'Get directions to Bavarian Outfitters →',
+        websiteUrl: 'https://bavarian-outfitters.de/',
+        websiteLabel: 'Visit Bavarian Outfitters →',
+        events: [],
+        tips: [
+          'Book online ahead at bavarian-outfitters.de -- enter sizes and a pickup date, then choose the exact model in person at pickup.',
+          'This location: Lindwurmstr. 108, 80337 München -- same street as the hotel, about a 5 min walk.',
+          'Fixed store hours only run during Oktoberfest: Mon-Thu 8:30 AM-6 PM, Fri-Sat 7:30 AM-6 PM, Sun 9 AM-6 PM. Outside those windows, arrange a pickup time after booking online.',
+          'Questions: kontakt@bavarian-outfitters.de.',
+        ],
+      },
     ],
   },
   {
