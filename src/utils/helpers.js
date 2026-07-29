@@ -78,10 +78,17 @@ export function parseDirectionsUrl(url) {
     const destination = params.get('destination')
     const waypoints = params.get('waypoints')
     if (!origin) return null
-    const toPoint = (s) => s.split(',').map(Number)
+    // Only real "lat,lon" pairs parse into a point -- an address string (used
+    // for some directionsUrl entries where we only have a place name, not
+    // coordinates) would otherwise silently produce NaN and draw a broken map.
+    const toPoint = (s) => {
+      const [lat, lon] = s.split(',').map(Number)
+      return Number.isFinite(lat) && Number.isFinite(lon) ? [lat, lon] : null
+    }
     const points = [toPoint(origin)]
     if (waypoints) points.push(...waypoints.split('|').map(toPoint))
     if (destination) points.push(toPoint(destination))
+    if (points.some((p) => p === null)) return null
     return points.length > 1 ? points : null
   } catch {
     return null

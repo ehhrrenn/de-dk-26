@@ -74,7 +74,7 @@ export const DAYS = [
         cost: null,
         summary: 'From Munich Airport (MUC) to The Wunder House Munich.',
         startingPoint: 'Munich Airport (MUC), Terminal 1',
-        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Munich%20Airport%20(MUC)%2C%20Germany&destination=Lindwurmstra%C3%9Fe%20189%2C%2080337%20M%C3%BCnchen%2C%20Germany&travelmode=transit',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=48.353783,11.786086&destination=48.1226192,11.5458491&travelmode=transit',
         linkLabel: 'Get directions to the stay →',
         events: [
           { time: '~3:00 PM (Sep 18)', title: 'Head to the Munich stay', description: 'From MUC (Terminal 1) to Lindwurmstraße 189. Check-in from 3:00 PM.' },
@@ -112,14 +112,14 @@ export const DAYS = [
         cost: null,
         summary: "Rent (or buy) lederhosen and dirndl ahead of Oktoberfest -- reserve online by size and pickup date, then pick the exact model and get fitted in person at the store. Over 1,500 outfits in stock, with on-site fitting rooms and staff to help dial in sizing and color.",
         startingPoint: 'The Wunder House Munich, Lindwurmstraße 189, 80337 München, Germany',
-        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Lindwurmstra%C3%9Fe%20189%2C%2080337%20M%C3%BCnchen%2C%20Germany&destination=Bavarian%20Outfitters%2C%20Lindwurmstr.%20108%2C%2080337%20M%C3%BCnchen%2C%20Germany&travelmode=walking',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=48.1226192,11.5458491&destination=48.12626898502202,11.557187498593033&travelmode=walking',
         linkLabel: 'Get directions to Bavarian Outfitters →',
         websiteUrl: 'https://bavarian-outfitters.de/',
         websiteLabel: 'Visit Bavarian Outfitters →',
         events: [],
         tips: [
           'Book online ahead at bavarian-outfitters.de -- enter sizes and a pickup date, then choose the exact model in person at pickup.',
-          'This location: Lindwurmstr. 108, 80337 München -- same street as the hotel, about a 5 min walk.',
+          'This location: Lindwurmstraße 108A, 80337 München -- same street as the hotel, about a 5 min walk.',
           'Fixed store hours only run during Oktoberfest: Mon-Thu 8:30 AM-6 PM, Fri-Sat 7:30 AM-6 PM, Sun 9 AM-6 PM. Outside those windows, arrange a pickup time after booking online.',
           'Questions: kontakt@bavarian-outfitters.de.',
         ],
@@ -489,7 +489,7 @@ export const DAYS = [
         cost: null,
         summary: 'Head to BER, Terminal 1, in time for SK 1678\'s 1:50 PM latest check-in.',
         startingPoint: 'Schleiermacherstraße 12, Berlin, Berlin 10961, Germany',
-        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Schleiermacherstra%C3%9Fe%2012%2C%20Berlin%2C%20Berlin%2010961%2C%20Germany&destination=Berlin%20Brandenburg%20Airport%20(BER)%2C%20Germany&travelmode=transit',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=52.496606592421514,13.397539765422684&destination=52.3667,13.5033&travelmode=transit',
         linkLabel: 'Get directions to the airport →',
         events: [
           { time: '~1:00 PM', title: 'Leave the Berlin stay', description: 'Depart Schleiermacherstraße 12 for BER Airport, Terminal 1. Latest check-in for SK 1678 is 1:50 PM; boarding pass required at departure from Germany.' },
@@ -518,7 +518,7 @@ export const DAYS = [
         cost: null,
         summary: 'From CPH (Kastrup) to Home in Copenhagen. Check-in from 11:00 AM.',
         startingPoint: 'Copenhagen Airport (CPH), Denmark',
-        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Copenhagen%20Airport%20(CPH)%2C%20Denmark&destination=Cort%20Adelers%20Gade%2012A%2C%201053%20K%C3%B8benhavn%2C%20Denmark&travelmode=transit',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=55.6181,12.6561&destination=55.678839448590715,12.590591724485037&travelmode=transit',
         linkLabel: 'Get directions to the stay →',
         events: [
           { time: '~4:00 PM', title: 'Head to Home in Copenhagen', description: 'From Copenhagen Kastrup (CPH) to Cort Adelers Gade 12A. Check-in already open on arrival (from 11:00 AM).' },
@@ -591,7 +591,7 @@ export const DAYS = [
         cost: null,
         summary: 'From Home in Copenhagen to CPH (Kastrup) for the return flights -- SK 935 to San Francisco, LX 1267 to Washington DC.',
         startingPoint: 'Cort Adelers Gade 12A, 1053 København, Denmark',
-        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=Cort%20Adelers%20Gade%2012A%2C%201053%20K%C3%B8benhavn%2C%20Denmark&destination=Copenhagen%20Airport%20(CPH)%2C%20Denmark&travelmode=transit',
+        directionsUrl: 'https://www.google.com/maps/dir/?api=1&origin=55.678839448590715,12.590591724485037&destination=55.6181,12.6561&travelmode=transit',
         linkLabel: 'Get directions to the airport →',
         events: [
           { time: '~10:30 AM', title: 'Leave the Copenhagen stay', description: 'Head to CPH Airport, Departure Terminal 3, ahead of the 12:45 PM SK 935 departure (Selena should allow enough time for the earlier 9:40 AM LX 1267 departure).' },

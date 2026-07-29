@@ -84,10 +84,9 @@ export default function DayPage({ userEmail }) {
 
       {route ? (
         <StaticMap
-          path={{ points: route, color: city.color }}
-          markers={[{ lat: route[0][0], lon: route[0][1], color: city.color }]}
+          markers={route.map(([lat, lon]) => ({ lat, lon, color: city.color }))}
           height={200}
-          alt={`Walking route for ${activity.name}`}
+          alt={`Stops for ${activity.name}`}
         />
       ) : day.coords ? (
         <StaticMap

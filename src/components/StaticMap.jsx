@@ -4,11 +4,13 @@
 // referrer in the Google Cloud console), same pattern as the Firebase
 // config.
 //
-// `center`/`zoom` are optional: pass a `path` (an ordered list of
-// [lat, lon] points, e.g. from parseDirectionsUrl) instead, and Google
-// auto-fits the viewport to the route -- same trick works for `markers`
-// alone if there's more than one.
-export default function StaticMap({ center, zoom, markers = [], path, height = 260, alt }) {
+// `center`/`zoom` are optional: pass 2+ `markers` instead and Google
+// auto-fits the viewport to them. Deliberately pins-only, no drawn path --
+// Static Maps' `path` parameter only draws straight lines between points,
+// which misrepresents actual roads/turns. Real road-following navigation
+// lines would need Google's Directions/Routes API (a different API key,
+// live routing calls) rather than the Static Maps API used here.
+export default function StaticMap({ center, zoom, markers = [], height = 260, alt }) {
   const params = new URLSearchParams({
     size: `700x${height}`,
     scale: '2',
@@ -24,11 +26,6 @@ export default function StaticMap({ center, zoom, markers = [], path, height = 2
     // resolves the location server-side either way.
     const location = m.query || `${m.lat},${m.lon}`
     params.append('markers', `color:${hex}|${location}`)
-  }
-  if (path?.points?.length > 1) {
-    const hex = (path.color || '#F2A93B').replace('#', '0x')
-    const points = path.points.map(([lat, lon]) => `${lat},${lon}`).join('|')
-    params.append('path', `color:${hex}|weight:4|${points}`)
   }
   const src = `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}`
 
