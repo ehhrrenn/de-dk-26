@@ -50,6 +50,22 @@ export default function ItineraryLanding({ userEmail }) {
   if (loading || items.length === 0) return <div className="empty-state">Loading itinerary…</div>
 
   const locations = locationsFromDays(items)
+  // Chronological order already (locationsFromDays walks CITIES' key order,
+  // which is the trip's actual route) -- first/last become the directions
+  // origin/destination, anything in between becomes a waypoint stop.
+  const overviewMapsUrl =
+    locations.length > 1
+      ? `https://www.google.com/maps/dir/?api=1&origin=${locations[0].coords.join(',')}&destination=${locations[locations.length - 1].coords.join(',')}${
+          locations.length > 2
+            ? `&waypoints=${locations
+                .slice(1, -1)
+                .map((loc) => loc.coords.join(','))
+                .join('%7C')}`
+            : ''
+        }&travelmode=driving`
+      : locations[0]
+        ? `https://www.google.com/maps?q=${locations[0].coords.join(',')}`
+        : null
 
   return (
     <div>
@@ -59,6 +75,7 @@ export default function ItineraryLanding({ userEmail }) {
         height={280}
         alt="Map of the trip route across Munich, the Rhine Valley, Berlin, and Copenhagen"
         markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color }))}
+        link={overviewMapsUrl}
       />
 
       <TripCalendar days={items} />

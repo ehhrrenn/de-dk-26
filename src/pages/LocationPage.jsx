@@ -60,6 +60,7 @@ export default function LocationPage({ userEmail }) {
             { lat: city.coords[0], lon: city.coords[1], color: city.color },
             ...places.map((p) => ({ query: `${p.name}, ${city.country}`, color: city.color })),
           ]}
+          link={cityMapsUrl}
         />
       )}
 

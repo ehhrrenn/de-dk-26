@@ -10,7 +10,12 @@
 // which misrepresents actual roads/turns. Real road-following navigation
 // lines would need Google's Directions/Routes API (a different API key,
 // live routing calls) rather than the Static Maps API used here.
-export default function StaticMap({ center, zoom, markers = [], height = 260, alt }) {
+//
+// `link` is optional: when passed, the whole map image opens that URL in
+// Google Maps (single location, a set of pins, or a directions route,
+// whatever the caller's link actually points at) -- otherwise it's a plain
+// static image.
+export default function StaticMap({ center, zoom, markers = [], height = 260, alt, link }) {
   const params = new URLSearchParams({
     size: `700x${height}`,
     scale: '2',
@@ -28,17 +33,26 @@ export default function StaticMap({ center, zoom, markers = [], height = 260, al
     params.append('markers', `color:${hex}|${location}`)
   }
   const src = `https://maps.googleapis.com/maps/api/staticmap?${params.toString()}`
+  const image = (
+    <img
+      src={src}
+      alt={alt}
+      width={700}
+      height={height}
+      style={{ width: '100%', height, objectFit: 'cover', display: 'block' }}
+      loading="lazy"
+    />
+  )
 
   return (
     <div className="map-frame">
-      <img
-        src={src}
-        alt={alt}
-        width={700}
-        height={height}
-        style={{ width: '100%', height, objectFit: 'cover', display: 'block' }}
-        loading="lazy"
-      />
+      {link ? (
+        <a href={link} target="_blank" rel="noreferrer" aria-label={alt}>
+          {image}
+        </a>
+      ) : (
+        image
+      )}
     </div>
   )
 }

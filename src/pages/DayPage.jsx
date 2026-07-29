@@ -87,6 +87,7 @@ export default function DayPage({ userEmail }) {
           markers={route.map(([lat, lon]) => ({ lat, lon, color: city.color }))}
           height={200}
           alt={`Stops for ${activity.name}`}
+          link={activity.directionsUrl}
         />
       ) : day.coords ? (
         <StaticMap
@@ -95,6 +96,7 @@ export default function DayPage({ userEmail }) {
           height={200}
           alt={`Map of ${day.cityDay}`}
           markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color }]}
+          link={`https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}`}
         />
       ) : null}
 

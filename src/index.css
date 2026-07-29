@@ -259,6 +259,8 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   border-bottom: 1px solid var(--line);
   margin: 0 calc(-1 * var(--main-px));
 }
+.map-frame a { display: block; transition: opacity 0.15s; }
+.map-frame a:hover, .map-frame a:active { opacity: 0.85; }
 
 /* ---------- Trip calendar (home page month grid) ---------- */
 
