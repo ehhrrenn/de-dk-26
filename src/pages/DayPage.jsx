@@ -141,8 +141,19 @@ export default function DayPage({ userEmail }) {
                     {a.summary && <div className="timeline-note">{a.summary}</div>}
                     {a.startingPoint && <div className="timeline-note">Start: {a.startingPoint}</div>}
                     {a.travelers?.length > 0 && <div className="timeline-note">Travelers: {a.travelers.join(', ')}</div>}
-                    {(a.directionsUrl || a.websiteUrl) && (
+                    {(a.startDirectionsUrl || a.directionsUrl || a.websiteUrl) && (
                       <div className="timeline-actions">
+                        {a.startDirectionsUrl && (
+                          <a
+                            href={a.startDirectionsUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="btn"
+                            style={{ display: 'inline-block', textDecoration: 'none' }}
+                          >
+                            {a.startDirectionsLabel || 'Get directions to the start →'}
+                          </a>
+                        )}
                         {a.directionsUrl && (
                           <a
                             href={a.directionsUrl}
