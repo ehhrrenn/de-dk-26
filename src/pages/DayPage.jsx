@@ -112,7 +112,7 @@ export default function DayPage({ userEmail }) {
               onClick={() => setActiveIndex(i)}
             >
               <Icon name={a.icon} size={16} />
-              <span>{a.name}</span>
+              <span>{a.tabLabel || a.name}</span>
             </button>
           ))}
         </div>

@@ -19,10 +19,14 @@ export function categorySummary(activities = []) {
   return categories.length ? categories.join(' + ') : 'Free day'
 }
 
-// The headline shown for a day -- its travel route, its activity name(s),
-// or "Free day". Shared by LocationPage's itinerary rows and DayPage's
-// header so both read the same way.
+// The headline shown for a day -- its own `title` override if set, its
+// travel route, its activity name(s), or "Free day". Shared by
+// LocationPage's itinerary rows and DayPage's header so both read the same
+// way. The override exists for days whose activities have short/generic
+// names (e.g. multi-phase tabs) that would otherwise concatenate into an
+// unreadable header.
 export function dayTitle(day) {
+  if (day.title) return day.title
   if (day.isTravelDay) return `${day.cityDay} → ${day.cityNight}`
   const names = (day.activities ?? []).map((a) => a.name).join(' + ')
   return names || 'Free day'
