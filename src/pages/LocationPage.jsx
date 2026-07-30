@@ -3,7 +3,7 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { categorySummary, dayTitle, formatShortDate, mapsDirectionsUrl, mapsSearchUrl } from '../utils/helpers'
+import { categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -30,7 +30,7 @@ export default function LocationPage({ userEmail }) {
   }
 
   const { lodging } = location
-  const lodgingMapsUrl = mapsDirectionsUrl(lodging?.address)
+  const lodgingMapsUrl = mapsSearchUrl(lodging?.address)
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
   const places = SAVED_PLACES[slug] || []
 

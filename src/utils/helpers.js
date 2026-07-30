@@ -57,15 +57,11 @@ export function formatUSD(n) {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 }
 
-// Derived (never stored) so it can't drift from the address it's built from.
-export function mapsDirectionsUrl(address) {
-  if (!address) return null
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(address)}`
-}
-
-// Like mapsDirectionsUrl, but opens a search/info page instead of routing --
-// used for named points of interest where we only have a name, not an
-// address, and want Google's own search to resolve it.
+// Opens a place's Google Maps search/info page (not the Directions panel) --
+// derived (never stored) so it can't drift from the address it's built from.
+// Deliberately not a /dir/ URL: pin-only links are what every "get to"
+// button in this app uses, so users land on the actual place (photos,
+// reviews) instead of a preloaded route from an assumed "current location."
 export function mapsSearchUrl(query) {
   if (!query) return null
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`

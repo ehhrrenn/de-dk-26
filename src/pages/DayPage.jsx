@@ -151,7 +151,7 @@ export default function DayPage({ userEmail }) {
                             className="btn"
                             style={{ display: 'inline-block', textDecoration: 'none' }}
                           >
-                            {a.startDirectionsLabel || 'Get directions to the start →'}
+                            {a.startDirectionsLabel || 'Get directions to the start'}
                           </a>
                         )}
                         {a.directionsUrl && (
@@ -162,7 +162,7 @@ export default function DayPage({ userEmail }) {
                             className="btn primary"
                             style={{ display: 'inline-block', textDecoration: 'none' }}
                           >
-                            {a.linkLabel || 'Get directions for this day →'}
+                            {a.linkLabel || 'Get directions for this day'}
                           </a>
                         )}
                         {a.websiteUrl && (
@@ -173,7 +173,7 @@ export default function DayPage({ userEmail }) {
                             className="btn"
                             style={{ display: 'inline-block', textDecoration: 'none' }}
                           >
-                            {a.websiteLabel || 'Visit website →'}
+                            {a.websiteLabel || 'Visit website'}
                           </a>
                         )}
                       </div>
@@ -192,6 +192,11 @@ export default function DayPage({ userEmail }) {
                   <div className="timeline-time mono">{row.event.time}</div>
                   <div className="timeline-title">{row.event.title}</div>
                   {row.event.description && <div className="timeline-note">{row.event.description}</div>}
+                  {row.event.wikipediaUrl && (
+                    <a href={row.event.wikipediaUrl} target="_blank" rel="noreferrer" className="timeline-wiki-link">
+                      Read more on Wikipedia
+                    </a>
+                  )}
                 </span>
               </div>
             )

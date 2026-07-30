@@ -611,6 +611,16 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
 
 .timeline-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
 
+.timeline-wiki-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--city-text-safe, var(--link));
+  text-decoration: none;
+}
+.timeline-wiki-link:hover { text-decoration: underline; }
+
 /* ---------- Buttons & forms ---------- */
 
 .btn {

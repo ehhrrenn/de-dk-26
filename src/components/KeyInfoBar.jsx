@@ -1,4 +1,4 @@
-import { mapsDirectionsUrl, formatUSD } from '../utils/helpers'
+import { mapsSearchUrl, formatUSD } from '../utils/helpers'
 import { useRegion } from '../context/RegionContext'
 import Icon from './Icon'
 
@@ -16,7 +16,7 @@ export default function KeyInfoBar({ locations }) {
   if (!location || !location.lodging) return null
 
   const { lodging } = location
-  const mapsUrl = mapsDirectionsUrl(lodging.address)
+  const mapsUrl = mapsSearchUrl(lodging.address)
   const next = locations[index + 1]
 
   return (
@@ -35,7 +35,7 @@ export default function KeyInfoBar({ locations }) {
           </div>
         </div>
         {mapsUrl && (
-          <a className="directions-btn" href={mapsUrl} target="_blank" rel="noreferrer">Directions →</a>
+          <a className="directions-btn" href={mapsUrl} target="_blank" rel="noreferrer">Directions</a>
         )}
       </div>
       <div className="key-info-meta">
