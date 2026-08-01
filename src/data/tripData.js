@@ -725,8 +725,23 @@ export const DAYS = [
     travel: null,
     lodging: null,
     coords: [55.6761, 12.5683],
-    notes: 'Free day -- nothing scheduled yet.',
-    activities: [],
+    notes: '',
+    activities: [
+      {
+        id: 'day-14-schonnemann-dinner',
+        name: 'Lunch at Restaurant Schønnemann',
+        icon: 'dining',
+        category: 'Dining',
+        cost: null,
+        summary: 'A la carte, table for 8. Booking ID #62498751.',
+        startingPoint: 'Restaurant Schønnemann, Hauser Plads 16-18, 1127 København K, Denmark',
+        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Restaurant%20Sch%C3%B8nnemann%2C%20Hauser%20Plads%2016-18%2C%201127%20K%C3%B8benhavn%20K%2C%20Denmark',
+        events: [
+          { time: '2:15 PM', title: 'Lunch at Restaurant Schønnemann', description: 'A la carte, table for 8. Booking ID #62498751.' },
+        ],
+        tips: [],
+      },
+    ],
   },
   {
     id: 'day-15',
