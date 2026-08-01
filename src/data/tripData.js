@@ -684,6 +684,21 @@ export const DAYS = [
     notes: 'Otherwise free -- explore Copenhagen at your own pace.',
     activities: [
       {
+        id: 'day-13-bike-tour',
+        name: 'Copenhagen Highlights 3 Hour Bike Tour with local Guide',
+        icon: 'bike',
+        category: 'Tour',
+        cost: 504.00,
+        summary: 'Viator-booked guided bike tour with Tropical Bikes. 3 hours, 8 guests. Booking ref #1430833891, confirmation #1813033821.',
+        startingPoint: 'Tropical Bikes, Vester Voldgade 2, 1552 Copenhagen, Denmark',
+        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Tropical%20Bikes%2C%20Vester%20Voldgade%202%2C%20Copenhagen%2C%20Denmark',
+        linkLabel: 'Get directions to the meeting place',
+        events: [
+          { time: '11:00 AM', title: 'Copenhagen Highlights 3 Hour Bike Tour', description: 'Meet Tropical Bikes (+45 50 32 11 00) at Vester Voldgade 2, Copenhagen. 3-hour tour, 8 guests. Mobile ticket accepted; full refund if cancelled 24+ hours ahead.' },
+        ],
+        tips: [],
+      },
+      {
         id: 'day-13-host-dinner',
         name: 'Dinner at Høst',
         icon: 'dining',
