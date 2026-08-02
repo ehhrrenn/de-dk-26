@@ -4,3 +4,11 @@ dist
 .env.local
 .DS_Store
 *.log
+
+# Firebase Admin service-account keys -- never commit these
+*serviceAccount*.json
+*service-account*.json
+
+# Real traveler roster for scripts/seed-allowlist.js -- contains personal
+# data (names/emails), never commit it. See allowlist-roster.example.json.
+scripts/allowlist-roster.json

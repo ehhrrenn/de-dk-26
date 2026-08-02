@@ -31,6 +31,31 @@ Access control lives entirely in Firestore data, never in code:
 
 Add/remove people any time without touching code or redeploying.
 
+### Scripting it instead
+
+For adding a batch of people at once, `scripts/seed-allowlist.js` uses
+the Firebase Admin SDK to write the same kind of documents from a list
+in code, instead of clicking through the console one at a time:
+
+1. `cp scripts/allowlist-roster.example.json scripts/allowlist-roster.json`
+   and fill in real names/emails. This file holds personal data, so it's
+   gitignored — never commit it.
+2. Firebase Console -> Project settings -> Service accounts -> **Generate
+   new private key** (needs Firestore access; this can be a different
+   key than the Hosting deploy one in step 6 below). Don't commit this
+   either.
+3. Run it with the key's path in an env var:
+   ```bash
+   GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json pnpm seed-allowlist
+   ```
+
+The Admin SDK bypasses `firestore.rules` entirely (that's what lets it
+write to `/allowlist` even though the rules block everyone else from
+touching that collection), so treat the key like any other credential.
+`scripts/seed-allowlist.js` itself is generic and safe to commit — it
+never contains anyone's actual name or email, only the file that reads
+from it locally does.
+
 ## 4. Deploy the Firestore security rules
 
 Rules in `firestore.rules` restrict all reads/writes to emails present in
