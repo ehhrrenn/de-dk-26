@@ -71,14 +71,78 @@ a { color: var(--link); }
   border-bottom: 1px solid var(--line);
 }
 
-.header h1 {
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.header-eyebrow {
   font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.header-serif {
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 800;
   font-size: 30px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   color: var(--ink);
   margin: 0;
   line-height: 1.15;
+}
+
+.header-footnote {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  opacity: 0.75;
+}
+
+.header-faces {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-faces-left { margin-right: -8px; }
+.header-faces-right { margin-left: -6px; }
+
+.header-face {
+  height: 62px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+}
+
+.header-face-blake {
+  transform: rotate(-10deg);
+  position: relative;
+  z-index: 1;
+}
+
+.header-face-myra {
+  transform: rotate(8deg);
+  margin-left: -26px;
+  z-index: 2;
+}
+
+.header-face-selena {
+  transform: rotate(-8deg);
 }
 
 .app-title-link { text-decoration: none; }
