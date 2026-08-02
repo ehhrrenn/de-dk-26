@@ -137,7 +137,7 @@ a { color: var(--link); }
 
 .header-face-myra {
   transform: rotate(8deg);
-  margin-left: -26px;
+  margin-left: -4px;
   z-index: 2;
 }
 
