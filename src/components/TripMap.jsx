@@ -29,6 +29,18 @@ import { mapsSearchUrl } from '../utils/helpers'
 
 setOptions({ key: import.meta.env.VITE_GOOGLE_MAPS_STATIC_KEY, v: 'weekly' })
 
+// A bad/missing key, an un-enabled API, or a referrer restriction doesn't
+// reject any promise -- Google detects it asynchronously (once the map
+// tries to fetch tile data, after the script itself already loaded fine)
+// and calls this global callback instead, while also dropping its own
+// intrusive "Oops! Something went wrong" banner into the map container.
+// Every currently-mounted TripMap registers itself here so it can fall back
+// to our own contained error state instead.
+const authFailureListeners = new Set()
+window.gm_authFailure = () => {
+  for (const fn of authFailureListeners) fn()
+}
+
 // Loading the "maps"/"marker"/"geocoding" libraries also populates the
 // classes we use (Map, Marker, Geocoder, InfoWindow, LatLngBounds, ...) onto
 // the global `google.maps` namespace, which is what the rest of this file
@@ -73,6 +85,13 @@ export default function TripMap({ center, zoom, markers = [], height = 260, alt,
     let cancelled = false
     const placed = []
     let infoWindow = null
+
+    const onAuthFailure = () => {
+      if (cancelled) return
+      containerRef.current?.replaceChildren()
+      setStatus('error')
+    }
+    authFailureListeners.add(onAuthFailure)
 
     loadGoogleMaps()
       .then(async () => {
@@ -147,6 +166,7 @@ export default function TripMap({ center, zoom, markers = [], height = 260, alt,
 
     return () => {
       cancelled = true
+      authFailureListeners.delete(onAuthFailure)
       for (const marker of placed) marker.setMap(null)
       infoWindow?.close()
     }
