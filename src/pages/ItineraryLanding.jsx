@@ -3,7 +3,7 @@ import { deleteField } from 'firebase/firestore'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DAYS, locationsFromDays } from '../data/tripData'
 import { TRAVELERS } from '../data/travelers'
-import StaticMap from '../components/StaticMap'
+import TripMap from '../components/TripMap'
 import TripCalendar from '../components/TripCalendar'
 import NotAuthorized from '../components/NotAuthorized'
 
@@ -69,10 +69,10 @@ export default function ItineraryLanding({ userEmail }) {
 
   return (
     <div>
-      <StaticMap
+      <TripMap
         height={280}
         alt="Map of the trip route across Munich, the Rhine Valley, Berlin, and Copenhagen"
-        markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color }))}
+        markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color, label: loc.label }))}
         link={overviewMapsUrl}
       />
 

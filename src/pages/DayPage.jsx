@@ -5,7 +5,7 @@ import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
 import { activityLocation, categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
-import StaticMap from '../components/StaticMap'
+import TripMap from '../components/TripMap'
 import Icon from '../components/Icon'
 import NotAuthorized from '../components/NotAuthorized'
 
@@ -43,13 +43,16 @@ export default function DayPage({ userEmail }) {
   // Every activity scheduled today gets a pin, not just whichever tab is
   // selected -- the active tab's full turn-by-turn route (when it has one)
   // is layered on top for extra detail on the walk/route being viewed.
-  const activePins = route
+  const activePins = (route
     ? route.map(([lat, lon]) => ({ lat, lon }))
     : [activityLocation(activity)].filter(Boolean)
+  ).map((loc) => ({ ...loc, label: activity?.name }))
   const otherPins = activities
     .filter((a) => a !== activity)
-    .map((a) => activityLocation(a))
-    .filter(Boolean)
+    .flatMap((a) => {
+      const loc = activityLocation(a)
+      return loc ? [{ ...loc, label: a.name }] : []
+    })
   const dayMarkers = [...activePins, ...otherPins].map((loc) => ({ ...loc, color: city.color }))
   const dayMapLink = activity?.directionsUrl || (day.coords ? `https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}` : undefined)
 
@@ -96,19 +99,19 @@ export default function DayPage({ userEmail }) {
       )}
 
       {dayMarkers.length > 0 ? (
-        <StaticMap
+        <TripMap
           markers={dayMarkers}
           height={200}
           alt={`Map for ${dayTitle(day)}`}
           link={dayMapLink}
         />
       ) : day.coords ? (
-        <StaticMap
+        <TripMap
           center={day.coords}
           zoom={12}
           height={200}
           alt={`Map of ${day.cityDay}`}
-          markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color }]}
+          markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color, label: day.cityDay }]}
           link={`https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}`}
         />
       ) : null}

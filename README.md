@@ -11,12 +11,12 @@ pull request), Firebase (Auth + Firestore) for shared, live-editable data.
 3. **Build → Firestore Database → Create database** (production mode, pick any region — pick one close to your group).
 4. **Project settings → General → Your apps → Web (</>)** → register an app (no hosting needed). Copy the `firebaseConfig` values.
 
-## 2. Get a Google Maps Static API key
+## 2. Get a Google Maps API key
 
-Used to render the trip route/location map images.
+Used to render the interactive trip map (pins only -- no drawn routes).
 
-1. [console.cloud.google.com](https://console.cloud.google.com) → create or pick a project → **billing must be enabled** on it (a card on file — Google requires this for a production key even though this app's traffic will realistically stay within the free 10,000 map-loads/month tier; static maps are $2 per 1,000 loads after that).
-2. **APIs & Services → Library** → enable **Maps Static API**.
+1. [console.cloud.google.com](https://console.cloud.google.com) → create or pick a project → **billing must be enabled** on it (a card on file — Google requires this for a production key, even though this app's traffic will realistically stay well within the free monthly tier; check [console.cloud.google.com/billing](https://console.cloud.google.com/billing) for current Maps Platform pricing).
+2. **APIs & Services → Library** → enable **Maps JavaScript API** and **Geocoding API**.
 3. **APIs & Services → Credentials → Create credentials → API key.**
 4. Click the new key → **Application restrictions → Websites** → add your Firebase Hosting origins (`https://<project-id>.web.app/*` and `https://<project-id>.firebaseapp.com/*`) and, for local dev, `http://localhost:*`. This is what keeps the key safe to ship in client-side code. (PR preview channels are subdomains of the same site, e.g. `https://<project-id>--pr123-*.web.app`, so if you want maps to render on previews too, add `https://<project-id>--*.web.app/*`.)
 
