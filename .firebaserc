@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "de-dk-2026"
+  },
+  "targets": {
+    "de-dk-2026": {
+      "hosting": {
+        "trip": [
+          "blakeandmyras40thbirthdayoctoberfestandselenasbirthdaytoo"
+        ]
+      }
+    }
+  }
+}
