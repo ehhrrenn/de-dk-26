@@ -3,7 +3,7 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../utils/helpers'
+import { activityLocation, categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -33,6 +33,13 @@ export default function LocationPage({ userEmail }) {
   const lodgingMapsUrl = mapsSearchUrl(lodging?.address)
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
   const places = SAVED_PLACES[slug] || []
+  // Every activity across every day spent in this location gets its own
+  // pin, alongside the city center and saved places, so the map reflects
+  // everywhere the itinerary actually goes here.
+  const activityPins = location.days
+    .flatMap((day) => day.activities ?? [])
+    .map((a) => activityLocation(a))
+    .filter(Boolean)
 
   return (
     <div style={{ '--city-color': city.color, '--city-on': city.onColor, '--city-text-safe': city.textColor }} data-region={slug}>
@@ -59,6 +66,7 @@ export default function LocationPage({ userEmail }) {
           markers={[
             { lat: city.coords[0], lon: city.coords[1], color: city.color },
             ...places.map((p) => ({ query: `${p.name}, ${city.country}`, color: city.color })),
+            ...activityPins.map((loc) => ({ ...loc, color: city.color })),
           ]}
           link={cityMapsUrl}
         />

@@ -94,3 +94,26 @@ export function parseDirectionsUrl(url) {
     return null
   }
 }
+
+// A single point representing where an activity actually happens -- the
+// destination of its directions link (not the route's turn-by-turn
+// waypoints, which are only useful when viewing that one route) or, for
+// activities we only know by name, a text query Google's static-map
+// geocoder can resolve. Returns null for activities with no map-able
+// location (e.g. a flight or a train-booking link).
+export function activityLocation(activity) {
+  const url = activity?.directionsUrl
+  if (!url) return null
+  try {
+    const params = new URL(url).searchParams
+    const destination = params.get('destination')
+    if (destination) {
+      const [lat, lon] = destination.split(',').map(Number)
+      return Number.isFinite(lat) && Number.isFinite(lon) ? { lat, lon } : null
+    }
+    const query = params.get('query')
+    return query ? { query } : null
+  } catch {
+    return null
+  }
+}

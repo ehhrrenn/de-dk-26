@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
-import { categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
+import { activityLocation, categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
@@ -39,6 +39,19 @@ export default function DayPage({ userEmail }) {
   const activities = day.activities ?? []
   const activity = activities[activeIndex] ?? activities[0] ?? null
   const route = parseDirectionsUrl(activity?.directionsUrl)
+
+  // Every activity scheduled today gets a pin, not just whichever tab is
+  // selected -- the active tab's full turn-by-turn route (when it has one)
+  // is layered on top for extra detail on the walk/route being viewed.
+  const activePins = route
+    ? route.map(([lat, lon]) => ({ lat, lon }))
+    : [activityLocation(activity)].filter(Boolean)
+  const otherPins = activities
+    .filter((a) => a !== activity)
+    .map((a) => activityLocation(a))
+    .filter(Boolean)
+  const dayMarkers = [...activePins, ...otherPins].map((loc) => ({ ...loc, color: city.color }))
+  const dayMapLink = activity?.directionsUrl || (day.coords ? `https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}` : undefined)
 
   // Days with more than one activity (e.g. two alternative Sunday plans)
   // are distinct, optional itineraries -- shown as tabs rather than
@@ -82,12 +95,12 @@ export default function DayPage({ userEmail }) {
         </div>
       )}
 
-      {route ? (
+      {dayMarkers.length > 0 ? (
         <StaticMap
-          markers={route.map(([lat, lon]) => ({ lat, lon, color: city.color }))}
+          markers={dayMarkers}
           height={200}
-          alt={`Stops for ${activity.name}`}
-          link={activity.directionsUrl}
+          alt={`Map for ${dayTitle(day)}`}
+          link={dayMapLink}
         />
       ) : day.coords ? (
         <StaticMap
