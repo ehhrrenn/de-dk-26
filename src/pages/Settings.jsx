@@ -1,29 +1,19 @@
 import { useState } from 'react'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { formatUSD } from '../utils/helpers'
-import NotAuthorized from '../components/NotAuthorized'
 
-const BLANK_TRAVELER = {
-  name: '', passportNo: '', dob: '', placeOfBirth: '', sex: '', issueDate: '', expiryDate: '',
-}
+const BLANK_TRAVELER = { name: '' }
 
 const BOOKING_TYPES = ['Flight', 'Train', 'Hotel', 'Car', 'Ferry', 'Other']
 const BLANK_BOOKING = { type: 'Flight', title: '', date: '', confirmation: '', cost: '', link: '', notes: '' }
 
-function mask(value) {
-  if (!value) return ''
-  if (value.length <= 4) return value
-  return '••••' + value.slice(-4)
-}
-
-export default function Settings({ userEmail }) {
+export default function Settings() {
   const { items, loading, error, add, remove } = useFirestoreCollection('travelers')
   const { items: bookings, loading: bookingsLoading, error: bookingsError, add: addBooking, remove: removeBooking } = useFirestoreCollection('bookings')
   const [form, setForm] = useState(null)
-  const [revealed, setRevealed] = useState({})
   const [bookingForm, setBookingForm] = useState(null)
 
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading) return <div className="empty-state">Loading settings…</div>
 
   async function save(e) {
@@ -48,8 +38,8 @@ export default function Settings({ userEmail }) {
 
       <h2 className="subsection-heading">Travelers</h2>
       <p className="muted" style={{ fontSize: 13, marginTop: -10, marginBottom: 16 }}>
-        Passport details entered here go straight to Firestore — they're never stored in the
-        app's code or GitHub repo. Numbers are masked until tapped.
+        Just names -- this site is public, so nothing sensitive (passport numbers, DOB, etc.)
+        is collected here.
       </p>
 
       {items.length === 0 && !form && (
@@ -62,46 +52,21 @@ export default function Settings({ userEmail }) {
             <strong>{t.name}</strong>
             <button className="btn ghost" onClick={() => remove(t.id)} aria-label={`Remove ${t.name}`}>✕</button>
           </div>
-          <div className="mono muted" style={{ fontSize: 13, marginTop: 6 }}>
-            <button
-              className="btn ghost"
-              style={{ padding: '2px 8px', fontSize: 12 }}
-              onClick={() => setRevealed((r) => ({ ...r, [t.id]: !r[t.id] }))}
-            >
-              {revealed[t.id] ? t.passportNo : mask(t.passportNo)}
-            </button>
-          </div>
-          <div className="muted" style={{ fontSize: 13, marginTop: 6 }}>
-            DOB {t.dob} · {t.placeOfBirth} · {t.sex}
-          </div>
-          <div className="muted" style={{ fontSize: 13 }}>
-            Issued {t.issueDate} · Expires {t.expiryDate}
-          </div>
         </div>
       ))}
 
       {form ? (
         <form className="card" onSubmit={save}>
-          {[
-            ['name', 'Full name (as on passport)', 'text'],
-            ['passportNo', 'Passport number', 'text'],
-            ['dob', 'Date of birth', 'date'],
-            ['placeOfBirth', 'Place of birth', 'text'],
-            ['sex', 'Sex (as on passport)', 'text'],
-            ['issueDate', 'Issue date', 'date'],
-            ['expiryDate', 'Expiry date', 'date'],
-          ].map(([key, label, type]) => (
-            <div className="field" key={key}>
-              <label htmlFor={key}>{label}</label>
-              <input
-                id={key}
-                type={type}
-                required={key === 'name'}
-                value={form[key]}
-                onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-              />
-            </div>
-          ))}
+          <div className="field">
+            <label htmlFor="name">Full name</label>
+            <input
+              id="name"
+              type="text"
+              required
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
+          </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <button className="btn primary" type="submit">Save traveler</button>
             <button className="btn ghost" type="button" onClick={() => setForm(null)}>Cancel</button>

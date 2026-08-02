@@ -7,9 +7,8 @@ import { categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsU
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
-import NotAuthorized from '../components/NotAuthorized'
 
-export default function DayPage({ userEmail }) {
+export default function DayPage() {
   const { dayId } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
   const [activeIndex, setActiveIndex] = useState(0)
@@ -23,7 +22,7 @@ export default function DayPage({ userEmail }) {
   const slug = day ? resolveDaySlug(day, sorted) : null
   useSetRegion(slug)
 
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading) return <div className="empty-state">Loading day…</div>
 
   if (!day) {

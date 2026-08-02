@@ -2,14 +2,15 @@
 
 Shared itinerary app for the Germany + Denmark trip (Sept 17 – Oct 1, 2026).
 React (Vite) frontend on Firebase Hosting (with a preview URL for every
-pull request), Firebase (Auth + Firestore) for shared, live-editable data.
+pull request), Firestore for shared, live-editable data. The site is
+intentionally public — no sign-in, no access control — see "A note on
+what's public" below.
 
 ## 1. Create the Firebase project
 
 1. [console.firebase.google.com](https://console.firebase.google.com) → **Add project**.
-2. **Build → Authentication → Get started → Sign-in method → Google → Enable.**
-3. **Build → Firestore Database → Create database** (production mode, pick any region — pick one close to your group).
-4. **Project settings → General → Your apps → Web (</>)** → register an app (no hosting needed). Copy the `firebaseConfig` values.
+2. **Build → Firestore Database → Create database** (production mode, pick any region — pick one close to your group).
+3. **Project settings → General → Your apps → Web (</>)** → register an app (no hosting needed). Copy the `firebaseConfig` values.
 
 ## 2. Get a Google Maps Static API key
 
@@ -20,46 +21,11 @@ Used to render the trip route/location map images.
 3. **APIs & Services → Credentials → Create credentials → API key.**
 4. Click the new key → **Application restrictions → Websites** → add your Firebase Hosting origins (`https://<project-id>.web.app/*` and `https://<project-id>.firebaseapp.com/*`) and, for local dev, `http://localhost:*`. This is what keeps the key safe to ship in client-side code. (PR preview channels are subdomains of the same site, e.g. `https://<project-id>--pr123-*.web.app`, so if you want maps to render on previews too, add `https://<project-id>--*.web.app/*`.)
 
-## 3. Add your group to the allowlist
+## 3. Deploy the Firestore security rules
 
-Access control lives entirely in Firestore data, never in code:
-
-- Firestore Database → **Start collection** → collection ID `allowlist`.
-- Add one document per traveler, **document ID = their exact Google email**
-  (e.g. `alex@gmail.com`). The document's fields don't matter — its
-  existence is what grants access. A single field like `name: "Alex"` is fine.
-
-Add/remove people any time without touching code or redeploying.
-
-### Scripting it instead
-
-For adding a batch of people at once, `scripts/seed-allowlist.js` uses
-the Firebase Admin SDK to write the same kind of documents from a list
-in code, instead of clicking through the console one at a time:
-
-1. `cp scripts/allowlist-roster.example.json scripts/allowlist-roster.json`
-   and fill in real names/emails. This file holds personal data, so it's
-   gitignored — never commit it.
-2. Firebase Console -> Project settings -> Service accounts -> **Generate
-   new private key** (needs Firestore access; this can be a different
-   key than the Hosting deploy one in step 6 below). Don't commit this
-   either.
-3. Run it with the key's path in an env var:
-   ```bash
-   GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json pnpm seed-allowlist
-   ```
-
-The Admin SDK bypasses `firestore.rules` entirely (that's what lets it
-write to `/allowlist` even though the rules block everyone else from
-touching that collection), so treat the key like any other credential.
-`scripts/seed-allowlist.js` itself is generic and safe to commit — it
-never contains anyone's actual name or email, only the file that reads
-from it locally does.
-
-## 4. Deploy the Firestore security rules
-
-Rules in `firestore.rules` restrict all reads/writes to emails present in
-`/allowlist`. Deploy them with the [Firebase CLI](https://firebase.google.com/docs/cli):
+Rules in `firestore.rules` allow open read/write on `days`, `bookings`,
+and `travelers` — no auth, no allowlist. Deploy them with the
+[Firebase CLI](https://firebase.google.com/docs/cli):
 
 ```bash
 pnpm add -g firebase-tools
@@ -71,7 +37,7 @@ firebase deploy --only firestore:rules
 (Or paste the contents of `firestore.rules` into Firestore Database →
 Rules in the console and click Publish.)
 
-## 5. Local development
+## 4. Local development
 
 ```bash
 pnpm install
@@ -79,12 +45,12 @@ cp .env.example .env.local  # fill in the firebaseConfig values (step 1) and the
 pnpm dev
 ```
 
-Sign in and visit the home page once — it automatically pushes the parsed
-schedule from `src/data/tripData.js` into Firestore on load (see
+Visit the home page once — it automatically pushes the parsed schedule
+from `src/data/tripData.js` into Firestore on load (see
 `ItineraryLanding.jsx`), merging in any changes each time. Bookings and
 travelers live only in Firestore and are edited entirely in-app.
 
-## 6. Deploy to Firebase Hosting (with PR previews)
+## 5. Deploy to Firebase Hosting (with PR previews)
 
 This repo follows Firebase's
 [GitHub integration](https://firebase.google.com/docs/hosting/github-integration)
@@ -100,13 +66,15 @@ deploy to the live site. `firebase.json`'s `hosting` block serves the Vite
 4. Open a pull request. `.github/workflows/firebase-hosting-pull-request.yml` builds it and comments the preview URL on the PR (preview channels expire after a few days by default).
 5. Merge to `main`. `.github/workflows/firebase-hosting-merge.yml` builds and deploys to the live channel — your site at `https://<project-id>.web.app`.
 
-## A privacy note on traveler info
+## A note on what's public
 
-Passport numbers and dates of birth are sensitive. They are **not**
-seeded anywhere in this codebase — the Travelers section on the Settings
-page only writes to Firestore when someone fills out the form in the app
-itself, so that data never ends up in git history, even if this repo is
-public. Numbers are masked in the UI until tapped.
+This site has no sign-in and no access control (`firestore.rules` is
+open on every collection) — anyone with the URL can read and edit the
+itinerary, bookings, and traveler list. That's intentional. To keep it
+safe to leave open, the Travelers section on the Settings page only
+ever collects a **name**, nothing more — no passport numbers, DOB, or
+other sensitive identity data is collected or stored anywhere in this
+app.
 
 ## What got adjusted while importing the original sheet
 

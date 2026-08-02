@@ -7,14 +7,13 @@ import { categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../ut
 import { useSetRegion } from '../context/RegionContext'
 import StaticMap from '../components/StaticMap'
 import Icon from '../components/Icon'
-import NotAuthorized from '../components/NotAuthorized'
 
-export default function LocationPage({ userEmail }) {
+export default function LocationPage() {
   const { slug } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
   useSetRegion(CITIES[slug] ? slug : null)
 
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading) return <div className="empty-state">Loading location…</div>
 
   const city = CITIES[slug]
