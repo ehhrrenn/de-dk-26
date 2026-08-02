@@ -56,8 +56,7 @@ pnpm dev
 
 Sign in and visit the home page once — it automatically pushes the parsed
 schedule from `src/data/tripData.js` into Firestore on load (see
-`ItineraryLanding.jsx`), merging in any changes each time. Bookings and
-travelers live only in Firestore and are edited entirely in-app.
+`ItineraryLanding.jsx`), merging in any changes each time.
 
 ## 6. Deploy to Firebase Hosting (with PR previews)
 
@@ -74,14 +73,6 @@ deploy to the live site. `firebase.json`'s `hosting` block serves the Vite
    - Each `VITE_FIREBASE_*` value and `VITE_GOOGLE_MAPS_STATIC_KEY` from your `.env.local`, if not already added. The Firebase values aren't sensitive (that config is meant to be public — real security is the Firestore rules); the maps key *is* meant to be restricted (step 2.4 above) but is also a normal client-side value once restricted — secrets just keep both out of the repo's committed files.
 4. Open a pull request. `.github/workflows/firebase-hosting-pull-request.yml` builds it and comments the preview URL on the PR (preview channels expire after a few days by default).
 5. Merge to `main`. `.github/workflows/firebase-hosting-merge.yml` builds and deploys to the live channel — your site at `https://<project-id>.web.app`.
-
-## A privacy note on traveler info
-
-Passport numbers and dates of birth are sensitive. They are **not**
-seeded anywhere in this codebase — the Travelers section on the Settings
-page only writes to Firestore when someone fills out the form in the app
-itself, so that data never ends up in git history, even if this repo is
-public. Numbers are masked in the UI until tapped.
 
 ## What got adjusted while importing the original sheet
 
@@ -106,6 +97,5 @@ public. Numbers are masked in the UI until tapped.
 - `src/data/tripData.js` — edit before the first import, or edit live data
   directly in the Firestore console / a future in-app editor.
 - `src/data/cities.js` — city colors and anchor coordinates.
-- Add a day-level "notes/journal" collection the same way `bookings` (now
-  scoped per day via a `dayId` field, see `src/components/DayBookings.jsx`)
-  and `travelers` were added, using `useFirestoreCollection`.
+- Add a new Firestore-backed collection using `useFirestoreCollection` the
+  same way `days` was added.

@@ -100,18 +100,6 @@ a { color: var(--link); }
   color: var(--amber-dim);
 }
 
-.settings-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: var(--ink-soft);
-  padding: 5px;
-  border-radius: 8px;
-  line-height: 0;
-}
-.settings-link:hover { color: var(--link); }
-
 /* ---------- Sticky nav + key-info ---------- */
 
 .sticky-wrap {

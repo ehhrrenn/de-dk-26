@@ -58,16 +58,14 @@ All of these are gated by the same `isMember()` check in `firestore.rules`:
 
 - `allowlist` — write-protected doc-per-email, existence-only, never read directly
 - `days` — the itinerary, seeded from `src/data/tripData.js` on first load (see `ItineraryLanding.jsx`)
-- `bookings` — day-scoped bookings, used in `src/pages/Settings.jsx` via `useFirestoreCollection('bookings')`
-- `travelers` — traveler info including sensitive fields (passport numbers, DOB), used in `src/pages/Settings.jsx` via `useFirestoreCollection('travelers')`
 
 ## Adding a new Firestore-backed collection
 
 Follow the existing pattern rather than inventing a new one:
 
-1. **In `firestore.rules`**, add a new `match /yourCollection/{id} { allow read, write: if isMember(); }` block (mirror the `bookings`/`travelers` blocks). Don't forget rules only take effect once deployed (see below) — editing the file alone does nothing in production.
+1. **In `firestore.rules`**, add a new `match /yourCollection/{id} { allow read, write: if isMember(); }` block (mirror the `days` block). Don't forget rules only take effect once deployed (see below) — editing the file alone does nothing in production.
 2. **In a component/page**, call `useFirestoreCollection('yourCollection')` to get `{ items, loading, error, add, update, remove }` — this hook already handles realtime sync and the permission-denied case, so there's normally no need to write raw `firebase/firestore` calls.
-3. If the collection needs a more restrictive rule than "any allowlisted member can read/write everything" (e.g. a traveler editing only their own record), that's a deliberate rules change — flag it rather than silently keeping the blanket `isMember()` rule, since `firestore.rules` currently comments that `travelers` was split out specifically so this could be tightened later.
+3. If the collection needs a more restrictive rule than "any allowlisted member can read/write everything" (e.g. a user editing only their own record), that's a deliberate rules change — flag it rather than silently keeping the blanket `isMember()` rule.
 
 ## Deploying rule changes
 
