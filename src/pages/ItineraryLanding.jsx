@@ -4,9 +4,8 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DAYS, locationsFromDays } from '../data/tripData'
 import TripMap from '../components/TripMap'
 import TripCalendar from '../components/TripCalendar'
-import NotAuthorized from '../components/NotAuthorized'
 
-export default function ItineraryLanding({ userEmail }) {
+export default function ItineraryLanding() {
   const { items, loading, error, add } = useFirestoreCollection('days')
   const syncedRef = useRef(false)
 
@@ -26,7 +25,7 @@ export default function ItineraryLanding({ userEmail }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, error])
 
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading || items.length === 0) return <div className="empty-state">Loading itinerary…</div>
 
   const locations = locationsFromDays(items)

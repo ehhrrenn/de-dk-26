@@ -2,14 +2,14 @@
 
 Shared itinerary app for the Germany + Denmark trip (Sept 17 – Oct 1, 2026).
 React (Vite) frontend on Firebase Hosting (with a preview URL for every
-pull request), Firebase (Auth + Firestore) for shared, live-editable data.
+pull request), Firestore for shared, live-editable data. The site is
+intentionally public — no sign-in, no access control.
 
 ## 1. Create the Firebase project
 
 1. [console.firebase.google.com](https://console.firebase.google.com) → **Add project**.
-2. **Build → Authentication → Get started → Sign-in method → Google → Enable.**
-3. **Build → Firestore Database → Create database** (production mode, pick any region — pick one close to your group).
-4. **Project settings → General → Your apps → Web (</>)** → register an app (no hosting needed). Copy the `firebaseConfig` values.
+2. **Build → Firestore Database → Create database** (production mode, pick any region — pick one close to your group).
+3. **Project settings → General → Your apps → Web (</>)** → register an app (no hosting needed). Copy the `firebaseConfig` values.
 
 ## 2. Get a Google Maps API key
 
@@ -20,21 +20,10 @@ Used to render the interactive trip map (pins only -- no drawn routes).
 3. **APIs & Services → Credentials → Create credentials → API key.**
 4. Click the new key → **Application restrictions → Websites** → add your Firebase Hosting origins (`https://<project-id>.web.app/*` and `https://<project-id>.firebaseapp.com/*`) and, for local dev, `http://localhost:*`. This is what keeps the key safe to ship in client-side code. (PR preview channels are subdomains of the same site, e.g. `https://<project-id>--pr123-*.web.app`, so if you want maps to render on previews too, add `https://<project-id>--*.web.app/*`.)
 
-## 3. Add your group to the allowlist
+## 3. Deploy the Firestore security rules
 
-Access control lives entirely in Firestore data, never in code:
-
-- Firestore Database → **Start collection** → collection ID `allowlist`.
-- Add one document per traveler, **document ID = their exact Google email**
-  (e.g. `alex@gmail.com`). The document's fields don't matter — its
-  existence is what grants access. A single field like `name: "Alex"` is fine.
-
-Add/remove people any time without touching code or redeploying.
-
-## 4. Deploy the Firestore security rules
-
-Rules in `firestore.rules` restrict all reads/writes to emails present in
-`/allowlist`. Deploy them with the [Firebase CLI](https://firebase.google.com/docs/cli):
+Rules in `firestore.rules` allow open read/write on `days` — no auth, no
+allowlist. Deploy them with the [Firebase CLI](https://firebase.google.com/docs/cli):
 
 ```bash
 pnpm add -g firebase-tools
@@ -46,7 +35,7 @@ firebase deploy --only firestore:rules
 (Or paste the contents of `firestore.rules` into Firestore Database →
 Rules in the console and click Publish.)
 
-## 5. Local development
+## 4. Local development
 
 ```bash
 pnpm install
@@ -54,11 +43,11 @@ cp .env.example .env.local  # fill in the firebaseConfig values (step 1) and the
 pnpm dev
 ```
 
-Sign in and visit the home page once — it automatically pushes the parsed
-schedule from `src/data/tripData.js` into Firestore on load (see
+Visit the home page once — it automatically pushes the parsed schedule
+from `src/data/tripData.js` into Firestore on load (see
 `ItineraryLanding.jsx`), merging in any changes each time.
 
-## 6. Deploy to Firebase Hosting (with PR previews)
+## 5. Deploy to Firebase Hosting (with PR previews)
 
 This repo follows Firebase's
 [GitHub integration](https://firebase.google.com/docs/hosting/github-integration)
