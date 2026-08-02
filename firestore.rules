@@ -22,17 +22,6 @@ service cloud.firestore {
       allow read, write: if isMember();
     }
 
-    match /bookings/{bookingId} {
-      allow read, write: if isMember();
-    }
-
-    // Passport / document numbers. Same trusted group, but broken out into
-    // its own collection so it's easy to tighten later (e.g. restrict write
-    // to only the traveler's own record) without touching everything else.
-    match /travelers/{travelerId} {
-      allow read, write: if isMember();
-    }
-
     match /{document=**} {
       allow read, write: if false;
     }
