@@ -39,6 +39,27 @@ function localISO(date) {
   return `${y}-${m}-${d}`
 }
 
+// Self-guided walks are split into several "Phase N" activities (each its
+// own tab on the day page, for turn-by-turn directions) but should read as
+// a single walk on the calendar overview -- collapse them to one chip named
+// after the shared prefix (e.g. "Munich Walk: A → B" -> "Munich Walk").
+function collapseChips(activities) {
+  const chips = []
+  const seenGroups = new Set()
+  for (const a of activities) {
+    const isWalkPhase = /^Phase \d+/i.test(a.tabLabel || '') && a.name.includes(': ')
+    if (isWalkPhase) {
+      const groupLabel = a.name.split(': ')[0]
+      if (seenGroups.has(groupLabel)) continue
+      seenGroups.add(groupLabel)
+      chips.push({ id: groupLabel, label: groupLabel })
+    } else {
+      chips.push({ id: a.id, label: a.name })
+    }
+  }
+  return chips
+}
+
 function rangeLabel(start, end) {
   const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()
   if (sameMonth) return end.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
@@ -103,8 +124,8 @@ export default function TripCalendar({ days }) {
                   </span>
                   {activities.length > 0 && (
                     <span className="calendar-chips">
-                      {activities.map((a) => (
-                        <span className="calendar-chip" key={a.id}>{a.name}</span>
+                      {collapseChips(activities).map((c) => (
+                        <span className="calendar-chip" key={c.id}>{c.label}</span>
                       ))}
                     </span>
                   )}

@@ -70,8 +70,6 @@ export default function ItineraryLanding({ userEmail }) {
   return (
     <div>
       <StaticMap
-        center={[51.64, 11.29]}
-        zoom={5}
         height={280}
         alt="Map of the trip route across Munich, the Rhine Valley, Berlin, and Copenhagen"
         markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color }))}

@@ -684,6 +684,21 @@ export const DAYS = [
     notes: 'Otherwise free -- explore Copenhagen at your own pace.',
     activities: [
       {
+        id: 'day-13-bike-tour',
+        name: 'Copenhagen Highlights 3 Hour Bike Tour with local Guide',
+        icon: 'bike',
+        category: 'Tour',
+        cost: 504.00,
+        summary: 'Viator-booked guided bike tour with Tropical Bikes. 3 hours, 8 guests. Booking ref #1430833891, confirmation #1813033821.',
+        startingPoint: 'Tropical Bikes, Vester Voldgade 2, 1552 Copenhagen, Denmark',
+        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Tropical%20Bikes%2C%20Vester%20Voldgade%202%2C%20Copenhagen%2C%20Denmark',
+        linkLabel: 'Get directions to the meeting place',
+        events: [
+          { time: '11:00 AM', title: 'Copenhagen Highlights 3 Hour Bike Tour', description: 'Meet Tropical Bikes (+45 50 32 11 00) at Vester Voldgade 2, Copenhagen. 3-hour tour, 8 guests. Mobile ticket accepted; full refund if cancelled 24+ hours ahead.' },
+        ],
+        tips: [],
+      },
+      {
         id: 'day-13-host-dinner',
         name: 'Dinner at Høst',
         icon: 'dining',
@@ -710,8 +725,38 @@ export const DAYS = [
     travel: null,
     lodging: null,
     coords: [55.6761, 12.5683],
-    notes: 'Free day -- nothing scheduled yet.',
-    activities: [],
+    notes: '',
+    activities: [
+      {
+        id: 'day-14-boat-tour',
+        name: 'Discover Copenhagen Private Boat Tour Experience',
+        icon: 'boat',
+        category: 'Tour',
+        cost: 552.62,
+        summary: 'Viator-booked private 2-hour luxury canal cruise aboard FREYJA with Captain Denis, including a swim stop. 8 guests. Booking ref #BR-1431187307, itinerary #1813385539.',
+        startingPoint: 'Black Sign 1, floating dock beside the Royal Danish Theatre (Skuespilhuset), opposite Paper Island, Copenhagen',
+        directionsUrl: 'https://maps.app.goo.gl/N4CkZvbYhX3pbcJd7',
+        linkLabel: 'Get directions to the meeting point',
+        events: [
+          { time: '9:30 AM', title: 'Discover Copenhagen Private Boat Tour Experience', description: 'Meet Captain Denis (+45 9196 0090) at the black Sign 1 on the floating dock, next to the Stromma Canal Tours departure point -- do not queue with Stromma. 2-hour private cruise, return 11:30 AM.' },
+        ],
+        tips: [],
+      },
+      {
+        id: 'day-14-schonnemann-dinner',
+        name: 'Lunch at Restaurant Schønnemann',
+        icon: 'dining',
+        category: 'Dining',
+        cost: null,
+        summary: 'A la carte, table for 8. Booking ID #62498751.',
+        startingPoint: 'Restaurant Schønnemann, Hauser Plads 16-18, 1127 København K, Denmark',
+        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Restaurant%20Sch%C3%B8nnemann%2C%20Hauser%20Plads%2016-18%2C%201127%20K%C3%B8benhavn%20K%2C%20Denmark',
+        events: [
+          { time: '2:15 PM', title: 'Lunch at Restaurant Schønnemann', description: 'A la carte, table for 8. Booking ID #62498751.' },
+        ],
+        tips: [],
+      },
+    ],
   },
   {
     id: 'day-15',

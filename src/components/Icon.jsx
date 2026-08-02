@@ -2,6 +2,14 @@
 // replaces emoji everywhere in the UI so icons stay consistent with the
 // app's flat, high-contrast look regardless of platform emoji rendering.
 const PATHS = {
+  calendar: (
+    <>
+      <rect x="3" y="4" width="18" height="17" rx="2" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </>
+  ),
   settings: (
     <>
       <line x1="4" y1="6" x2="20" y2="6" />
@@ -97,6 +105,13 @@ const PATHS = {
       <circle cx="18.5" cy="17.5" r="3.5" />
       <circle cx="15" cy="5" r="1" />
       <path d="M12 17.5V14l-3-3 4-3 2 3h2" />
+    </>
+  ),
+  boat: (
+    <>
+      <path d="M3 15h18l-2.2 4.4a2 2 0 01-1.8 1.1H7a2 2 0 01-1.8-1.1L3 15z" />
+      <line x1="12" y1="15" x2="12" y2="4" />
+      <path d="M12 5l6.5 10H12z" />
     </>
   ),
   dining: (

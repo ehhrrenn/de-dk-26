@@ -128,6 +128,23 @@ a { color: var(--link); }
   border-bottom: 1px solid var(--line);
 }
 
+.trip-timeline-calendar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 16px 12px;
+  color: var(--ink-soft);
+  border-bottom: 3px solid transparent;
+  text-decoration: none;
+  transition: color 0.15s, border-color 0.15s;
+}
+.trip-timeline-calendar:hover { color: var(--link); }
+.trip-timeline-calendar.active {
+  color: var(--link);
+  border-bottom-color: var(--link);
+}
+
 .trip-timeline-segment {
   flex: 1 1 0;
   min-width: 0;
