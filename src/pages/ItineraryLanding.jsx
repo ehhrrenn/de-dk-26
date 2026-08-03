@@ -2,12 +2,10 @@ import { useEffect, useRef } from 'react'
 import { deleteField } from 'firebase/firestore'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { DAYS, locationsFromDays } from '../data/tripData'
-import { TRAVELERS } from '../data/travelers'
-import StaticMap from '../components/StaticMap'
+import TripMap from '../components/TripMap'
 import TripCalendar from '../components/TripCalendar'
-import NotAuthorized from '../components/NotAuthorized'
 
-export default function ItineraryLanding({ userEmail }) {
+export default function ItineraryLanding() {
   const { items, loading, error, add } = useFirestoreCollection('days')
   const syncedRef = useRef(false)
 
@@ -27,26 +25,7 @@ export default function ItineraryLanding({ userEmail }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, error])
 
-  // Same auto-sync pattern for the traveler roster -- merge() only touches
-  // the fields below, so anyone's edits (e.g. via the masked Settings form)
-  // survive a re-sync of this seed data.
-  const { loading: travelersLoading, error: travelersError, add: addTraveler } = useFirestoreCollection('travelers')
-  const travelersSyncedRef = useRef(false)
-
-  useEffect(() => {
-    if (travelersLoading || travelersError || travelersSyncedRef.current) return
-    travelersSyncedRef.current = true
-    async function syncTravelers() {
-      for (const traveler of TRAVELERS) {
-        // eslint-disable-next-line no-await-in-loop
-        await addTraveler(traveler.id, traveler)
-      }
-    }
-    syncTravelers()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [travelersLoading, travelersError])
-
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading || items.length === 0) return <div className="empty-state">Loading itinerary…</div>
 
   const locations = locationsFromDays(items)
@@ -69,10 +48,10 @@ export default function ItineraryLanding({ userEmail }) {
 
   return (
     <div>
-      <StaticMap
+      <TripMap
         height={280}
         alt="Map of the trip route across Munich, the Rhine Valley, Berlin, and Copenhagen"
-        markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color }))}
+        markers={locations.map((loc) => ({ lat: loc.coords[0], lon: loc.coords[1], color: loc.color, label: loc.label }))}
         link={overviewMapsUrl}
       />
 

@@ -3,13 +3,12 @@ import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
-import { categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
+import { activityLocation, categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
-import StaticMap from '../components/StaticMap'
+import TripMap from '../components/TripMap'
 import Icon from '../components/Icon'
-import NotAuthorized from '../components/NotAuthorized'
 
-export default function DayPage({ userEmail }) {
+export default function DayPage() {
   const { dayId } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
   const [activeIndex, setActiveIndex] = useState(0)
@@ -23,7 +22,7 @@ export default function DayPage({ userEmail }) {
   const slug = day ? resolveDaySlug(day, sorted) : null
   useSetRegion(slug)
 
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading) return <div className="empty-state">Loading day…</div>
 
   if (!day) {
@@ -39,6 +38,22 @@ export default function DayPage({ userEmail }) {
   const activities = day.activities ?? []
   const activity = activities[activeIndex] ?? activities[0] ?? null
   const route = parseDirectionsUrl(activity?.directionsUrl)
+
+  // Every activity scheduled today gets a pin, not just whichever tab is
+  // selected -- the active tab's full turn-by-turn route (when it has one)
+  // is layered on top for extra detail on the walk/route being viewed.
+  const activePins = (route
+    ? route.map(([lat, lon]) => ({ lat, lon }))
+    : [activityLocation(activity)].filter(Boolean)
+  ).map((loc) => ({ ...loc, label: activity?.name }))
+  const otherPins = activities
+    .filter((a) => a !== activity)
+    .flatMap((a) => {
+      const loc = activityLocation(a)
+      return loc ? [{ ...loc, label: a.name }] : []
+    })
+  const dayMarkers = [...activePins, ...otherPins].map((loc) => ({ ...loc, color: city.color }))
+  const dayMapLink = activity?.directionsUrl || (day.coords ? `https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}` : undefined)
 
   // Days with more than one activity (e.g. two alternative Sunday plans)
   // are distinct, optional itineraries -- shown as tabs rather than
@@ -82,20 +97,20 @@ export default function DayPage({ userEmail }) {
         </div>
       )}
 
-      {route ? (
-        <StaticMap
-          markers={route.map(([lat, lon]) => ({ lat, lon, color: city.color }))}
+      {dayMarkers.length > 0 ? (
+        <TripMap
+          markers={dayMarkers}
           height={200}
-          alt={`Stops for ${activity.name}`}
-          link={activity.directionsUrl}
+          alt={`Map for ${dayTitle(day)}`}
+          link={dayMapLink}
         />
       ) : day.coords ? (
-        <StaticMap
+        <TripMap
           center={day.coords}
           zoom={12}
           height={200}
           alt={`Map of ${day.cityDay}`}
-          markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color }]}
+          markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color, label: day.cityDay }]}
           link={`https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}`}
         />
       ) : null}

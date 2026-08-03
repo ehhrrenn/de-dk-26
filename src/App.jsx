@@ -1,22 +1,18 @@
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
-import { useAuth } from './hooks/useAuth'
 import { useFirestoreCollection } from './hooks/useFirestoreCollection'
 import { locationsFromDays } from './data/tripData'
 import { dayStatus } from './utils/helpers'
 import { RegionProvider } from './context/RegionContext'
 import TripTimeline from './components/TripTimeline'
 import KeyInfoBar from './components/KeyInfoBar'
-import Icon from './components/Icon'
-import Login from './components/Login'
 import ItineraryLanding from './pages/ItineraryLanding'
 import LocationPage from './pages/LocationPage'
 import DayPage from './pages/DayPage'
-import Settings from './pages/Settings'
 import blakePhoto from './assets/faces/blake.png'
 import myraPhoto from './assets/faces/myra.png'
 import selenaPhoto from './assets/faces/selena.png'
 
-function AppShell({ userEmail }) {
+function AppShell() {
   const { items: days } = useFirestoreCollection('days')
   const locations = locationsFromDays(days)
   const status = days.length ? dayStatus(days) : null
@@ -42,9 +38,6 @@ function AppShell({ userEmail }) {
         </Link>
         <div className="header-status">
           {status && <span className="status-label">{status.label}</span>}
-          <Link to="/settings" className="settings-link" aria-label="Settings">
-            <Icon name="settings" size={16} />
-          </Link>
         </div>
       </div>
 
@@ -55,10 +48,9 @@ function AppShell({ userEmail }) {
 
       <main>
         <Routes>
-          <Route path="/" element={<ItineraryLanding userEmail={userEmail} />} />
-          <Route path="/location/:slug" element={<LocationPage userEmail={userEmail} />} />
-          <Route path="/day/:dayId" element={<DayPage userEmail={userEmail} />} />
-          <Route path="/settings" element={<Settings userEmail={userEmail} />} />
+          <Route path="/" element={<ItineraryLanding />} />
+          <Route path="/location/:slug" element={<LocationPage />} />
+          <Route path="/day/:dayId" element={<DayPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
@@ -67,14 +59,9 @@ function AppShell({ userEmail }) {
 }
 
 export default function App() {
-  const { user, loading } = useAuth()
-
-  if (loading) return <div className="empty-state">Loading…</div>
-  if (!user) return <Login />
-
   return (
     <RegionProvider>
-      <AppShell userEmail={user.email} />
+      <AppShell />
     </RegionProvider>
   )
 }

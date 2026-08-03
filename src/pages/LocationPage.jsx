@@ -3,18 +3,17 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../utils/helpers'
+import { activityLocation, categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
-import StaticMap from '../components/StaticMap'
+import TripMap from '../components/TripMap'
 import Icon from '../components/Icon'
-import NotAuthorized from '../components/NotAuthorized'
 
-export default function LocationPage({ userEmail }) {
+export default function LocationPage() {
   const { slug } = useParams()
   const { items, loading, error } = useFirestoreCollection('days')
   useSetRegion(CITIES[slug] ? slug : null)
 
-  if (error) return <NotAuthorized email={userEmail} />
+  if (error) return <div className="empty-state">Couldn't load data.</div>
   if (loading) return <div className="empty-state">Loading location…</div>
 
   const city = CITIES[slug]
@@ -33,6 +32,15 @@ export default function LocationPage({ userEmail }) {
   const lodgingMapsUrl = mapsSearchUrl(lodging?.address)
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
   const places = SAVED_PLACES[slug] || []
+  // Every activity across every day spent in this location gets its own
+  // pin, alongside the city center and saved places, so the map reflects
+  // everywhere the itinerary actually goes here.
+  const activityPins = location.days
+    .flatMap((day) => day.activities ?? [])
+    .flatMap((a) => {
+      const loc = activityLocation(a)
+      return loc ? [{ ...loc, label: a.name }] : []
+    })
 
   return (
     <div style={{ '--city-color': city.color, '--city-on': city.onColor, '--city-text-safe': city.textColor }} data-region={slug}>
@@ -51,14 +59,15 @@ export default function LocationPage({ userEmail }) {
       )}
 
       {city.coords && (
-        <StaticMap
+        <TripMap
           center={city.coords}
           zoom={11}
           height={260}
           alt={`Map of ${city.label}`}
           markers={[
-            { lat: city.coords[0], lon: city.coords[1], color: city.color },
-            ...places.map((p) => ({ query: `${p.name}, ${city.country}`, color: city.color })),
+            { lat: city.coords[0], lon: city.coords[1], color: city.color, label: city.label },
+            ...places.map((p) => ({ query: `${p.name}, ${city.country}`, color: city.color, label: p.name })),
+            ...activityPins.map((loc) => ({ ...loc, color: city.color })),
           ]}
           link={cityMapsUrl}
         />
