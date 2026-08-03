@@ -142,7 +142,7 @@ a { color: var(--link); }
 }
 
 .header-face-selena {
-  transform: rotate(-8deg);
+  transform: rotate(8deg);
 }
 
 .app-title-link { text-decoration: none; }
