@@ -54,6 +54,11 @@ export default function DayPage() {
     })
   const dayMarkers = [...activePins, ...otherPins].map((loc) => ({ ...loc, color: city.color }))
   const dayMapLink = activity?.directionsUrl || (day.coords ? `https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}` : undefined)
+  // A day-level coordinate is always reliable (no geocoding involved) --
+  // pass it as a fallback so a day whose only activities are text-query
+  // places (e.g. an Oktoberfest tent address) still shows a pin if those
+  // fail to geocode, instead of going fully blank.
+  const dayFallback = day.coords ? { lat: day.coords[0], lon: day.coords[1], label: day.cityDay } : undefined
 
   // Days with more than one activity (e.g. two alternative Sunday plans)
   // are distinct, optional itineraries -- shown as tabs rather than
@@ -97,23 +102,15 @@ export default function DayPage() {
         </div>
       )}
 
-      {dayMarkers.length > 0 ? (
+      {(dayMarkers.length > 0 || dayFallback) && (
         <TripMap
           markers={dayMarkers}
+          fallback={dayFallback}
           height={200}
           alt={`Map for ${dayTitle(day)}`}
           link={dayMapLink}
         />
-      ) : day.coords ? (
-        <TripMap
-          center={day.coords}
-          zoom={12}
-          height={200}
-          alt={`Map of ${day.cityDay}`}
-          markers={[{ lat: day.coords[0], lon: day.coords[1], color: city.color, label: day.cityDay }]}
-          link={`https://www.google.com/maps?q=${day.coords[0]},${day.coords[1]}`}
-        />
-      ) : null}
+      )}
 
       {activities.length > 1 && (
         <div className="activity-tabs" role="tablist" aria-label="Options for this day">

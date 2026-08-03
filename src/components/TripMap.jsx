@@ -23,6 +23,12 @@
 // `link` is optional: shown as a small "Open in Google Maps" button over
 // the map (can't wrap the whole map in an <a> anymore -- it needs to catch
 // clicks/drags itself to pan).
+//
+// `fallback` is optional: a known-good `{ lat, lon, label }` coordinate
+// (never a query) to fall back to if every one of `markers` fails to
+// resolve (e.g. a day whose only activities are query-text places, and
+// geocoding fails) -- rather than showing the empty-map error state when a
+// perfectly good day/city-level coordinate was available all along.
 import { useEffect, useRef, useState } from 'react'
 import { importLibrary, setOptions } from '@googlemaps/js-api-loader'
 import { mapsSearchUrl } from '../utils/helpers'
@@ -77,7 +83,7 @@ function pinIcon(color) {
   }
 }
 
-export default function TripMap({ center, zoom, markers = [], height = 260, alt, link }) {
+export default function TripMap({ center, zoom, markers = [], height = 260, alt, link, fallback }) {
   const containerRef = useRef(null)
   const [status, setStatus] = useState('loading')
 
@@ -153,6 +159,10 @@ export default function TripMap({ center, zoom, markers = [], height = 260, alt,
           google.maps.event.addListenerOnce(map, 'idle', () => {
             if (map.getZoom() > 15) map.setZoom(15)
           })
+        } else if (fallback) {
+          placeMarker(fallback.lat, fallback.lon, fallback)
+          map.setCenter({ lat: fallback.lat, lng: fallback.lon })
+          map.setZoom(12)
         } else {
           setStatus('error')
           return
