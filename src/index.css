@@ -614,8 +614,6 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   display: flex;
   border-bottom: 1px solid var(--line);
   margin-bottom: 20px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .activity-tab {
@@ -623,7 +621,7 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   padding: 12px 12px;
   font-family: var(--font-sans);
   font-weight: 700;
@@ -633,9 +631,17 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   border: none;
   border-bottom: 3px solid transparent;
   cursor: pointer;
-  white-space: nowrap;
 }
 .activity-tab svg { flex-shrink: 0; }
+.activity-tab span {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: center;
+}
 .activity-tab:hover { color: var(--ink); }
 .activity-tab.active {
   color: var(--city-text-safe, var(--ink));
