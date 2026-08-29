@@ -48,11 +48,19 @@ function collapseChips(activities) {
   const seenGroups = new Set()
   for (const a of activities) {
     const isWalkPhase = /^Phase \d+/i.test(a.tabLabel || '') && a.name.includes(': ')
+    // Per-person/group flight tabs (tabLabel is a set of initials, e.g.
+    // "ABJKM" or "SR") read as "<initials> <origin airport code>" here --
+    // e.g. "SR LXS" -- instead of the full flight name, which is too long
+    // for a calendar chip.
+    const isPersonFlight = a.icon === 'flight' && a.tabLabel && !isWalkPhase
     if (isWalkPhase) {
       const groupLabel = a.name.split(': ')[0]
       if (seenGroups.has(groupLabel)) continue
       seenGroups.add(groupLabel)
       chips.push({ id: groupLabel, label: groupLabel })
+    } else if (isPersonFlight) {
+      const originCode = a.startingPoint?.match(/\(([A-Z]{3})\)/)?.[1]
+      chips.push({ id: a.id, label: originCode ? `${a.tabLabel} ${originCode}` : a.tabLabel })
     } else {
       chips.push({ id: a.id, label: a.name })
     }
