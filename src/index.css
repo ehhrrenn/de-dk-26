@@ -615,6 +615,7 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   border-bottom: 1px solid var(--line);
   margin-bottom: 20px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .activity-tab {
@@ -622,8 +623,7 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   align-items: center;
   justify-content: center;
   gap: 6px;
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 0 0 auto;
   padding: 12px 12px;
   font-family: var(--font-sans);
   font-weight: 700;
@@ -633,14 +633,9 @@ main { flex: 1; padding: 26px var(--main-px) 40px; }
   border: none;
   border-bottom: 3px solid transparent;
   cursor: pointer;
-}
-.activity-tab svg { flex-shrink: 0; }
-.activity-tab span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
+.activity-tab svg { flex-shrink: 0; }
 .activity-tab:hover { color: var(--ink); }
 .activity-tab.active {
   color: var(--city-text-safe, var(--ink));
