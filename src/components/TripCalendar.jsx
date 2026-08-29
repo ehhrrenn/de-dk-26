@@ -48,19 +48,24 @@ function collapseChips(activities) {
   const seenGroups = new Set()
   for (const a of activities) {
     const isWalkPhase = /^Phase \d+/i.test(a.tabLabel || '') && a.name.includes(': ')
-    // Per-person/group flight tabs (tabLabel is a set of initials, e.g.
-    // "ABJKM" or "SR") read as "<initials> <origin airport code>" here --
-    // e.g. "SR LXS" -- instead of the full flight name, which is too long
-    // for a calendar chip.
-    const isPersonFlight = a.icon === 'flight' && a.tabLabel && !isWalkPhase
+    // Per-person/group flight tabs (activities that list which specific
+    // travelers are on them) read as "First/First2/...: ORIGIN → DEST" here
+    // -- e.g. "Selena: LXS → MUC" -- instead of the full flight name, which
+    // is too long for a calendar chip.
+    const isPersonFlight = a.icon === 'flight' && a.travelers?.length > 0 && !isWalkPhase
     if (isWalkPhase) {
       const groupLabel = a.name.split(': ')[0]
       if (seenGroups.has(groupLabel)) continue
       seenGroups.add(groupLabel)
       chips.push({ id: groupLabel, label: groupLabel })
     } else if (isPersonFlight) {
+      const firstNames = a.travelers.map((t) => t.split(' ')[0]).join('/')
       const originCode = a.startingPoint?.match(/\(([A-Z]{3})\)/)?.[1]
-      chips.push({ id: a.id, label: originCode ? `${a.tabLabel} ${originCode}` : a.tabLabel })
+      const lastEvent = a.events?.[a.events.length - 1]
+      const destCodes = [...(lastEvent?.title.matchAll(/\(([A-Z]{3})\)/g) ?? [])]
+      const destCode = destCodes[destCodes.length - 1]?.[1]
+      const route = originCode && destCode ? `: ${originCode} → ${destCode}` : ''
+      chips.push({ id: a.id, label: `${firstNames}${route}` })
     } else {
       chips.push({ id: a.id, label: a.name })
     }
