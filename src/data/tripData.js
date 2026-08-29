@@ -81,6 +81,22 @@ export const DAYS = [
         ],
         tips: [],
       },
+      {
+        id: 'day-01-flight-selena',
+        name: 'A3 7099 + A3 115 + A3 806: Lemnos → Munich (via Thessaloniki, Athens)',
+        icon: 'flight',
+        category: 'Travel',
+        cost: null,
+        summary: 'Aegean Airlines, three-leg itinerary connecting from Lemnos via Thessaloniki and Athens. Arrives the evening of Sep 17, a day before the rest of the group\'s Sep 18 Munich arrival.',
+        startingPoint: 'Lemnos Airport (LXS), Greece',
+        travelers: ['Selena Russell'],
+        events: [
+          { time: '10:10 AM', title: 'A3 7099 -- Lemnos (LXS) → Thessaloniki (SKG)', description: 'Operated by Aegean Airlines. Arrive 10:55 AM.' },
+          { time: '12:50 PM', title: 'A3 115 -- Thessaloniki (SKG) → Athens (ATH)', description: 'Operated by Aegean Airlines. Arrive 1:45 PM.' },
+          { time: '3:55 PM', title: 'A3 806 -- Athens (ATH) → Munich (MUC)', description: 'Operated by Aegean Airlines. Arrive 5:35 PM.' },
+        ],
+        tips: [],
+      },
     ],
   },
   {
