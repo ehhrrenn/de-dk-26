@@ -278,7 +278,7 @@ export const DAYS = [
     isTravelDay: false,
     travel: null,
     lodging: null,
-    coords: [48.1351, 11.582],
+    coords: [48.1309, 11.5455], // Western Theresienwiese fairgrounds (Armbrustschützen-Festzelt)
     notes: '',
     activities: [
       {

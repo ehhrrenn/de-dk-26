@@ -18,7 +18,7 @@ export default function ItineraryLanding() {
     async function sync() {
       for (const day of DAYS) {
         // eslint-disable-next-line no-await-in-loop
-        await add(day.id, { ...day, activity: deleteField(), detailsLinks: deleteField() })
+        await add(day.id, { ...day, activity: deleteField(), detailsLinks: deleteField(), title: day.title ?? deleteField() })
       }
     }
     sync()
