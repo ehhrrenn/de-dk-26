@@ -104,6 +104,7 @@ export default function DayPage() {
 
       {(dayMarkers.length > 0 || dayFallback) && (
         <TripMap
+          key={activity?.id ?? day.id}
           markers={dayMarkers}
           fallback={dayFallback}
           height={200}

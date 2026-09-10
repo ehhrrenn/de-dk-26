@@ -60,6 +60,7 @@ export default function LocationPage() {
 
       {city.coords && (
         <TripMap
+          key={slug}
           center={city.coords}
           zoom={11}
           height={260}
