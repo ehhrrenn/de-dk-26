@@ -150,6 +150,7 @@ export const DAYS = [
       name: 'Munich Aparthotel',
       provider: 'Booking.com',
       address: 'Schwanthalerstraße 84 Hinterhofhaus, 80336 München, Germany',
+      units: 'Apartment 21 (2nd Floor, lift 2N) + Apartment 31 (3rd Floor, lift 3)',
       link: null,
       cost: 5530,
       checkIn: '3:00 PM',

@@ -32,6 +32,7 @@ export default function KeyInfoBar({ locations }) {
           <div className="hotel-text">
             <div className="hotel-name">{lodging.name || `Stay in ${location.label}`}</div>
             {lodging.address && <div className="hotel-sub">{lodging.address}</div>}
+            {lodging.units && <div className="hotel-sub">{lodging.units}</div>}
           </div>
         </div>
         {mapsUrl && (
