@@ -1,4 +1,4 @@
-import { mapsSearchUrl, googleMapsAppUrl, openGoogleMaps, formatUSD } from '../utils/helpers'
+import { mapsSearchUrl, googleMapsAppUrlFromLink, openGoogleMaps, formatUSD } from '../utils/helpers'
 import { useRegion } from '../context/RegionContext'
 import Icon from './Icon'
 
@@ -17,7 +17,7 @@ export default function KeyInfoBar({ locations }) {
 
   const { lodging } = location
   const mapsUrl = lodging.mapsUrl || mapsSearchUrl(lodging.address)
-  const mapsAppUrl = googleMapsAppUrl(lodging.address)
+  const mapsAppUrl = googleMapsAppUrlFromLink(mapsUrl, lodging.address)
   const next = locations[index + 1]
 
   return (

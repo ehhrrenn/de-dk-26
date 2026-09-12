@@ -3,7 +3,7 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { SAVED_PLACES } from '../data/savedPlaces'
 import { locationsFromDays } from '../data/tripData'
-import { activityLocation, categorySummary, dayTitle, formatShortDate, mapsSearchUrl } from '../utils/helpers'
+import { activityLocation, categorySummary, dayTitle, formatShortDate, mapsSearchUrl, googleMapsAppUrlFromLink, openGoogleMaps } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import TripMap from '../components/TripMap'
 import Icon from '../components/Icon'
@@ -53,7 +53,16 @@ export default function LocationPage() {
         <div className="card">
           <div className="info-row">
             <span className="info-label">Maps</span>
-            <span><a href={cityMapsUrl} target="_blank" rel="noreferrer">Open {city.label} in Google Maps</a></span>
+            <span>
+              <a
+                href={cityMapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={(e) => openGoogleMaps(e, googleMapsAppUrlFromLink(cityMapsUrl), cityMapsUrl)}
+              >
+                Open {city.label} in Google Maps
+              </a>
+            </span>
           </div>
         </div>
       )}
@@ -101,6 +110,10 @@ export default function LocationPage() {
                 target="_blank"
                 rel="noreferrer"
                 className="day-card"
+                onClick={(e) => {
+                  const placeUrl = mapsSearchUrl(`${p.name}, ${city.country}`)
+                  openGoogleMaps(e, googleMapsAppUrlFromLink(placeUrl), placeUrl)
+                }}
               >
                 <span className="day-badge" style={{ background: city.tint, color: city.textColor }}>
                   <Icon name="pin" size={18} />

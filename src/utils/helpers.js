@@ -77,6 +77,30 @@ export function googleMapsAppUrl(query) {
   return `comgooglemaps://?q=${encodeURIComponent(query)}`
 }
 
+// Derives an app-scheme URL straight from a Google Maps web link, so every
+// existing directionsUrl/startDirectionsUrl/etc. gets native-app handoff for
+// free instead of needing a hand-maintained query string per activity --
+// pulls the same place text a `maps/search` link carries (`query` or `q`),
+// or the plain destination point a `maps/dir` link carries (ignoring
+// waypoints -- "get me there" beats no app-handoff at all). Returns null for
+// a URL this can't introspect (an opaque maps.app.goo.gl short link, or a
+// non-Maps URL like a train-ticket link) unless the caller supplies an
+// explicit fallbackQuery for that case.
+export function googleMapsAppUrlFromLink(url, fallbackQuery) {
+  if (url) {
+    try {
+      const params = new URL(url).searchParams
+      const place = params.get('query') || params.get('q')
+      if (place) return googleMapsAppUrl(place)
+      const destination = params.get('destination')
+      if (destination && /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(destination)) return googleMapsAppUrl(destination)
+    } catch {
+      // Not an absolute URL Maps would recognize -- fall through to fallbackQuery.
+    }
+  }
+  return googleMapsAppUrl(fallbackQuery)
+}
+
 // Tries the native Google Maps app first, falling back to the normal web
 // link if it doesn't open within a beat (app not installed, desktop
 // browser, or a platform that just ignores the custom scheme). Pass the

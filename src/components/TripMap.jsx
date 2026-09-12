@@ -31,7 +31,7 @@
 // perfectly good day/city-level coordinate was available all along.
 import { useEffect, useRef, useState } from 'react'
 import { importLibrary, setOptions } from '@googlemaps/js-api-loader'
-import { mapsSearchUrl } from '../utils/helpers'
+import { mapsSearchUrl, googleMapsAppUrl, googleMapsAppUrlFromLink, openGoogleMaps } from '../utils/helpers'
 
 setOptions({ key: import.meta.env.VITE_GOOGLE_MAPS_STATIC_KEY, v: 'weekly' })
 
@@ -86,6 +86,7 @@ function pinIcon(color) {
 export default function TripMap({ center, zoom, markers = [], height = 260, alt, link, fallback }) {
   const containerRef = useRef(null)
   const [status, setStatus] = useState('loading')
+  const linkAppUrl = googleMapsAppUrlFromLink(link)
 
   useEffect(() => {
     let cancelled = false
@@ -122,13 +123,21 @@ export default function TripMap({ center, zoom, markers = [], height = 260, alt,
             title: m.label,
           })
           marker.addListener('click', () => {
-            const openUrl = mapsSearchUrl(m.query || m.label || `${lat},${lng}`)
+            const place = m.query || m.label || `${lat},${lng}`
+            const openUrl = mapsSearchUrl(place)
+            const appUrl = googleMapsAppUrl(place)
             infoWindow.setContent(
               `<div style="font:14px system-ui,sans-serif;max-width:200px;">
                 <strong>${m.label || 'Pin'}</strong><br/>
-                <a href="${openUrl}" target="_blank" rel="noreferrer">Open in Google Maps ↗</a>
+                <a id="trip-map-infowindow-link" href="${openUrl}" target="_blank" rel="noreferrer">Open in Google Maps ↗</a>
               </div>`,
             )
+            // InfoWindow content is raw HTML, not JSX -- 'domready' is when
+            // it's actually attached to the document, so the link can be
+            // found and given the same native-app handoff as everywhere else.
+            google.maps.event.addListenerOnce(infoWindow, 'domready', () => {
+              document.getElementById('trip-map-infowindow-link')?.addEventListener('click', (e) => openGoogleMaps(e, appUrl, openUrl))
+            })
             infoWindow.open({ map, anchor: marker })
           })
           placed.push(marker)
@@ -194,14 +203,26 @@ export default function TripMap({ center, zoom, markers = [], height = 260, alt,
           ) : (
             <>
               Map unavailable.
-              {link && <a href={link} target="_blank" rel="noreferrer">Open in Google Maps ↗</a>}
+              {link && (
+                <a href={link} target="_blank" rel="noreferrer" onClick={(e) => openGoogleMaps(e, linkAppUrl, link)}>
+                  Open in Google Maps ↗
+                </a>
+              )}
             </>
           )}
         </div>
       )}
       <div ref={containerRef} className="map-canvas" style={{ display: status === 'ready' ? 'block' : 'none' }} />
       {status === 'ready' && link && (
-        <a className="map-overlay-link" href={link} target="_blank" rel="noreferrer">Open in Google Maps ↗</a>
+        <a
+          className="map-overlay-link"
+          href={link}
+          target="_blank"
+          rel="noreferrer"
+          onClick={(e) => openGoogleMaps(e, linkAppUrl, link)}
+        >
+          Open in Google Maps ↗
+        </a>
       )}
     </div>
   )

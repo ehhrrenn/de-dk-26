@@ -795,6 +795,7 @@ export const DAYS = [
         summary: 'Viator-booked private 2-hour luxury canal cruise aboard FREYJA with Captain Denis, including a swim stop. 8 guests. Booking ref #BR-1431187307, itinerary #1813385539.',
         startingPoint: 'Black Sign 1, floating dock beside the Royal Danish Theatre (Skuespilhuset), opposite Paper Island, Copenhagen',
         directionsUrl: 'https://maps.app.goo.gl/N4CkZvbYhX3pbcJd7',
+        directionsQuery: 'Royal Danish Theatre (Skuespilhuset), Copenhagen, Denmark',
         linkLabel: 'Get directions to the meeting point',
         events: [
           { time: '9:30 AM', title: 'Discover Copenhagen Private Boat Tour Experience', description: 'Meet Captain Denis (+45 9196 0090) at the black Sign 1 on the floating dock, next to the Stromma Canal Tours departure point -- do not queue with Stromma. 2-hour private cruise, return 11:30 AM.' },
