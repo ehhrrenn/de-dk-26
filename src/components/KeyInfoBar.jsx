@@ -16,7 +16,7 @@ export default function KeyInfoBar({ locations }) {
   if (!location || !location.lodging) return null
 
   const { lodging } = location
-  const mapsUrl = mapsSearchUrl(lodging.address)
+  const mapsUrl = lodging.mapsUrl || mapsSearchUrl(lodging.address)
   const next = locations[index + 1]
 
   return (
