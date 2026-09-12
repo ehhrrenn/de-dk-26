@@ -128,8 +128,9 @@ export const DAYS = [
         cost: null,
         summary: 'From Munich Airport (MUC) to Munich Aparthotel.',
         startingPoint: 'Munich Airport (MUC), Terminal 1',
-        directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Munich%20Aparthotel%2C%20Schwanthalerstra%C3%9Fe%2084%20Hinterhofhaus%2C%2080336%20M%C3%BCnchen%2C%20Germany',
-        linkLabel: 'Find Munich Aparthotel',
+        directionsUrl: 'https://maps.app.goo.gl/cP5EockV8ERNGx3Q9?g_st=ic',
+        directionsQuery: 'Schwanthalerstraße 84, 80336 München, Germany',
+        linkLabel: 'Get directions to the stay',
         events: [
           { time: '~3:00 PM (Sep 18)', title: 'Head to the Munich stay', description: 'From MUC (Terminal 1) to Munich Aparthotel, Schwanthalerstraße 84 Hinterhofhaus. Check-in from 3:00 PM.' },
         ],
@@ -149,8 +150,9 @@ export const DAYS = [
     lodging: {
       name: 'Munich Aparthotel',
       provider: 'Booking.com',
-      address: 'Schwanthalerstraße 84 Hinterhofhaus, 80336 München, Germany',
-      units: 'Apartment 21 (2nd Floor, lift 2N) + Apartment 31 (3rd Floor, lift 3)',
+      address: 'Schwanthalerstraße 84, 80336 München, Germany',
+      units: 'Hinterhofhaus (rear courtyard building) -- Apartment 21 (2nd Floor, lift 2N) + Apartment 31 (3rd Floor, lift 3)',
+      mapsUrl: 'https://maps.app.goo.gl/cP5EockV8ERNGx3Q9?g_st=ic',
       link: null,
       cost: 5530,
       checkIn: '3:00 PM',

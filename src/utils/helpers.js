@@ -67,6 +67,38 @@ export function mapsSearchUrl(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 }
 
+// Google Maps' custom URL scheme opens the native iOS/Android app directly.
+// Unlike a plain https Universal Link (what mapsSearchUrl produces), this
+// also works when the site is running as a standalone Home Screen web app --
+// iOS blocks Universal Link handoff to other apps entirely in that context,
+// which is how this trip-companion app is meant to be used while traveling.
+export function googleMapsAppUrl(query) {
+  if (!query) return null
+  return `comgooglemaps://?q=${encodeURIComponent(query)}`
+}
+
+// Tries the native Google Maps app first, falling back to the normal web
+// link if it doesn't open within a beat (app not installed, desktop
+// browser, or a platform that just ignores the custom scheme). Pass the
+// triggering click event so the default <a> navigation can be suppressed
+// while this decides which URL actually wins.
+export function openGoogleMaps(event, appUrl, webUrl) {
+  if (!appUrl || !webUrl) return
+  event.preventDefault()
+  const fallbackTimer = window.setTimeout(() => {
+    window.open(webUrl, '_blank', 'noopener,noreferrer')
+  }, 800)
+  const cancelFallback = () => window.clearTimeout(fallbackTimer)
+  window.addEventListener('pagehide', cancelFallback, { once: true })
+  document.addEventListener('visibilitychange', function onVisibilityChange() {
+    if (document.hidden) {
+      cancelFallback()
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
+  })
+  window.location.href = appUrl
+}
+
 // Pulls the ordered lat/lon points (origin, waypoints, destination) back
 // out of one of our "…/maps/dir/?api=1&origin=…&waypoints=…" URLs, so the
 // day-detail map can draw the actual route instead of a single pin.

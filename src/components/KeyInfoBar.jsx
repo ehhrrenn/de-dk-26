@@ -1,4 +1,4 @@
-import { mapsSearchUrl, formatUSD } from '../utils/helpers'
+import { mapsSearchUrl, googleMapsAppUrl, openGoogleMaps, formatUSD } from '../utils/helpers'
 import { useRegion } from '../context/RegionContext'
 import Icon from './Icon'
 
@@ -16,7 +16,8 @@ export default function KeyInfoBar({ locations }) {
   if (!location || !location.lodging) return null
 
   const { lodging } = location
-  const mapsUrl = mapsSearchUrl(lodging.address)
+  const mapsUrl = lodging.mapsUrl || mapsSearchUrl(lodging.address)
+  const mapsAppUrl = googleMapsAppUrl(lodging.address)
   const next = locations[index + 1]
 
   return (
@@ -36,7 +37,15 @@ export default function KeyInfoBar({ locations }) {
           </div>
         </div>
         {mapsUrl && (
-          <a className="directions-btn" href={mapsUrl} target="_blank" rel="noreferrer">Directions</a>
+          <a
+            className="directions-btn"
+            href={mapsUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => openGoogleMaps(e, mapsAppUrl, mapsUrl)}
+          >
+            Directions
+          </a>
         )}
       </div>
       <div className="key-info-meta">
