@@ -129,6 +129,7 @@ export const DAYS = [
         summary: 'From Munich Airport (MUC) to Munich Aparthotel.',
         startingPoint: 'Munich Airport (MUC), Terminal 1',
         directionsUrl: 'https://maps.app.goo.gl/cP5EockV8ERNGx3Q9?g_st=ic',
+        directionsQuery: 'Schwanthalerstraße 84, 80336 München, Germany',
         linkLabel: 'Get directions to the stay',
         events: [
           { time: '~3:00 PM (Sep 18)', title: 'Head to the Munich stay', description: 'From MUC (Terminal 1) to Munich Aparthotel, Schwanthalerstraße 84 Hinterhofhaus. Check-in from 3:00 PM.' },

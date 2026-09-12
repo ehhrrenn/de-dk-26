@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
 import { resolveDaySlug } from '../data/tripData'
-import { activityLocation, categorySummary, dayTitle, formatShortDate, formatUSD, parseDirectionsUrl } from '../utils/helpers'
+import { activityLocation, categorySummary, dayTitle, formatShortDate, formatUSD, googleMapsAppUrl, openGoogleMaps, parseDirectionsUrl } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import TripMap from '../components/TripMap'
 import Icon from '../components/Icon'
@@ -174,6 +174,7 @@ export default function DayPage() {
                             rel="noreferrer"
                             className="btn primary"
                             style={{ display: 'inline-block', textDecoration: 'none' }}
+                            onClick={(e) => openGoogleMaps(e, googleMapsAppUrl(a.directionsQuery), a.directionsUrl)}
                           >
                             {a.linkLabel || 'Get directions for this day'}
                           </a>
