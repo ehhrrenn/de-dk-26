@@ -67,6 +67,13 @@ a { color: var(--link); }
 .header {
   text-align: center;
   padding: 28px 28px 20px;
+  /* Standalone Home Screen mode (apple-mobile-web-app-capable) plus
+     viewport-fit=cover draws content under the notch/status bar --
+     safe-area-inset-top is 0 in normal browser tabs, so this is a no-op
+     there and only adds room when actually running fullscreen on iOS. */
+  padding-top: calc(28px + env(safe-area-inset-top));
+  padding-left: calc(28px + env(safe-area-inset-left));
+  padding-right: calc(28px + env(safe-area-inset-right));
   background: var(--bg-raised);
   border-bottom: 1px solid var(--line);
 }
@@ -171,6 +178,13 @@ a { color: var(--link); }
   top: 0;
   z-index: 20;
   background: var(--bg-raised);
+  /* Once the header scrolls away this is the thing pinned at the very
+     top, so it needs the same notch/status-bar clearance in standalone
+     Home Screen mode -- padding (not the header's own margin) so the
+     background still fills all the way behind the status bar. */
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .trip-timeline {
