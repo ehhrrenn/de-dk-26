@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
-import { TRIP, locationsFromDays } from '../data/tripData'
+import { locationsFromDays } from '../data/tripData'
 import { activityLocation, categorySummary, dayTitle, formatShortDate, mapsSearchUrl, googleMapsAppUrlFromLink, openGoogleMaps } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import TripMap from '../components/TripMap'
@@ -94,19 +94,6 @@ export default function LocationPage() {
           ))}
         </div>
       </div>
-
-      {TRIP.savedPlacesListUrl && (
-        <div className="card">
-          <div className="info-row">
-            <span className="info-label">Saved places</span>
-            <span>
-              <a href={TRIP.savedPlacesListUrl} target="_blank" rel="noreferrer">
-                Open the group's shared places list
-              </a>
-            </span>
-          </div>
-        </div>
-      )}
     </div>
   )
 }

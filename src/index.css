@@ -194,7 +194,8 @@ a { color: var(--link); }
   border-bottom: 1px solid var(--line);
 }
 
-.trip-timeline-calendar {
+.trip-timeline-calendar,
+.trip-timeline-pin {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -205,7 +206,8 @@ a { color: var(--link); }
   text-decoration: none;
   transition: color 0.15s, border-color 0.15s;
 }
-.trip-timeline-calendar:hover { color: var(--link); }
+.trip-timeline-calendar:hover,
+.trip-timeline-pin:hover { color: var(--link); }
 .trip-timeline-calendar.active {
   color: var(--link);
   border-bottom-color: var(--link);

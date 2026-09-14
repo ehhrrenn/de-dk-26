@@ -1,12 +1,14 @@
 import { NavLink } from 'react-router-dom'
 import { useRegion } from '../context/RegionContext'
+import { TRIP } from '../data/tripData'
+import { googleMapsAppUrlFromLink, openGoogleMaps } from '../utils/helpers'
 import Icon from './Icon'
 
 // The app's persistent nav: a leading calendar icon (links home, where the
-// full calendar grid lives) followed by one underline tab per region.
-// Active region (by URL match or by a page reporting its region via
-// RegionContext) gets a colored underline + label; others stay a plain
-// muted tab.
+// full calendar grid lives), one underline tab per region, and a trailing
+// pin icon out to the group's shared Google Maps places list. Active region
+// (by URL match or by a page reporting its region via RegionContext) gets a
+// colored underline + label; others stay a plain muted tab.
 export default function TripTimeline({ locations }) {
   const { region } = useRegion()
 
@@ -32,6 +34,19 @@ export default function TripTimeline({ locations }) {
           {loc.shortLabel || loc.label}
         </NavLink>
       ))}
+      {TRIP.savedPlacesListUrl && (
+        <a
+          href={TRIP.savedPlacesListUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="trip-timeline-pin"
+          aria-label="Shared places list"
+          title="Shared places list"
+          onClick={(e) => openGoogleMaps(e, googleMapsAppUrlFromLink(TRIP.savedPlacesListUrl), TRIP.savedPlacesListUrl)}
+        >
+          <Icon name="pin" size={18} />
+        </a>
+      )}
     </nav>
   )
 }
