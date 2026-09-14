@@ -55,7 +55,11 @@ function AppShell() {
         </div>
       </div>
 
-      <div ref={stickySentinelRef} />
+      {/* A zero-height sentinel is unreliable for IntersectionObserver on
+          some WebKit builds (intersection ratio for a zero-area target is
+          ill-defined) -- give it 1px so "stuck" is detected the instant
+          .sticky-wrap actually pins, not several scroll-frames later. */}
+      <div ref={stickySentinelRef} style={{ height: 1 }} aria-hidden="true" />
       <div className={`sticky-wrap${stickyStuck ? ' is-stuck' : ''}`}>
         <TripTimeline locations={locations} />
         <KeyInfoBar locations={locations} />
