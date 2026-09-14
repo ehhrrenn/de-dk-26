@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import { useFirestoreCollection } from './hooks/useFirestoreCollection'
 import { locationsFromDays } from './data/tripData'
@@ -16,6 +17,19 @@ function AppShell() {
   const { items: days } = useFirestoreCollection('days')
   const locations = locationsFromDays(days)
   const status = days.length ? dayStatus(days) : null
+
+  const stickySentinelRef = useRef(null)
+  const [stickyStuck, setStickyStuck] = useState(false)
+
+  useEffect(() => {
+    const sentinel = stickySentinelRef.current
+    if (!sentinel) return
+    const observer = new IntersectionObserver(([entry]) => setStickyStuck(!entry.isIntersecting), {
+      threshold: 0,
+    })
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <div className="app">
@@ -41,7 +55,8 @@ function AppShell() {
         </div>
       </div>
 
-      <div className="sticky-wrap">
+      <div ref={stickySentinelRef} />
+      <div className={`sticky-wrap${stickyStuck ? ' is-stuck' : ''}`}>
         <TripTimeline locations={locations} />
         <KeyInfoBar locations={locations} />
       </div>
