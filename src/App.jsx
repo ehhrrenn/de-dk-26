@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react'
 import { Routes, Route, Navigate, Link } from 'react-router-dom'
 import { useFirestoreCollection } from './hooks/useFirestoreCollection'
 import { locationsFromDays } from './data/tripData'
@@ -17,19 +16,6 @@ function AppShell() {
   const { items: days } = useFirestoreCollection('days')
   const locations = locationsFromDays(days)
   const status = days.length ? dayStatus(days) : null
-
-  const stickySentinelRef = useRef(null)
-  const [stickyStuck, setStickyStuck] = useState(false)
-
-  useEffect(() => {
-    const sentinel = stickySentinelRef.current
-    if (!sentinel) return
-    const observer = new IntersectionObserver(([entry]) => setStickyStuck(!entry.isIntersecting), {
-      threshold: 0,
-    })
-    observer.observe(sentinel)
-    return () => observer.disconnect()
-  }, [])
 
   return (
     <div className="app">
@@ -55,12 +41,7 @@ function AppShell() {
         </div>
       </div>
 
-      {/* A zero-height sentinel is unreliable for IntersectionObserver on
-          some WebKit builds (intersection ratio for a zero-area target is
-          ill-defined) -- give it 1px so "stuck" is detected the instant
-          .sticky-wrap actually pins, not several scroll-frames later. */}
-      <div ref={stickySentinelRef} style={{ height: 1 }} aria-hidden="true" />
-      <div className={`sticky-wrap${stickyStuck ? ' is-stuck' : ''}`}>
+      <div className="sticky-wrap">
         <TripTimeline locations={locations} />
         <KeyInfoBar locations={locations} />
       </div>
