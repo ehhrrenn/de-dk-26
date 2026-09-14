@@ -13,9 +13,10 @@
 // directly) or `{ query, color, label }` (a text place name/address --
 // resolved client-side via `google.maps.Geocoder`, since unlike Static Maps
 // this API can't geocode a marker string server-side). Query results are
-// cached module-wide so the same saved place isn't re-geocoded every time a
-// page is revisited. Deliberately never hardcode coordinates for these --
-// see the comment in src/data/savedPlaces.js for why.
+// cached module-wide so the same place isn't re-geocoded every time a page
+// is revisited. Deliberately never hardcode coordinates for these -- Google's
+// own geocoder is safer than us guessing at coordinates for a place we can't
+// verify.
 //
 // `center`/`zoom` are optional: pass 2+ markers instead and the map
 // auto-fits its viewport to them, same as the old Static Maps behavior.

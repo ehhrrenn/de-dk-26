@@ -27,6 +27,7 @@ export const TRIP = {
   start: '2026-09-17',
   end: '2026-10-01',
   groupSize: 8, // inferred from Per Adult ($1,795) x 8 = $14,360 total
+  savedPlacesListUrl: 'https://maps.app.goo.gl/BLunfCJY7joKe9za8', // shared Google Maps list ("Germany Denmark")
   budget: {
     grandTotal: 14360,
     perAdult: 1795,

@@ -1,12 +1,10 @@
 import { Link, useParams } from 'react-router-dom'
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection'
 import { CITIES } from '../data/cities'
-import { SAVED_PLACES } from '../data/savedPlaces'
-import { locationsFromDays } from '../data/tripData'
+import { TRIP, locationsFromDays } from '../data/tripData'
 import { activityLocation, categorySummary, dayTitle, formatShortDate, mapsSearchUrl, googleMapsAppUrlFromLink, openGoogleMaps } from '../utils/helpers'
 import { useSetRegion } from '../context/RegionContext'
 import TripMap from '../components/TripMap'
-import Icon from '../components/Icon'
 
 export default function LocationPage() {
   const { slug } = useParams()
@@ -31,10 +29,9 @@ export default function LocationPage() {
   const { lodging } = location
   const lodgingMapsUrl = mapsSearchUrl(lodging?.address)
   const cityMapsUrl = city.coords ? `https://www.google.com/maps?q=${city.coords[0]},${city.coords[1]}` : null
-  const places = SAVED_PLACES[slug] || []
   // Every activity across every day spent in this location gets its own
-  // pin, alongside the city center and saved places, so the map reflects
-  // everywhere the itinerary actually goes here.
+  // pin, alongside the city center, so the map reflects everywhere the
+  // itinerary actually goes here.
   const activityPins = location.days
     .flatMap((day) => day.activities ?? [])
     .flatMap((a) => {
@@ -76,7 +73,6 @@ export default function LocationPage() {
           alt={`Map of ${city.label}`}
           markers={[
             { lat: city.coords[0], lon: city.coords[1], color: city.color, label: city.label },
-            ...places.map((p) => ({ query: `${p.name}, ${city.country}`, color: city.color, label: p.name })),
             ...activityPins.map((loc) => ({ ...loc, color: city.color })),
           ]}
           link={cityMapsUrl}
@@ -99,32 +95,15 @@ export default function LocationPage() {
         </div>
       </div>
 
-      {places.length > 0 && (
-        <div className="cards">
-          <div className="cards-title">Saved places</div>
-          <div className="day-list">
-            {places.map((p) => (
-              <a
-                key={p.name}
-                href={mapsSearchUrl(`${p.name}, ${city.country}`)}
-                target="_blank"
-                rel="noreferrer"
-                className="day-card"
-                onClick={(e) => {
-                  const placeUrl = mapsSearchUrl(`${p.name}, ${city.country}`)
-                  openGoogleMaps(e, googleMapsAppUrlFromLink(placeUrl), placeUrl)
-                }}
-              >
-                <span className="day-badge" style={{ background: city.tint, color: city.textColor }}>
-                  <Icon name="pin" size={18} />
-                </span>
-                <span className="day-content">
-                  <div className="day-title">{p.name}</div>
-                  <div className="day-sub">{p.category}</div>
-                </span>
-                <span className="day-chevron">↗</span>
+      {TRIP.savedPlacesListUrl && (
+        <div className="card">
+          <div className="info-row">
+            <span className="info-label">Saved places</span>
+            <span>
+              <a href={TRIP.savedPlacesListUrl} target="_blank" rel="noreferrer">
+                Open the group's shared places list
               </a>
-            ))}
+            </span>
           </div>
         </div>
       )}
