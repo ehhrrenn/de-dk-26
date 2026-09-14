@@ -175,21 +175,16 @@ a { color: var(--link); }
 
 .sticky-wrap {
   position: sticky;
-  top: 0;
+  /* A plain "top: 0" pins this flush against the very top of the
+     viewport, which in standalone Home Screen mode is under the
+     notch/status bar. Offsetting the sticky trigger point itself by
+     the safe-area inset means the browser's own sticky positioning
+     enforces the clearance natively -- the bar's top edge physically
+     cannot scroll past this line, no JS/observer timing involved. This
+     is 0 in an ordinary browser tab, so it's a no-op there. */
+  top: env(safe-area-inset-top);
   z-index: 20;
   background: var(--bg-raised);
-}
-
-/* Once the header scrolls away and this actually pins to the top, it
-   needs the same notch/status-bar clearance in standalone Home Screen
-   mode as the header -- an IntersectionObserver on a sentinel just
-   above it (App.jsx) toggles this class only while truly stuck, so the
-   bar keeps its normal height the rest of the time instead of always
-   reserving that space. */
-.sticky-wrap.is-stuck {
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
 }
 
 .trip-timeline {
